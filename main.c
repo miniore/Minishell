@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/02/20 17:16:09 by porellan         ###   ########.fr       */
+/*   Updated: 2025/02/24 19:08:32 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ void handle_ctrl_c(int sig)
     rl_redisplay();
 }
 
-int main(void)
+int main(int argc, char **envp)
 {
-    while(1)
+    if(argc != 1)
+		return(EXIT_FAILURE);
+	while(1)
     {
         char    *input;
         int     i;
@@ -37,7 +39,7 @@ int main(void)
         signal(SIGINT, handle_ctrl_c);
         signal(SIGQUIT, SIG_IGN);
         input = readline("Minichelita> ");
-        if(!input || !strcmp(input, "exit"))
+        if(!input)
         {
             printf("Nos vamos. Saliendo.\n");
             free(input);

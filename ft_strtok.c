@@ -6,13 +6,20 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:12:52 by miniore           #+#    #+#             */
-/*   Updated: 2025/02/20 19:37:47 by porellan         ###   ########.fr       */
+/*   Updated: 2025/02/24 19:01:22 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//int ft_valid_com(char *command)
+
+
+
+
+
+
+
+// int ft_valid_com(char *command)
 // {
 //     if(!strcmp(command, "echo"))
 //         printf("%s\n", command);
@@ -35,33 +42,27 @@
 //     return(EXIT_SUCCESS);
 // }
 
-int	ft_isdel(char c)
-{
-	if(c == 34 || c == 39)                     //Commillas simples o comillas dobles
-		return(EXIT_FAILURE);
-	return(EXIT_SUCCESS);
-}
 
-int	save_tokens(char *input)
-{
-	t_list	*tokens;
-	int	i;
+// int	save_tokens(char *input)
+// {
+// 	t_list	*tokens;
+// 	int	i;
 
-	i = 0;
-	while(input[i])
-	{
-		while(input)
-			i++;
-		if(input[i] == 34 || input[i] == 39)
-		{
+// 	i = 0;
+// 	while(input[i])
+// 	{
+// 		while(input)
+// 			i++;
+// 		if(input[i] == 34 || input[i] == 39)
+// 		{
 			
-		}
+// 		}
 		
-		else
-			i++;
-	}
-	return(EXIT_SUCCESS);
-}
+// 		else
+// 			i++;
+// 	}
+// 	return(EXIT_SUCCESS);
+// }
 
 // int ft_strtok(char *str, const char *del)
 // {

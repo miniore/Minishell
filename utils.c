@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/02/24 17:58:22 by porellan         ###   ########.fr       */
+/*   Created: 2025/02/24 16:58:26 by porellan          #+#    #+#             */
+/*   Updated: 2025/02/24 19:15:40 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-#include "Libft/libft.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <signal.h>
-
-typedef struct tokens
+int	is_redict(char c)
 {
-	char	*command;
-	char	*option;
-	t_list	*arguments;
-}	tok_lst;
+	if(c == '<' || c == '>')
+		return(EXIT_SUCCESS);
+	return(EXIT_FAILURE);
+}
 
-
-// int ft_strtok(char *str);
-int ft_valid_com(char *command);
-
-#endif
+int	is_space(char c)
+{
+	if(c == ' ')
+		return(EXIT_SUCCESS);
+	return(EXIT_FAILURE);
+}
