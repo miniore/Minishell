@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/02/24 19:08:32 by porellan         ###   ########.fr       */
+/*   Updated: 2025/02/25 11:54:00 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "include/minishell.h"
 
 // int    ft_tok_com(char *input)
 // {
@@ -27,10 +27,12 @@ void handle_ctrl_c(int sig)
     rl_redisplay();
 }
 
-int main(int argc, char **envp)
+int main(int argc, char **argv, char **envp)
 {
     if(argc != 1)
 		return(EXIT_FAILURE);
+    printf("%s\n", argv[1]);
+    printf("%s\n", envp[1]);
 	while(1)
     {
         char    *input;
