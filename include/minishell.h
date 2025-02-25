@@ -1,20 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frlorenz <frlorenz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/19 14:05:18 by miniore           #+#    #+#             */
-/*   Updated: 2025/02/25 11:51:01 by frlorenz         ###   ########.fr       */
+/*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
+/*   Updated: 2025/02/25 11:51:43 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-// void    echo_function()
+#include "../Libft/libft.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <signal.h>
 
-// int     echo_parse()
-// {
-    
-// }
+typedef struct tokens
+{
+	char	*command;
+	char	*option;
+	t_list	*arguments;
+}	tok_lst;
+
+
+// int ft_strtok(char *str);
+int ft_valid_com(char *command);
+
+#endif

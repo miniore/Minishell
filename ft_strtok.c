@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:12:52 by miniore           #+#    #+#             */
-/*   Updated: 2025/02/24 19:01:22 by porellan         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:02:04 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "include/minishell.h"
 
 
 
@@ -19,28 +19,28 @@
 
 
 
-// int ft_valid_com(char *command)
-// {
-//     if(!strcmp(command, "echo"))
-//         printf("%s\n", command);
-//     // {
-//     //     if(echo_parse(command))
-//     //         return(EXIT_FAILURE);
-//     // }
-//     else if(!strcmp(command, "cd"))
-//         printf("%s\n", command);
-//     else if(!strcmp(command, "pwd"))
-//         printf("%s\n", command);
-//     else if(!strcmp(command, "export"))
-//         printf("%s\n", command);
-//     else if(!strcmp(command, "unset"))
-//         printf("%s\n", command);
-//     else if(!strcmp(command, "env"))
-//         printf("%s\n", command);
-//     else
-//         return(EXIT_FAILURE);
-//     return(EXIT_SUCCESS);
-// }
+ int ft_valid_com(char *command)
+ {
+     if(!strcmp(command, "echo"))
+         printf("%s\n", command);
+     /* {
+          if(echo_parse(command))
+              return(EXIT_FAILURE);
+      }
+     else if(!strcmp(command, "cd"))
+         printf("%s\n", command);
+     else if(!strcmp(command, "pwd"))
+         printf("%s\n", command);
+     else if(!strcmp(command, "export"))
+         printf("%s\n", command);
+     else if(!strcmp(command, "unset"))
+         printf("%s\n", command);
+     else if(!strcmp(command, "env"))
+         printf("%s\n", command);
+     else
+         return(EXIT_FAILURE);*/
+     return(EXIT_SUCCESS);
+ }
 
 
 // int	save_tokens(char *input)

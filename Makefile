@@ -17,19 +17,19 @@ $(NAME):$(OBJ_FILES) $(LIBFT)
 		$(CC) $(FLAGS) $(OBJ_FILES) $(LIBFT) -o $(NAME) $(READ_FLAGS)
 
 $(LIBFT):
-		make -C Libft
+		@$(MAKE) -C Libft
 
 %.o: %.c
 		$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-		make clean -C Libft
+		$(MAKE) clean -C Libft
 		$(RM) $(OBJ_FILES)
 		@echo "clean   🌪️"
 
 fclean: clean
-		make fclean -C Libft
-		$(RM) $(NAME)
+		@$(MAKE) fclean -C Libft
+		@$(RM) $(NAME)
 		@echo "fclean  🔥"
 
 re:		fclean all
