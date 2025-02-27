@@ -3,17 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:12:52 by miniore           #+#    #+#             */
-/*   Updated: 2025/02/25 12:02:04 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/02/27 13:32:02 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
 
+int save_token()
+{
+    // mirar si es opcion de comando, argumento, variable de entorno o redireccion
+}
 
+int ft_tokenize(char *input)       //Darle una vuelta y MIRAR ESTRUCTURAS CON FRAN!!!!!
+{
+    static int i;
+    size_t  len;
+    char    *token;
 
+    i = 0;
+    while(!is_space(input[i]))
+        i++;
+    if(is_quotes(input[i]))
+        //len = funcion para comillas simples
+    else if(is_dquotes(input[i]))
+        //len = funcion para comillas dobles
+    else
+        //len = funcion para otros
+    //len = i;
+    // while(input[len] != 32 && input[len] != 34 && input[len] != 39 &&
+    //         input[len] != 124 && input[len] != 60 && input[len] != 62) //meter en la funcion para otros
+    //     len++;
+    token = ft_substr(input, i, len);
+    if(!save_token(token))
+        free(token);
+    else
+        return(EXIT_FAILURE);
+    if(input[len] != '\0')
+        ft_tokenize(input);
+    return(EXIT_SUCCESS)
+}
 
 
 

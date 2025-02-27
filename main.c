@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/02/25 11:54:00 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/02/27 13:23:07 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,7 @@ int main(int argc, char **argv, char **envp)
             continue;
         }
         add_history(input);                 // Arreglar uso del historial si usas ctrl+c en un comando ya usado. Se guarda para la siguiente ejecucion¿?
-        //ft_tok_com(input);
-        if(ft_valid_com(input))        //Parsear y tokenizar la entrada para detectar comandos
-            printf("%s: No se encontró la orden.\n", input);
+        ft_tokenize(input);        //Parsear y tokenizar la entrada para detectar comandos
         free(input);            //Readline genera malloc para la entrada. En caso de liberarlas no es necesario usar clear_history¿?
     }
     return(EXIT_SUCCESS);
