@@ -6,62 +6,69 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/02/27 13:23:07 by miniore          ###   ########.fr       */
+/*   Updated: 2025/04/02 18:13:30 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "../include/minishell.h"
 
-// int    ft_tok_com(char *input)
-// {
-//     if(ft_strtok(input))
-//         return(EXIT_FAILURE);
-// }
-
-void handle_ctrl_c(int sig)
+static void handle_ctrl_c(int sig)
 {
     (void)sig;
     printf("\n");
-    rl_replace_line("", 0);               // Borra la línea actual
-    rl_on_new_line();                     // Indica nueva línea
+    rl_replace_line("", 0);
+    rl_on_new_line();
     rl_redisplay();
 }
 
-int main(int argc, char **argv, char **envp)
+static int ft_catch_exit_signal(char *input)
 {
-    if(argc != 1)
-		return(EXIT_FAILURE);
-    printf("%s\n", argv[1]);
-    printf("%s\n", envp[1]);
-	while(1)
+    signal(SIGQUIT, SIG_IGN);
+    if(!input)
     {
-        char    *input;
+        printf("Nos vamos. Saliendo.\n");
+        return(EXIT_FAILURE);
+    }
+    return(EXIT_SUCCESS);
+}
+static int  ft_void_input(char *input)
+{
         int     i;
-
-        signal(SIGINT, handle_ctrl_c);
-        signal(SIGQUIT, SIG_IGN);
-        input = readline("Minichelita> ");
-        if(!input)
-        {
-            printf("Nos vamos. Saliendo.\n");
-            free(input);
-            break;
-        }
+    
         if (*input == '\0')
-        {
-            free(input);
-            continue;
-        }
+            return(EXIT_FAILURE);
         i = 0;
         while(input[i] == 32)
             i++;
         if(input[i] == '\0')
+            return(EXIT_FAILURE);
+        return(EXIT_SUCCESS);
+}
+
+int main(int argc, char **argv)
+{
+    (void)argv;
+    if(argc != 1)
+		return(EXIT_FAILURE);
+	while(1)
+    {
+        char    *input;
+
+        signal(SIGINT, handle_ctrl_c);
+        input = readline("Minichelita> ");
+        if(ft_catch_exit_signal(input))
+        {
+            free(input);
+            break;
+        }
+        if(ft_void_input(input))
         {
             free(input);
             continue;
         }
         add_history(input);                 // Arreglar uso del historial si usas ctrl+c en un comando ya usado. Se guarda para la siguiente ejecucion¿?
-        ft_tokenize(input);        //Parsear y tokenizar la entrada para detectar comandos
+        if(ft_get_command(input))
+            printf("Syntax error.\n");
         free(input);            //Readline genera malloc para la entrada. En caso de liberarlas no es necesario usar clear_history¿?
     }
     return(EXIT_SUCCESS);
