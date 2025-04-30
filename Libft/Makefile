@@ -55,10 +55,10 @@ ARFLAGS = -rcs
 all: $(NAME) bonus
 
 $(NAME): $(OBJ_FILES)
-	$(AR) $(ARFLAGS) $(NAME) $(OBJ_FILES)
+	@$(AR) $(ARFLAGS) $(NAME) $(OBJ_FILES)
 
 $(OBJ_FILES): $(SRC_FILES)
-	$(CC) $(CFLAGS) -c $^
+	@$(CC) $(CFLAGS) -c $^
 
 clean:
 	rm -f $(OBJ_FILES)

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 static size_t  ft_exp_arg(tok_lst *com_tokens, char *command, int i, size_t len)
 {
