@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:49:11 by miniore           #+#    #+#             */
-/*   Updated: 2025/04/08 12:58:16 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/05 16:18:11 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 void print_commands_list(t_list *command_list)
 {
@@ -37,10 +37,11 @@ void print_commands_list(t_list *command_list)
                 arg_node = arg_node->next;
             }
         }
-        printf("\n");
-
+        printf("\n-----------------------\n");
+        executor(cmd); // Funcion a la que le pasamos la lista de los comandos y que las cosas se intenten ejecutar.
         // Avanzar al siguiente comando en la lista
         cmd_node = cmd_node->next;
+
     }
 }
 
@@ -113,6 +114,7 @@ int ft_get_command(char *input)
     if (!commands)
         return (EXIT_FAILURE);
     ft_extract_commands(input, commands);
+    
     free_array(commands);
     return(EXIT_SUCCESS);
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 size_t  ft_save_qarg(tok_lst *com_tokens, char *command, int i, size_t len)
 {

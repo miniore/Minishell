@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 static void ft_save_exp_tok(tok_lst *com_tokens, char *res_tok)
 {

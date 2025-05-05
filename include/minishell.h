@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/04/02 18:47:28 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/05 16:20:50 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "../Libft/libft.h"
+#include "libft.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <signal.h>
+#include <stdbool.h>
 
 
 typedef struct tokens
@@ -52,6 +53,12 @@ void    ft_save_command(tok_lst *com_tokens, char *command, int i, size_t len);
 size_t  ft_save_qarg(tok_lst *com_tokens, char *command, int i, size_t len);
 void    ft_save_arg(tok_lst *com_tokens, char *command, int i, size_t len);
 void    ft_exp_var(tok_lst *com_tokens,char *token);
+
+//Build_ins
+void executor(tok_lst *com_tokens);
+void pwd(void);
+void echo(t_list *arg);
+void cd(t_list *arg);
 
 
 #endif
