@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/04/29 18:03:19 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:20:50 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void    ft_exp_var(tok_lst *com_tokens,char *token);
 void executor(tok_lst *com_tokens);
 void pwd(void);
 void echo(t_list *arg);
+void cd(t_list *arg);
 
 
 #endif

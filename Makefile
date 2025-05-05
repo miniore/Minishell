@@ -12,6 +12,7 @@ SRC_FILES = src/main.c \
 			src/executor.c \
 			src/build_ins/pwd.c \
 			src/build_ins/echo.c \
+			src/build_ins/cd.c \
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
@@ -28,18 +29,18 @@ $(NAME):$(LIBFT) $(OBJ_FILES)
 		$(CC) $(FLAGS) $(INCLUDE_FLAGS) $(OBJ_FILES) $(LIBFT) -o $(NAME) $(READ_FLAGS) $(LINK_FLAGS)
 
 $(LIBFT):
-		@$(MAKE) -C Libft
+		@$(MAKE) -sC Libft
 
 %.o: %.c
 		$(CC) $(FLAGS) $(INCLUDE_FLAGS) -c $< -o $@
 
 clean:
-		@$(MAKE) clean -C Libft
+		@$(MAKE) clean -sC Libft
 		@$(RM) $(OBJ_FILES)
 		@echo "clean   🌪️"
 
 fclean: clean
-		@$(MAKE) fclean -C Libft
+		@$(MAKE) fclean -sC Libft
 		@$(RM) $(NAME)
 		@echo "fclean  🔥"
 

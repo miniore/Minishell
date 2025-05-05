@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/14 12:17:56 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/05/05 12:34:27 by frlorenz         ###   ########.fr       */
+/*   Created: 2025/05/05 11:49:44 by frlorenz          #+#    #+#             */
+/*   Updated: 2025/05/05 12:58:41 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void pwd(void)
+void cd(t_list *arg)
 {
-    char *path;  
-    
-    path = getcwd(NULL, 0); // getcwd asigna memoria automáticamente????????
-    if (path != NULL) {
-        printf("Directorio actual: %s\n", path);
-        free(path);  // No olvidar liberar!!!!!!!!
-    } else {
-        perror("getcwd() error"); //Mirar como sale el error!!!!!!
+    if(!arg)
+    {
+        if (chdir(getenv("HOME")) == -1)
+           perror("cd");
     }
+    else if(ft_lstsize(arg) == 1)
+    {
+        if (chdir((char *)arg->content) == -1)
+           perror("cd");
+    }
+    else
+        perror("cd: too many arguments");
+        
 }

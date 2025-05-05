@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/04/30 11:59:23 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:32:09 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,13 @@ void executor(tok_lst *com_tokens)
     else if(ft_strncmp(com_tokens->command, "echo", 4)  == 0)
     {
         echo(com_tokens->arguments);
+    }
+    else if(ft_strncmp(com_tokens->command, "cd", 2)  == 0)
+    {
+        cd(com_tokens->arguments);
+    }
+    else if(ft_strncmp(com_tokens->command, "exit", 4)  == 0)
+    {
+        exit(EXIT_SUCCESS); // habria que mirar de liberar.......
     }
 }
