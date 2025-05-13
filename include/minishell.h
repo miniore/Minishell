@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/05 16:20:50 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:49:15 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,15 @@ typedef struct tokens
 	t_list	*arguments;
 	t_list	*redirection;
 }	tok_lst;
+
+//Estructura para listar el enviroment
+typedef struct	env
+{
+	char *var;
+	char *content;
+	bool write;
+	struct t_env *next;
+} t_env;
 
 
 
@@ -59,6 +68,13 @@ void executor(tok_lst *com_tokens);
 void pwd(void);
 void echo(t_list *arg);
 void cd(t_list *arg);
+
+//Stack envp
+struct t_env *new_node(char *var);
+char *cut_str(char *str, bool check);
+bool fill_env(t_env **stack, char **envp);
+struct t_env	*last_node(t_env *stack);
+void	attach_node(t_env **stack, t_env *new);
 
 
 #endif

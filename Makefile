@@ -13,6 +13,7 @@ SRC_FILES = src/main.c \
 			src/build_ins/pwd.c \
 			src/build_ins/echo.c \
 			src/build_ins/cd.c \
+			src/env_manager.c \
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
