@@ -6,13 +6,13 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:49:11 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/05 16:18:11 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:36:30 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void print_commands_list(t_list *command_list)
+void print_commands_list(t_list *command_list, t_env **env)
 {
     t_list *cmd_node = command_list;  // Apunta al primer comando
     int cmd_index = 1;
@@ -38,14 +38,14 @@ void print_commands_list(t_list *command_list)
             }
         }
         printf("\n-----------------------\n");
-        executor(cmd); // Funcion a la que le pasamos la lista de los comandos y que las cosas se intenten ejecutar.
+        executor(cmd, env); // Funcion a la que le pasamos la lista de los comandos y que las cosas se intenten ejecutar.
         // Avanzar al siguiente comando en la lista
         cmd_node = cmd_node->next;
 
     }
 }
 
-static void ft_extract_commands(char *input, char **commands)
+static void ft_extract_commands(char *input, char **commands, t_env **env)
 {
     t_list  *commands_lst;
     size_t  len;
@@ -75,7 +75,7 @@ static void ft_extract_commands(char *input, char **commands)
             len++;
         j++;
     }
-    print_commands_list(commands_lst);
+    print_commands_list(commands_lst, env);
     //free_list(commands_lst); //MIRAR SEGFAULT CUANDO VARIABLES EXPANDIBLES
 }
 
@@ -101,7 +101,7 @@ static size_t ft_count_commands(char *input)
     return(commands_nb);
 }
 
-int ft_get_command(char *input)
+int ft_get_command(char *input, t_env **env)
 {
     char **commands;
     size_t     commands_nb;
@@ -113,7 +113,7 @@ int ft_get_command(char *input)
     commands = (char **)ft_calloc(commands_nb + 1, sizeof(char *));
     if (!commands)
         return (EXIT_FAILURE);
-    ft_extract_commands(input, commands);
+    ft_extract_commands(input, commands, env);
     
     free_array(commands);
     return(EXIT_SUCCESS);

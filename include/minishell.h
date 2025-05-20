@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/13 17:49:15 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:35:00 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,17 @@ typedef struct tokens
 }	tok_lst;
 
 //Estructura para listar el enviroment
-typedef struct	env
+typedef struct s_env
 {
-	char *var;
-	char *content;
-	bool write;
-	struct t_env *next;
-} t_env;
+    char *var;
+    char *content;
+    struct s_env *prev;
+    struct s_env *next;
+}   t_env;
 
 
 
-int 	ft_get_command(char *input);
+int 	ft_get_command(char *input, t_env **env);
 int 	ft_tokenize(t_list **commands_lst, char *command);
 
 size_t	ft_extract_content(char *command, size_t len);
@@ -64,17 +64,18 @@ void    ft_save_arg(tok_lst *com_tokens, char *command, int i, size_t len);
 void    ft_exp_var(tok_lst *com_tokens,char *token);
 
 //Build_ins
-void executor(tok_lst *com_tokens);
+void executor(tok_lst *com_tokens, t_env **env);
 void pwd(void);
 void echo(t_list *arg);
 void cd(t_list *arg);
 
 //Stack envp
-struct t_env *new_node(char *var);
-char *cut_str(char *str, bool check);
-bool fill_env(t_env **stack, char **envp);
-struct t_env	*last_node(t_env *stack);
-void	attach_node(t_env **stack, t_env *new);
+void fill_env(t_env **env, char **envp);
+void	env_add_last(t_env **lst, t_env *new);
+t_env *new_node(char *var, char *content);
+char **var_list(char **envp);
+char *name_var(char *var);
+void free_env(char **lst, t_env **env);
 
 
 #endif
