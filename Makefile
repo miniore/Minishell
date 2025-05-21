@@ -10,6 +10,7 @@ SRC_FILES = src/main.c \
 			src/char_utils.c \
 			src/free.c \
 			src/executor.c \
+			src/env/env.c \
 			src/build_ins/pwd.c \
 			src/build_ins/echo.c \
 			src/build_ins/cd.c \

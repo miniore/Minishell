@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/05 16:18:19 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:25:48 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,15 @@ static int  ft_void_input(char *input)
         return(EXIT_SUCCESS);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **envp)
 {
+    t_env   *env;
+    
     (void)argv;
+    env = NULL;
     if(argc != 1)
 		return(EXIT_FAILURE);
+    fill_env(&env, envp); //
 	while(1)
     {
         char    *input;
@@ -67,7 +71,7 @@ int main(int argc, char **argv)
             continue;
         }
         add_history(input);                 // Arreglar uso del historial si usas ctrl+c en un comando ya usado. Se guarda para la siguiente ejecucion¿?
-        if(ft_get_command(input))
+        if(ft_get_command(input, &env))
             printf("Syntax error.\n");
         free(input);            //Readline genera malloc para la entrada. En caso de liberarlas no es necesario usar clear_history¿?
     }
