@@ -26,7 +26,7 @@ void executor(tok_lst *com_tokens, t_env **env)
     }
     else if(ft_strncmp(com_tokens->command, "echo", 4)  == 0)
     {
-        echo(com_tokens->arguments);
+        ft_echo(com_tokens->arguments);
     }
     else if(ft_strncmp(com_tokens->command, "cd", 2)  == 0)
     {

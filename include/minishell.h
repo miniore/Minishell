@@ -66,8 +66,9 @@ void    ft_exp_var(tok_lst *com_tokens,char *token);
 //Build_ins
 void executor(tok_lst *com_tokens, t_env **env);
 void pwd(void);
-void echo(t_list *arg);
+//void echo(t_list *arg);
 void cd(t_list *arg);
+void    ft_echo(t_list *arg);
 
 //Stack envp
 void fill_env(t_env **env, char **envp);
