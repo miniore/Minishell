@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void print_commands_list(t_list *command_list, t_env **env)
+void print_commands_list(t_list *command_list)
 {
     t_list *cmd_node = command_list;  // Apunta al primer comando
     int cmd_index = 1;
@@ -38,16 +38,30 @@ void print_commands_list(t_list *command_list, t_env **env)
             }
         }
         printf("\n-----------------------\n");
-        executor(cmd, env); // Funcion a la que le pasamos la lista de los comandos y que las cosas se intenten ejecutar.
+        ///executor(cmd, env); // Funcion a la que le pasamos la lista de los comandos y que las cosas se intenten ejecutar.
         // Avanzar al siguiente comando en la lista
         cmd_node = cmd_node->next;
 
     }
 }
 
-static void ft_extract_commands(char *input, char **commands, t_env **env)
+tok_lst	*ft_new_token(void)
 {
-    t_list  *commands_lst;
+	tok_lst	*new;
+
+	new = malloc(sizeof(tok_lst));
+	if (!new)
+		return (0);
+	new -> command = NULL;
+    new -> option = NULL;
+    new -> arguments = NULL;
+    new -> redirection = NULL;
+	new -> next = NULL;
+	return (new);
+}
+
+static void ft_extract_commands(t_list *backpack, char *input, char **commands)
+{
     size_t  len;
     int     i;
     int     j;
@@ -55,7 +69,7 @@ static void ft_extract_commands(char *input, char **commands, t_env **env)
     i = 0;
     j = 0;
     len = 0;
-    commands_lst = NULL;
+    ft_lstadd_back(&backpack->commands_lst, ft_new_token());
     while(input[len] != '\0')
     {
         while(input[len] != '|' && input[len] != '\0')
@@ -69,14 +83,13 @@ static void ft_extract_commands(char *input, char **commands, t_env **env)
         commands[j] = ft_substr(input, i, len - i);
         printf("-----------------------\n");
         printf("Comando entero: %s\n", commands[j]);
-        ft_tokenize(&commands_lst, commands[j]);
+        ft_tokenize(&backpack, commands[j]);
         i = (int)len;
         if(input[len] == '|')
             len++;
         j++;
     }
-    print_commands_list(commands_lst, env);
-    //free_list(commands_lst); //MIRAR SEGFAULT CUANDO VARIABLES EXPANDIBLES
+    print_commands_list(commands_lst);
 }
 
 static size_t ft_count_commands(char *input)
@@ -101,7 +114,7 @@ static size_t ft_count_commands(char *input)
     return(commands_nb);
 }
 
-int ft_get_command(char *input, t_env **env)
+int ft_get_command(t_list **backpack, char *input)
 {
     char **commands;
     size_t     commands_nb;
@@ -113,8 +126,7 @@ int ft_get_command(char *input, t_env **env)
     commands = (char **)ft_calloc(commands_nb + 1, sizeof(char *));
     if (!commands)
         return (EXIT_FAILURE);
-    ft_extract_commands(input, commands, env);
-    
+    ft_extract_commands(*backpack, input, commands);
     free_array(commands);
     return(EXIT_SUCCESS);
 }

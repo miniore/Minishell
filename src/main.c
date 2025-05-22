@@ -27,6 +27,7 @@ static int ft_catch_exit_signal(char *input)
     if(!input)
     {
         printf("Nos vamos. Saliendo.\n");
+        free(input);
         return(EXIT_FAILURE);
     }
     return(EXIT_SUCCESS);
@@ -47,32 +48,30 @@ static int  ft_void_input(char *input)
 
 int main(int argc, char **argv, char **envp)
 {
-    t_env   *env;
+    t_list  *backpack;
+    char    *input;
     
     (void)argv;
-    env = NULL;
+    backpack = (t_backpack *)ft_calloc(1, sizeof(t_backpack));     //Mirar si es necesario reservar memoria para backpack
     if(argc != 1)
 		return(EXIT_FAILURE);
-    fill_env(&env, envp); //
+    fill_env(backpack, envp);
 	while(1)
     {
-        char    *input;
-
         signal(SIGINT, handle_ctrl_c);
         input = readline("Minichelita> ");
         if(ft_catch_exit_signal(input))
-        {
-            free(input);
             break;
-        }
         if(ft_void_input(input))
         {
             free(input);
             continue;
         }
         add_history(input);                 // Arreglar uso del historial si usas ctrl+c en un comando ya usado. Se guarda para la siguiente ejecucion¿?
-        if(ft_get_command(input, &env))
+        if(ft_get_command(&backpack, input))
             printf("Syntax error.\n");
+        executor(backpack->content, backpack->content); // Funcion a la que le pasamos la lista de los comandos y que las cosas se intenten ejecutar.
+        //free_list(comandos, demomento); //MIRAR SEGFAULT CUANDO VARIABLES EXPANDIBLES
         free(input);            //Readline genera malloc para la entrada. En caso de liberarlas no es necesario usar clear_history¿?
     }
     return(EXIT_SUCCESS);

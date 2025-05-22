@@ -17,6 +17,7 @@ void executor(tok_lst *com_tokens, t_env **env)
     t_env *act;
     
     act = NULL;
+    //  Utilizar strleen para arreglar comparaciones
     if (ft_strncmp(com_tokens->command, "pwd", 3)  == 0)
     {
         if(com_tokens->arguments == NULL)
