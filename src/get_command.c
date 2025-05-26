@@ -3,64 +3,67 @@
 /*                                                        :::      ::::::::   */
 /*   get_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:49:11 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/20 19:36:30 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:45:27 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void print_commands_list(t_list *command_list)
+static void print_commands_list(t_backpack *backpack)
 {
-    t_list *cmd_node = command_list;  // Apunta al primer comando
-    int cmd_index = 1;
+    printf("\n=========== 🧠 LISTA DE COMANDOS ===========\n");
 
-    while (cmd_node)
+    for (size_t i = 0; i < backpack->commands_nb; i++)
     {
-        tok_lst *cmd = (tok_lst *)cmd_node->content;  // Obtener el tok_lst del nodo
-        printf("\n🔹 **Comando %d**\n", cmd_index++);
-        printf("   🟢 Comando: %s\n", cmd->command);
-        printf("   🔵 Opción: %s\n", cmd->option ? cmd->option : "(Ninguna)");
+        tok_lst *cmd = &backpack->commands_lst[i];
+        printf("\n🔹 **Comando %zu**\n", i + 1);
+        printf("   🟢 Comando: %s\n", cmd->command ? cmd->command : "(null)");
 
-        // Imprimir argumentos
-        printf("   🟠 Argumentos: ");
+        // Imprimir argumentos como lista
+        printf("   🟠 Argumentos:\n");
         t_list *arg_node = cmd->arguments;
+        int arg_index = 1;
         if (!arg_node)
-            printf("(Ninguno)");
+        {
+            printf("      - (Ninguno)\n");
+        }
         else
         {
             while (arg_node)
             {
-                printf("%s ", (char *)arg_node->content);
+                printf("      %d. %s\n", arg_index++, (char *)arg_node->content);
                 arg_node = arg_node->next;
             }
         }
-        printf("\n-----------------------\n");
-        ///executor(cmd, env); // Funcion a la que le pasamos la lista de los comandos y que las cosas se intenten ejecutar.
-        // Avanzar al siguiente comando en la lista
-        cmd_node = cmd_node->next;
 
+        // Imprimir redirecciones como lista
+        printf("   🔴 Redirecciones:\n");
+        t_list *redir_node = cmd->redirection;
+        int redir_index = 1;
+        if (!redir_node)
+        {
+            printf("      - (Ninguna)\n");
+        }
+        else
+        {
+            while (redir_node)
+            {
+                printf("      %d. %s\n", redir_index++, (char *)redir_node->content);
+                redir_node = redir_node->next;
+            }
+        }
+
+        printf("---------------------------------------------\n");
     }
+
+    printf("Total de comandos: %zu\n", backpack->commands_nb);
+    printf("=============================================\n");
 }
 
-tok_lst	*ft_new_token(void)
-{
-	tok_lst	*new;
-
-	new = malloc(sizeof(tok_lst));
-	if (!new)
-		return (0);
-	new -> command = NULL;
-    new -> option = NULL;
-    new -> arguments = NULL;
-    new -> redirection = NULL;
-	new -> next = NULL;
-	return (new);
-}
-
-static void ft_extract_commands(t_list *backpack, char *input, char **commands)
+static void ft_extract_commands(t_backpack *backpack, char *input, char **commands)
 {
     size_t  len;
     int     i;
@@ -69,7 +72,6 @@ static void ft_extract_commands(t_list *backpack, char *input, char **commands)
     i = 0;
     j = 0;
     len = 0;
-    ft_lstadd_back(&backpack->commands_lst, ft_new_token());
     while(input[len] != '\0')
     {
         while(input[len] != '|' && input[len] != '\0')
@@ -81,15 +83,16 @@ static void ft_extract_commands(t_list *backpack, char *input, char **commands)
         if(i != 0)
             i++;
         commands[j] = ft_substr(input, i, len - i);
-        printf("-----------------------\n");
-        printf("Comando entero: %s\n", commands[j]);
-        ft_tokenize(&backpack, commands[j]);
+        // printf("-----------------------\n");
+        // printf("Comando entero: %s\n", commands[j]);
+        ft_tokenize(backpack, commands[j]);
         i = (int)len;
         if(input[len] == '|')
             len++;
         j++;
+        backpack->n++;
     }
-    print_commands_list(commands_lst);
+    print_commands_list(backpack);
 }
 
 static size_t ft_count_commands(char *input)
@@ -114,19 +117,22 @@ static size_t ft_count_commands(char *input)
     return(commands_nb);
 }
 
-int ft_get_command(t_list **backpack, char *input)
+int ft_get_command(t_backpack *backpack, char *input)
 {
     char **commands;
-    size_t     commands_nb;
 
     if(ft_syntax_parse(input))
         return(EXIT_FAILURE);
-    commands_nb = ft_count_commands(input);
-    printf("Numero de comandos:%li\n", commands_nb);
-    commands = (char **)ft_calloc(commands_nb + 1, sizeof(char *));
+    backpack->n = 0;
+    backpack->commands_nb = ft_count_commands(input);
+    //printf("Numero de comandos:%li\n", backpack->commands_nb);
+    commands = (char **)ft_calloc(backpack->commands_nb + 1, sizeof(char *));
     if (!commands)
         return (EXIT_FAILURE);
-    ft_extract_commands(*backpack, input, commands);
+    backpack->commands_lst = (tok_lst *)ft_calloc(backpack->commands_nb, sizeof(tok_lst));
+    if (!backpack->commands_lst)
+        return (EXIT_FAILURE);
+    ft_extract_commands(backpack, input, commands);
     free_array(commands);
     return(EXIT_SUCCESS);
 }

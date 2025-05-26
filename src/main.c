@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/20 19:25:48 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:37:43 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,15 @@ static int  ft_void_input(char *input)
 
 int main(int argc, char **argv, char **envp)
 {
-    t_list  *backpack;
+    t_backpack  *backpack;
     char    *input;
     
     (void)argv;
+    (void)envp;
     backpack = (t_backpack *)ft_calloc(1, sizeof(t_backpack));     //Mirar si es necesario reservar memoria para backpack
     if(argc != 1)
 		return(EXIT_FAILURE);
-    fill_env(backpack, envp);
+    //fill_env(&backpack->env, envp);
 	while(1)
     {
         signal(SIGINT, handle_ctrl_c);
@@ -68,9 +69,9 @@ int main(int argc, char **argv, char **envp)
             continue;
         }
         add_history(input);                 // Arreglar uso del historial si usas ctrl+c en un comando ya usado. Se guarda para la siguiente ejecucion¿?
-        if(ft_get_command(&backpack, input))
+        if(ft_get_command(backpack, input))
             printf("Syntax error.\n");
-        executor(backpack->content, backpack->content); // Funcion a la que le pasamos la lista de los comandos y que las cosas se intenten ejecutar.
+        //executor(backpack, backpack->content); // Funcion a la que le pasamos la lista de los comandos y que las cosas se intenten ejecutar.
         //free_list(comandos, demomento); //MIRAR SEGFAULT CUANDO VARIABLES EXPANDIBLES
         free(input);            //Readline genera malloc para la entrada. En caso de liberarlas no es necesario usar clear_history¿?
     }

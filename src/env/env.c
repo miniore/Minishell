@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:21:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/05/20 19:21:06 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:36:57 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void fill_env(t_list *backpack, char **envp)
+void fill_env(t_env **env, char **envp)
 {
-    t_env   *env;
     int i;
     char **lst;
 
@@ -26,7 +25,7 @@ void fill_env(t_list *backpack, char **envp)
         env_add_last(env, new_node(lst[i], getenv(lst[i])));
         i++;
     }
-    ft_lstadd_back(backpack, ft_lstnew(env));
+    printf("Ey\n");
 }
 
 void	env_add_last(t_env **lst, t_env *new)

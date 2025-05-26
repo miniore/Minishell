@@ -6,39 +6,38 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:27:59 by miniore           #+#    #+#             */
-/*   Updated: 2025/04/02 18:51:19 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/26 19:41:49 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t  ft_save_qarg(t_list *backpack, char *command, int i, size_t len)
+void  ft_save_qarg(t_backpack *backpack, char *command, int i)
 {
-    t_list *actual;
+    //t_list *actual;
     t_list  *temp;
     char    *token;
 
     i++;
-    actual = backpack->commands_lst->com_tokens->arguments;
-    len = ft_extract_content(command, len);
-    token = ft_substr(command, i, len - i);
+    //actual = backpack->commands_lst[backpack->n].arguments;
+    ft_extract_content(backpack, command);
+    token = ft_substr(command, i, backpack->len - i);
     temp = ft_lstnew(token);
-    ft_lstadd_back(&actual, temp);
-    len++;
+    ft_lstadd_back(&backpack->commands_lst[backpack->n].arguments, temp);
+    backpack->len++;
     //free(token);
-    return(len);
 }
 
-void    ft_save_arg(t_list * backpack, char *command, int i, size_t len)
+void    ft_save_arg(t_backpack *backpack, char *command, int i)
 {
-    t_list *actual;
+    //t_list *actual;
     t_list  *temp;
     char    *token;
 
-    actual = backpack->commands_lst->com_tokens->arguments;
-    if(i == (int)len && ft_is_space(command[len + 1]))
+    //actual = backpack->commands_lst[backpack->n].arguments;
+    if(i == (int)backpack->len && ft_is_space(command[backpack->len + 1]))
         return;
-    token = ft_substr(command, i, len - i);
+    token = ft_substr(command, i, backpack->len - i);
     if(ft_strchr(token, 36))
     {
         ft_exp_var(backpack, token);
@@ -46,28 +45,24 @@ void    ft_save_arg(t_list * backpack, char *command, int i, size_t len)
         return;
     }
     temp = ft_lstnew(token);
-    ft_lstadd_back(&actual, temp);
+    ft_lstadd_back(&backpack->commands_lst[backpack->n].arguments, temp);
 }
 
-void    ft_save_command(t_list *backpack, char *command, int i, size_t len)
+void    ft_save_command(t_backpack *backpack, char *command, int i)
 {
-    tok_lst *temp;
     char *token;
     
-    temp = backpack->commands_lst->com_tokens;
-    while(temp->next != NULL)
-        temp = temp->next;
-    if(i == (int)len)
+    if(i == (int)backpack->len)
     {
-        temp->command = NULL;
+        backpack->commands_lst[backpack->n].command = NULL;
         return;
     }
-    token = ft_substr(command, i, len - i);
+    token = ft_substr(command, i, backpack->len - i);
     if(ft_strchr(token, 36))
     {
         ft_exp_var(backpack, token);
         free(token);
         return;
     }
-    tem->command = token;
+    backpack->commands_lst[backpack->n].command = token;
 }

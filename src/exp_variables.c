@@ -6,18 +6,18 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:43:39 by miniore           #+#    #+#             */
-/*   Updated: 2025/04/03 12:01:01 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/26 19:34:13 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void ft_save_exp_tok(t_list *backpack, char *res_tok)
+static void ft_save_exp_tok(t_backpack *backpack, char *res_tok)
 {
     t_list  *temp;
     
     temp = ft_lstnew(res_tok);
-    ft_lstadd_back(&com_tokens->arguments, temp); 
+    ft_lstadd_back(&backpack->commands_lst[backpack->n].arguments, temp); 
 }
 
 static char	*ft_strjoin_shell(char const *s1, char *s2)
@@ -51,7 +51,7 @@ static char	*ft_strjoin_shell(char const *s1, char *s2)
 
 // Hacer funcion de buscar el contenido de variable de entorno en la lista para sustituir getenv
 
-static char *ft_join_tok(t_list *backpack, char *res_tok, char *var)
+static char *ft_join_tok(char *res_tok, char *var) //Añadir backpack!!!!!1
 {
     char    *var_value;
     
@@ -61,7 +61,7 @@ static char *ft_join_tok(t_list *backpack, char *res_tok, char *var)
     return(res_tok);
 }
 
-void    ft_exp_var(t_list *backpack, char *token) //GESTIONAR CUANDO HAY $$. SE DEBE INTERPRETAR??
+void    ft_exp_var(t_backpack *backpack, char *token) //GESTIONAR CUANDO HAY $$. SE DEBE INTERPRETAR??
 {
     char    *var;
     char    *res_tok;
@@ -83,7 +83,7 @@ void    ft_exp_var(t_list *backpack, char *token) //GESTIONAR CUANDO HAY $$. SE 
         while(token[len] != '\0' && token[len] != '$')
             len++;
         var = ft_substr(token, i, len - i);
-        res_tok = ft_join_tok(backpack, res_tok, var);
+        res_tok = ft_join_tok(res_tok, var);
         flag = 0;
         free(var);
     }
