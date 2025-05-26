@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:21:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/05/26 19:36:57 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/26 19:48:27 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void fill_env(t_env **env, char **envp)
         env_add_last(env, new_node(lst[i], getenv(lst[i])));
         i++;
     }
-    printf("Ey\n");
 }
 
 void	env_add_last(t_env **lst, t_env *new)

@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/26 19:35:06 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/26 20:00:36 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void    ft_save_arg(t_backpack *backpack, char *command, int i);
 void    ft_exp_var(t_backpack *backpack, char *token);
 
 //Build_ins
-void executor(tok_lst *com_tokens, t_env **env);
+void executor(t_backpack *backpack);
 void pwd(void);
 //void echo(t_list *arg);
 void cd(t_list *arg);

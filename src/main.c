@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/26 19:37:43 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/26 20:00:22 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int main(int argc, char **argv, char **envp)
     backpack = (t_backpack *)ft_calloc(1, sizeof(t_backpack));     //Mirar si es necesario reservar memoria para backpack
     if(argc != 1)
 		return(EXIT_FAILURE);
-    //fill_env(&backpack->env, envp);
+    //fill_env(&backpack->env, envp);  //Detectado segfault aquí!!!1
 	while(1)
     {
         signal(SIGINT, handle_ctrl_c);
@@ -71,7 +71,7 @@ int main(int argc, char **argv, char **envp)
         add_history(input);                 // Arreglar uso del historial si usas ctrl+c en un comando ya usado. Se guarda para la siguiente ejecucion¿?
         if(ft_get_command(backpack, input))
             printf("Syntax error.\n");
-        //executor(backpack, backpack->content); // Funcion a la que le pasamos la lista de los comandos y que las cosas se intenten ejecutar.
+        executor(backpack); // Funcion a la que le pasamos la lista de los comandos y que las cosas se intenten ejecutar.
         //free_list(comandos, demomento); //MIRAR SEGFAULT CUANDO VARIABLES EXPANDIBLES
         free(input);            //Readline genera malloc para la entrada. En caso de liberarlas no es necesario usar clear_history¿?
     }

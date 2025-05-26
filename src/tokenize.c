@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:12:52 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/26 18:04:27 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/26 19:53:38 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static void    ft_extract_tokens(t_backpack *backpack, char *command)
 
 static void ft_extract_command(t_backpack *backpack, char *command)
 {
-    //size_t     len;
     int     i;
 
     i = 0;
@@ -65,18 +64,10 @@ static void ft_extract_command(t_backpack *backpack, char *command)
     }
     while(!ft_is_space(command[backpack->len]) && command[backpack->len] != '\0')
         backpack->len++;
-    //return(len);
 }
 
 int ft_tokenize(t_backpack *backpack, char *command)
 {
-    //tok_lst *com_tokens;
-    //size_t  len;
-
-    // com_tokens = (tok_lst *)ft_calloc(1, sizeof(tok_lst));
-    // if(!com_tokens)
-    //     return(EXIT_FAILURE);
-    //ft_lstadd_back(backpack->commands_lst, ft_lstnew(com_tokens));
     ft_extract_command(backpack, command);
     if(command[backpack->len] != '\0')
         ft_extract_tokens(backpack, command);

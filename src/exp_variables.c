@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:43:39 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/26 19:34:13 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/26 20:01:48 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,3 @@ void    ft_exp_var(t_backpack *backpack, char *token) //GESTIONAR CUANDO HAY $$.
     }
     ft_save_exp_tok(backpack, res_tok);
 }
-
-
-        // printf("i: %i", i);
-        // printf("len: %li", len);
-
-        // printf("V:%s\n", var);
-        // printf("VE: %s\n", var_value);
-        // printf("REST: %s\n", res_tok);

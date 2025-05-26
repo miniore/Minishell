@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:49:11 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/26 19:45:27 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/26 20:03:47 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ static void ft_extract_commands(t_backpack *backpack, char *input, char **comman
         if(i != 0)
             i++;
         commands[j] = ft_substr(input, i, len - i);
-        // printf("-----------------------\n");
-        // printf("Comando entero: %s\n", commands[j]);
         ft_tokenize(backpack, commands[j]);
         i = (int)len;
         if(input[len] == '|')
@@ -125,7 +123,6 @@ int ft_get_command(t_backpack *backpack, char *input)
         return(EXIT_FAILURE);
     backpack->n = 0;
     backpack->commands_nb = ft_count_commands(input);
-    //printf("Numero de comandos:%li\n", backpack->commands_nb);
     commands = (char **)ft_calloc(backpack->commands_nb + 1, sizeof(char *));
     if (!commands)
         return (EXIT_FAILURE);
