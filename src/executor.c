@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/05/26 19:59:01 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/27 17:49:25 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,6 @@ void executor(t_backpack *backpack)
     }
     else if(ft_strncmp(backpack->commands_lst[backpack->n].command, "env", 3)  == 0)
     {
-        act = backpack->env;
-        while(act->next != NULL)
-        {
-            printf("%s = %s\n", act->var, act->content);
-            act = act->next;
-        }
-        printf("%s = %s\n", act->var, act->content);
+        ft_env(&backpack->env);
     }
 }
