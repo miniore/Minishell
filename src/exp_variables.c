@@ -6,18 +6,23 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:43:39 by miniore           #+#    #+#             */
-/*   Updated: 2025/04/03 12:01:01 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/27 12:06:55 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void ft_save_exp_tok(tok_lst *com_tokens, char *res_tok)
+static void ft_save_exp_arg(t_backpack *backpack, char *res_tok)
 {
     t_list  *temp;
-    
+
+    if(!backpack->flag)
+    {
+        backpack->commands_lst[backpack->n].command = res_tok;
+        return ;
+    }
     temp = ft_lstnew(res_tok);
-    ft_lstadd_back(&com_tokens->arguments, temp); 
+    ft_lstadd_back(&backpack->commands_lst[backpack->n].arguments, temp); 
 }
 
 static char	*ft_strjoin_shell(char const *s1, char *s2)
@@ -49,7 +54,9 @@ static char	*ft_strjoin_shell(char const *s1, char *s2)
 	return (new_str);
 }
 
-static char *ft_join_tok(char *res_tok, char *var)
+// Hacer funcion de buscar el contenido de variable de entorno en la lista para sustituir getenv
+
+static char *ft_join_tok(char *res_tok, char *var) //Añadir backpack!!!!!1
 {
     char    *var_value;
     
@@ -59,7 +66,7 @@ static char *ft_join_tok(char *res_tok, char *var)
     return(res_tok);
 }
 
-void    ft_exp_var(tok_lst *com_tokens, char *token) //GESTIONAR CUANDO HAY $$. SE DEBE INTERPRETAR??
+void    ft_exp_var(t_backpack *backpack, char *token) //GESTIONAR CUANDO HAY $$. SE DEBE INTERPRETAR??
 {
     char    *var;
     char    *res_tok;
@@ -74,7 +81,7 @@ void    ft_exp_var(tok_lst *com_tokens, char *token) //GESTIONAR CUANDO HAY $$. 
     while(token[len] != '\0')
     {
         while(token[len - 1] != '$')
-            len++;
+            len++;                          //Mirar el caso en que haya u espacio despues de $. echo hola$ USER o  simplemente echo $
         if(len > 1 && flag == 1)
             res_tok = ft_substr(token, i, (len - 1) - i);
         i = (int)len;
@@ -85,13 +92,5 @@ void    ft_exp_var(tok_lst *com_tokens, char *token) //GESTIONAR CUANDO HAY $$. 
         flag = 0;
         free(var);
     }
-    ft_save_exp_tok(com_tokens, res_tok);
+    ft_save_exp_arg(backpack, res_tok);
 }
-
-
-        // printf("i: %i", i);
-        // printf("len: %li", len);
-
-        // printf("V:%s\n", var);
-        // printf("VE: %s\n", var_value);
-        // printf("REST: %s\n", res_tok);
