@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/26 20:00:36 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/27 11:48:58 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ struct s_backpack
     size_t     commands_nb;
     size_t  len;
     int     n;
+    int     flag;
 };
 
 int ft_get_command(t_backpack *backpack, char *input);

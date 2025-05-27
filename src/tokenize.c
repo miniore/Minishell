@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:12:52 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/26 19:53:38 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/27 12:14:41 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,21 @@ static void ft_extract_command(t_backpack *backpack, char *command)
     int     i;
 
     i = 0;
+    backpack->flag = 0;
     while(!ft_is_space(command[i]))
         i++;
     while((!ft_is_quotes(command[i]) && !ft_is_quotes(command[i + 1])) ||
             (!ft_is_dquotes(command[i]) && !ft_is_dquotes(command[i + 1])))
         i += 2;
     backpack->len = (size_t)i;
-    if(!ft_is_quotes(command[i]) || !ft_is_dquotes(command[i])) //REVISAR ESTO!!!
-        ft_exp_arg(backpack, command, i);
-    else
-    {
-        while(ft_is_space(command[backpack->len]) && command[backpack->len] != '\0')
-            backpack->len++;
-        ft_save_command(backpack, command, i);
-    }
-    while(!ft_is_space(command[backpack->len]) && command[backpack->len] != '\0')
+    // if(!ft_is_quotes(command[i]) || !ft_is_dquotes(command[i])) //REVISAR ESTO!!!
+    //     ft_exp_arg(backpack, command, i);
+    while(ft_is_space(command[backpack->len]) && command[backpack->len] != '\0')
         backpack->len++;
+    ft_save_command(backpack, command, i);
+    // while(!ft_is_space(command[backpack->len]) && command[backpack->len] != '\0')
+    //     backpack->len++;
+    backpack->flag = 1;
 }
 
 int ft_tokenize(t_backpack *backpack, char *command)

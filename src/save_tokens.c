@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:27:59 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/26 19:48:17 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/27 11:56:57 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void    ft_save_command(t_backpack *backpack, char *command, int i)
     {
         ft_exp_var(backpack, token);
         free(token);
+        backpack->len++;
         return;
     }
     backpack->commands_lst[backpack->n].command = token;

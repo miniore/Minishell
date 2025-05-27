@@ -6,16 +6,21 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:43:39 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/26 20:01:48 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/27 12:06:55 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void ft_save_exp_tok(t_backpack *backpack, char *res_tok)
+static void ft_save_exp_arg(t_backpack *backpack, char *res_tok)
 {
     t_list  *temp;
-    
+
+    if(!backpack->flag)
+    {
+        backpack->commands_lst[backpack->n].command = res_tok;
+        return ;
+    }
     temp = ft_lstnew(res_tok);
     ft_lstadd_back(&backpack->commands_lst[backpack->n].arguments, temp); 
 }
@@ -87,5 +92,5 @@ void    ft_exp_var(t_backpack *backpack, char *token) //GESTIONAR CUANDO HAY $$.
         flag = 0;
         free(var);
     }
-    ft_save_exp_tok(backpack, res_tok);
+    ft_save_exp_arg(backpack, res_tok);
 }
