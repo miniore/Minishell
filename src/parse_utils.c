@@ -6,27 +6,26 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:28:47 by miniore           #+#    #+#             */
-/*   Updated: 2025/03/27 12:42:29 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/26 19:28:09 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	ft_extract_content(char *command, size_t len)
+void	ft_extract_content(t_backpack *backpack, char *command)
 {
-	if(!ft_is_quotes(command[len]))
+	if(!ft_is_quotes(command[backpack->len]))
     {
-        len++;
-		while (ft_is_quotes(command[len]) && command[len] != '\0')
-            len++;
+        backpack->len++;
+		while (ft_is_quotes(command[backpack->len]) && command[backpack->len] != '\0')
+            backpack->len++;
     }
-    else if(!ft_is_dquotes(command[len]))
+    else if(!ft_is_dquotes(command[backpack->len]))
     {
-        len++;
-		while (ft_is_dquotes(command[len]) && command[len] != '\0')
-            len++;
+        backpack->len++;
+		while (ft_is_dquotes(command[backpack->len]) && command[backpack->len] != '\0')
+            backpack->len++;
     }
-	return(len);
 }
 
 // static int  ft_check_dquotes(char *input, int i, int flag)
@@ -99,5 +98,5 @@ size_t	ft_ignore_qargs(char *command, size_t len)
             len++;
         len++;
     }
-	return(len);
+    return(len);
 }

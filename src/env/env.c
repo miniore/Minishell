@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:21:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/05/20 19:21:06 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/05/26 20:21:02 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void fill_env(t_env **env, char **envp)
 {
     int i;
     char **lst;
-    
+
+    env = NULL;
     lst = var_list(envp);
     i = 0;
     while(lst[i])
@@ -34,6 +35,7 @@ void	env_add_last(t_env **lst, t_env *new)
 		*lst = new;
 	else
 	{
+        printf("Ey\n");
 		act = *lst;
 		while (act->next != NULL)
 			act = act->next;
