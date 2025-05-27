@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:21:44 by frlorenz          #+#    #+#             */
 /*   Updated: 2025/05/27 12:02:53 by frlorenz         ###   ########.fr       */
@@ -20,6 +20,7 @@ void	env_add_last(t_env **lst, t_env *new)
 		*lst = new;
 	else
 	{
+        printf("Ey\n");
 		act = *lst;
 		while (act->next != NULL)
 			act = act->next;

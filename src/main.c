@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
 /*   Updated: 2025/05/27 17:49:54 by frlorenz         ###   ########.fr       */
@@ -57,7 +57,7 @@ int main(int argc, char **argv, char **envp)
     if(argc != 1)
 		return(EXIT_FAILURE);
     fill_env(&backpack->env, envp);  //Detectado segfault aquí!!!1
-	while(1)
+	  while(1)
     {
         signal(SIGINT, handle_ctrl_c);
         input = readline("Minichelita> ");
