@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/27 12:13:42 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/27 17:49:54 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int main(int argc, char **argv, char **envp)
     backpack = (t_backpack *)ft_calloc(1, sizeof(t_backpack));     //Mirar si es necesario reservar memoria para backpack
     if(argc != 1)
 		return(EXIT_FAILURE);
-    //fill_env(&backpack->env, envp);  //Detectado segfault aquí!!!1
-	while(1)
+    fill_env(&backpack->env, envp);  //Detectado segfault aquí!!!1
+	  while(1)
     {
         signal(SIGINT, handle_ctrl_c);
         input = readline("Minichelita> ");
