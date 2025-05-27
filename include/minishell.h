@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/20 19:35:00 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:01:15 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,17 @@ void cd(t_list *arg);
 void    ft_echo(t_list *arg);
 
 //Stack envp
-void fill_env(t_env **env, char **envp);
 void	env_add_last(t_env **lst, t_env *new);
 t_env *new_node(char *var, char *content);
 char **var_list(char **envp);
 char *name_var(char *var);
-void free_env(char **lst, t_env **env);
+void free_env(t_env **env);
+int fill_env(t_env **env, char **envp);
+t_env *search_node(t_env **env, char *name);
+void erase_node(t_env *node);
+void modify_node(t_env *node, char *var, char *content); // esta funcion requiere que los nuevos valores esten en memoria
+int ft_env(t_env **env);
+
 
 
 #endif

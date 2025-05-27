@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/05/21 16:26:15 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:02:16 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void executor(tok_lst *com_tokens, t_env **env)
     t_env *act;
     
     act = NULL;
-    if (ft_strncmp(com_tokens->command, "pwd", 3)  == 0)
+    // Al comparar acer un strlen del comando para saber cuantos caracteres hay que comparar en cada if
+    if (ft_strncmp(com_tokens->command, "pwd", 3)  == 0) 
     {
         if(com_tokens->arguments == NULL)
             pwd();
@@ -38,12 +39,6 @@ void executor(tok_lst *com_tokens, t_env **env)
     }
     else if(ft_strncmp(com_tokens->command, "env", 3)  == 0)
     {
-        act = *env;
-        while(act->next != NULL)
-        {
-            printf("%s = %s\n", act->var, act->content);
-            act = act->next;
-        }
-        printf("%s = %s\n", act->var, act->content);
+        ft_env(env);
     }
 }

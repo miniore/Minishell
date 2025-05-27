@@ -6,25 +6,11 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:21:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/05/20 19:21:06 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:02:53 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void fill_env(t_env **env, char **envp)
-{
-    int i;
-    char **lst;
-    
-    lst = var_list(envp);
-    i = 0;
-    while(lst[i])
-    {
-        env_add_last(env, new_node(lst[i], getenv(lst[i])));
-        i++;
-    }
-}
 
 void	env_add_last(t_env **lst, t_env *new)
 {
@@ -96,23 +82,20 @@ char *name_var(char *var)
     return(name); 
 }
 
-void free_env(char **lst, t_env **env)
+int ft_env(t_env **env)
 {
-    int i;
     t_env *act;
     
-    i = 0;
-    while(lst[i])
+    if(!env)
+        return(0);
+    else
     {
-        free(lst[i]);
-        i++;
+        act = *env;
+        while(act->next != NULL)
+        {
+            printf("%s = %s\n", act->var, act->content);
+            act = act->next;
+        }
     }
-    free(lst);
-    act = *env;
-     while(act->next != NULL)
-     {
-         act = act->next;
-         free(act);
-     }
-    free(*env);
+    return (1);
 }
