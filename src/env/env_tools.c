@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:01:59 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/05/27 12:02:49 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:14:55 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_env *search_node(t_env **env, char *name)
 {
     t_env   *node;
     int i;
-    
+     
     node = *env;
     i = strlen(name);
     while(node->next != NULL)

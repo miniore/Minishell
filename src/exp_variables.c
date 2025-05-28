@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:43:39 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/27 12:06:55 by miniore          ###   ########.fr       */
+/*   Updated: 2025/05/28 20:17:15 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ void    ft_exp_var(t_backpack *backpack, char *token) //GESTIONAR CUANDO HAY $$.
     while(token[len] != '\0')
     {
         while(token[len - 1] != '$')
-            len++;                          //Mirar el caso en que haya u espacio despues de $. echo hola$ USER o  simplemente echo $
+            len++;                         //Mirar el caso en que haya u espacio despues de $. echo hola$ USER o  simplemente echo $
         if(len > 1 && flag == 1)
-            res_tok = ft_substr(token, i, (len - 1) - i);
+            res_tok = ft_substr(token, i, (len - 1) - i);   //REVISAR BUCLE echo $USER*aaaa$PWD
         i = (int)len;
-        while(token[len] != '\0' && token[len] != '$')
+        while(token[len] && (ft_isalnum(token[len]) || token[len] == '_'))
             len++;
         var = ft_substr(token, i, len - i);
         res_tok = ft_join_tok(res_tok, var);

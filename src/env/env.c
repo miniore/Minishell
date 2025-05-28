@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:21:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/05/27 12:02:53 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:14:03 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ char *name_var(char *var)
     i = 0;
     while(var[i] != '=')
         i++;
+    if(i == 0)
+        return(NULL);
     name = (char *) calloc(i + 1, sizeof(char *));
     if (!name)
         return(NULL);
@@ -96,6 +98,7 @@ int ft_env(t_env **env)
             printf("%s = %s\n", act->var, act->content);
             act = act->next;
         }
+        printf("%s = %s\n", act->var, act->content);
     }
     return (1);
 }
