@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:43:39 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/28 20:17:15 by porellan         ###   ########.fr       */
+/*   Updated: 2025/05/30 20:04:15 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,26 +70,40 @@ void    ft_exp_var(t_backpack *backpack, char *token) //GESTIONAR CUANDO HAY $$.
 {
     char    *var;
     char    *res_tok;
-    int     flag;
+    char    *str_2_join;
     int     i;
     size_t  len;
 
-    flag = 1;
     i = 0;
     len = 1;
     res_tok = NULL;
-    while(token[len] != '\0')
+    printf("token: %s", token);
+    while(token[len])
     {
+        printf("eyyyyyy\n");
+        
         while(token[len - 1] != '$')
             len++;                         //Mirar el caso en que haya u espacio despues de $. echo hola$ USER o  simplemente echo $
-        if(len > 1 && flag == 1)
+        if(len > 1 && !res_tok)
             res_tok = ft_substr(token, i, (len - 1) - i);   //REVISAR BUCLE echo $USER*aaaa$PWD
+        else if(res_tok)
+        {
+            printf("len1: %li", len);
+            str_2_join = ft_substr(token, i, (len - 1) - i);
+            printf("STR2JOIN: %s", str_2_join);
+            res_tok = ft_strjoin(res_tok, str_2_join);
+            free(str_2_join);
+        }
+        printf("RESTOK1: %s", res_tok);
         i = (int)len;
         while(token[len] && (ft_isalnum(token[len]) || token[len] == '_'))
             len++;
+        printf("EN CHAR: %c", token[len]);
         var = ft_substr(token, i, len - i);
         res_tok = ft_join_tok(res_tok, var);
-        flag = 0;
+        printf("RESTOK2: %s", res_tok);
+        printf("len2: %li", len);
+        i = (int)len;
         free(var);
     }
     ft_save_exp_arg(backpack, res_tok);

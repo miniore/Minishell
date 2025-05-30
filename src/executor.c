@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/05/28 18:03:26 by porellan         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:17:19 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void executor(t_backpack *backpack)
 {
-    t_env *act;
+    //t_env *act;
     
-    act = NULL;
+    //act = NULL;
     backpack->n = 0;
     //  Utilizar strleen para arreglar comparaciones
     if (ft_strncmp(backpack->commands_lst[backpack->n].command, "pwd", 3)  == 0)
