@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:43:39 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/30 20:04:15 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:11:46 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,23 @@ static char	*ft_strjoin_shell(char const *s1, char *s2)
 	return (new_str);
 }
 
-// Hacer funcion de buscar el contenido de variable de entorno en la lista para sustituir getenv
+static char *ft_get_var_value(t_env *env, char *var_name)
+{
+    t_env   *node;
+    char    *value;
+    
+    node = search_node(&env, var_name);
+    if(!node)
+        return(NULL);
+    value = ft_strdup(node->content);
+    return(value);
+}
 
-static char *ft_join_tok(char *res_tok, char *var) //Añadir backpack!!!!!1
+static char *ft_join_tok(t_backpack *backpack, char *res_tok, char *var)
 {
     char    *var_value;
     
-    var_value = getenv(var);
+    var_value = ft_get_var_value(backpack->env, var);
     if(var_value)
         res_tok = ft_strjoin_shell(res_tok, var_value);
     return(res_tok);
@@ -77,32 +87,23 @@ void    ft_exp_var(t_backpack *backpack, char *token) //GESTIONAR CUANDO HAY $$.
     i = 0;
     len = 1;
     res_tok = NULL;
-    printf("token: %s", token);
     while(token[len])
     {
-        printf("eyyyyyy\n");
-        
-        while(token[len - 1] != '$')
+        while(token[len - 1] != '$' && token[len - 1])
             len++;                         //Mirar el caso en que haya u espacio despues de $. echo hola$ USER o  simplemente echo $
         if(len > 1 && !res_tok)
-            res_tok = ft_substr(token, i, (len - 1) - i);   //REVISAR BUCLE echo $USER*aaaa$PWD
+            res_tok = ft_substr(token, i, (len - 1) - i);
         else if(res_tok)
         {
-            printf("len1: %li", len);
             str_2_join = ft_substr(token, i, (len - 1) - i);
-            printf("STR2JOIN: %s", str_2_join);
             res_tok = ft_strjoin(res_tok, str_2_join);
             free(str_2_join);
         }
-        printf("RESTOK1: %s", res_tok);
         i = (int)len;
         while(token[len] && (ft_isalnum(token[len]) || token[len] == '_'))
             len++;
-        printf("EN CHAR: %c", token[len]);
         var = ft_substr(token, i, len - i);
-        res_tok = ft_join_tok(res_tok, var);
-        printf("RESTOK2: %s", res_tok);
-        printf("len2: %li", len);
+        res_tok = ft_join_tok(backpack, res_tok, var);
         i = (int)len;
         free(var);
     }

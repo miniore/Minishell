@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/05/29 17:17:19 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/03 12:41:33 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,9 @@ void executor(t_backpack *backpack)
     else if(ft_strncmp(backpack->commands_lst[backpack->n].command, "export", 6)  == 0)
     {
         ft_export(backpack);
+    }
+    else if(ft_strncmp(backpack->commands_lst[backpack->n].command, "unset", 5)  == 0)
+    {
+        ft_unset(backpack);
     }
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/28 18:04:12 by porellan         ###   ########.fr       */
+/*   Updated: 2025/06/02 12:48:32 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void pwd(void);
 void cd(t_list *arg);
 void    ft_echo(t_list *arg);
 void    ft_export(t_backpack *backpack);
+void	ft_unset(t_backpack *backpack);
 
 //Stack envp
 void	env_add_last(t_env **lst, t_env *new);

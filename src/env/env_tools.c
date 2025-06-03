@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:01:59 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/05/30 20:04:52 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/03 13:11:30 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_env *search_node(t_env **env, char *name)
      
     node = *env;
     i = strlen(name);
-    while(node->next != NULL)
+    while(node)
     {
         if (strncmp(node->var, name, i) == 0)
             return (node);
@@ -64,15 +64,20 @@ void modify_node(t_env *node, char *var, char *content)
 
 void erase_node(t_env *node)
 {
-    t_env *temp;
+    //t_env *temp;
     t_env *prev;
     t_env *next;
 
-    temp = node;
+    //temp = node;
     prev = node->prev;
     next = node->next;
-    prev->next = next;
-    next->prev = prev;
+    if(!next)
+        prev->next = NULL;
+    else
+    {
+        prev->next = next;
+        next->prev = prev;
+    }
     //free(node->var);
     //free(node->content);
     free(node);
