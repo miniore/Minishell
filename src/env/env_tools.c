@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:01:59 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/06/03 13:11:30 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/04 17:03:00 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int fill_env(t_env **env, char **envp)
     i = 0;
     while(lst[i])
     {
-        len = strlen(getenv(lst[i]));
-        value = (char *) calloc(len + 1, sizeof (char *));
+        len = ft_strlen(getenv(lst[i]));
+        value = (char *) ft_calloc(len + 1, sizeof (char *));
         if (!value)
             return(0);
         value = getenv(lst[i]);
@@ -41,10 +41,10 @@ t_env *search_node(t_env **env, char *name)
     int i;
      
     node = *env;
-    i = strlen(name);
+    i = ft_strlen(name);
     while(node)
     {
-        if (strncmp(node->var, name, i) == 0)
+        if (ft_strncmp(node->var, name, i + 1) == 0)
             return (node);
         node = node->next;
     }
@@ -62,24 +62,25 @@ void modify_node(t_env *node, char *var, char *content)
     node->content = content;
 }
 
-void erase_node(t_env *node)
+void erase_node(t_env **env, t_env *node)
 {
-    //t_env *temp;
     t_env *prev;
     t_env *next;
 
-    //temp = node;
     prev = node->prev;
     next = node->next;
     if(!next)
         prev->next = NULL;
     else
     {
-        prev->next = next;
-        next->prev = prev;
+        if(!prev)
+            *env = next;
+        else
+        {
+            prev->next = next;
+            next->prev = prev;
+        }
     }
-    //free(node->var);
-    //free(node->content);
     free(node);
 }
 

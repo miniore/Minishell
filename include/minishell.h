@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/02 12:48:32 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:49:49 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char *name_var(char *var);
 void free_env(t_env **env);
 int fill_env(t_env **env, char **envp);
 t_env *search_node(t_env **env, char *name);
-void erase_node(t_env *node);
+void erase_node(t_env **env, t_env *node);
 void modify_node(t_env *node, char *var, char *content); // esta funcion requiere que los nuevos valores esten en memoria
 int ft_env(t_env **env);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:21:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/06/02 13:09:43 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/04 17:02:35 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char **var_list(char **envp)
     i = 0;
     while(envp[i])
         i++;
-    lst = (char **) calloc(i + 1, sizeof (char **));
+    lst = (char **) ft_calloc(i + 1, sizeof (char **));
     if (!lst)
         return(NULL);
     i  = 0;
@@ -72,7 +72,7 @@ char *name_var(char *var)
         i++;
     if(i == 0)
         return(NULL);
-    name = (char *) calloc(i + 1, sizeof(char *));
+    name = (char *) ft_calloc(i + 1, sizeof(char *));
     if (!name)
         return(NULL);
     i = 0;
@@ -92,6 +92,7 @@ int ft_env(t_env **env)
         return(0);
     else
     {
+        printf("EYY\n");
         act = *env;
         while(act->next != NULL)
         {
