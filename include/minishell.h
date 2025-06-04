@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/27 17:48:29 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:23:05 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ void    ft_exp_var(t_backpack *backpack, char *token);
 
 //Build_ins
 void executor(t_backpack *backpack);
-void pwd(void);
+int pwd(t_env **env);
 //void echo(t_list *arg);
-void cd(t_list *arg);
+void cd(t_list *arg, t_env *env);
 void    ft_echo(t_list *arg);
 
 //Stack envp

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/05/27 17:49:25 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/04 16:03:00 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,29 @@
 
 void executor(t_backpack *backpack)
 {
-    t_env *act;
     
-    act = NULL;
     backpack->n = 0;
     //  Utilizar strleen para arreglar comparaciones
-    if (ft_strncmp(backpack->commands_lst[backpack->n].command, "pwd", 3)  == 0)
+    if (ft_strncmp(backpack->commands_lst[backpack->n].command, "pwd", 4)  == 0)
     {
         if(backpack->commands_lst[backpack->n].arguments == NULL)
-            pwd();
+            pwd(&backpack->env);
         else
             perror("pwd: too many arguments"); // Esto del los errores hay que mirarlo.
     }
-    else if(ft_strncmp(backpack->commands_lst[backpack->n].command, "echo", 4)  == 0)
+    else if(ft_strncmp(backpack->commands_lst[backpack->n].command, "echo", 5)  == 0)
     {
         ft_echo(backpack->commands_lst[backpack->n].arguments);
     }
-    else if(ft_strncmp(backpack->commands_lst[backpack->n].command, "cd", 2)  == 0)
+    else if(ft_strncmp(backpack->commands_lst[backpack->n].command, "cd", 3)  == 0)
     {
-        cd(backpack->commands_lst[backpack->n].arguments);
+        cd(backpack->commands_lst[backpack->n].arguments, backpack->env);
     }
-    else if(ft_strncmp(backpack->commands_lst[backpack->n].command, "exit", 4)  == 0)
+    else if(ft_strncmp(backpack->commands_lst[backpack->n].command, "exit", 5)  == 0)
     {
         exit(EXIT_SUCCESS); // habria que mirar de liberar.......
     }
-    else if(ft_strncmp(backpack->commands_lst[backpack->n].command, "env", 3)  == 0)
+    else if(ft_strncmp(backpack->commands_lst[backpack->n].command, "env", 4)  == 0)
     {
         ft_env(&backpack->env);
     }
