@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:01:59 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/05/27 12:02:49 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/04 19:18:02 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int fill_env(t_env **env, char **envp)
     i = 0;
     while(lst[i])
     {
-        len = strlen(getenv(lst[i]));
-        value = (char *) calloc(len + 1, sizeof (char *));
+        len = ft_strlen(getenv(lst[i]));
+        value = (char *) ft_calloc(len + 1, sizeof (char *));
         if (!value)
             return(0);
         value = getenv(lst[i]);
@@ -38,13 +38,13 @@ int fill_env(t_env **env, char **envp)
 t_env *search_node(t_env **env, char *name)
 {
     t_env   *node;
-    int i;
+    //int i;
     
     node = *env;
-    i = strlen(name);
+    //i = ft_strlen(name);
     while(node->next != NULL)
     {
-        if (strncmp(node->var, name, i) == 0)
+        if (ft_strcmp(node->var, name) == 0)
             return (node);
         node = node->next;
     }

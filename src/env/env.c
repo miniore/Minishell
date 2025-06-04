@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:21:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/05/27 19:11:49 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/04 19:18:44 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char **var_list(char **envp)
     i = 0;
     while(envp[i])
         i++;
-    lst = (char **) calloc(i + 1, sizeof (char **));
+    lst = (char **) ft_calloc(i + 1, sizeof (char **));
     if (!lst)
         return(NULL);
     i  = 0;
@@ -70,7 +70,7 @@ char *name_var(char *var)
     i = 0;
     while(var[i] != '=')
         i++;
-    name = (char *) calloc(i + 1, sizeof(char *));
+    name = (char *) ft_calloc(i + 1, sizeof(char *));
     if (!name)
         return(NULL);
     i = 0;

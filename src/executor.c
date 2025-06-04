@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/06/04 16:03:00 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/04 19:15:16 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,26 @@ void executor(t_backpack *backpack)
     
     backpack->n = 0;
     //  Utilizar strleen para arreglar comparaciones
-    if (ft_strncmp(backpack->commands_lst[backpack->n].command, "pwd", 4)  == 0)
+    if (ft_strcmp(backpack->commands_lst[backpack->n].command, "pwd")  == 0)
     {
         if(backpack->commands_lst[backpack->n].arguments == NULL)
             pwd(&backpack->env);
         else
             perror("pwd: too many arguments"); // Esto del los errores hay que mirarlo.
     }
-    else if(ft_strncmp(backpack->commands_lst[backpack->n].command, "echo", 5)  == 0)
+    else if(ft_strcmp(backpack->commands_lst[backpack->n].command, "echo")  == 0)
     {
         ft_echo(backpack->commands_lst[backpack->n].arguments);
     }
-    else if(ft_strncmp(backpack->commands_lst[backpack->n].command, "cd", 3)  == 0)
+    else if(ft_strcmp(backpack->commands_lst[backpack->n].command, "cd")  == 0)
     {
         cd(backpack->commands_lst[backpack->n].arguments, backpack->env);
     }
-    else if(ft_strncmp(backpack->commands_lst[backpack->n].command, "exit", 5)  == 0)
+    else if(ft_strcmp(backpack->commands_lst[backpack->n].command, "exit")  == 0)
     {
         exit(EXIT_SUCCESS); // habria que mirar de liberar.......
     }
-    else if(ft_strncmp(backpack->commands_lst[backpack->n].command, "env", 4)  == 0)
+    else if(ft_strcmp(backpack->commands_lst[backpack->n].command, "env")  == 0)
     {
         ft_env(&backpack->env);
     }

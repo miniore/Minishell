@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:49:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/06/04 17:45:36 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/04 19:16:47 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void cd(t_list *arg, t_env *env)
     }
     else if(ft_lstsize(arg) == 1)
     {
-        if (ft_strncmp((char *)arg->content, "-", 2) == 0)
+        if (ft_strcmp((char *)arg->content, "-") == 0)
         {
             if (chdir(old_pwd->content) == -1)
                 perror("cd");
