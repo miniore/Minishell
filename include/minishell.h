@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/04 16:49:49 by porellan         ###   ########.fr       */
+/*   Updated: 2025/06/06 20:58:25 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ struct s_backpack
     size_t     commands_nb;
     size_t  len;
     int     n;
-    int     flag;
+    int     cmd_flag;
+    //int     tok_flag;
 };
 
 int ft_get_command(t_backpack *backpack, char *input);

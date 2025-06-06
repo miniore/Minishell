@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:43:39 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/02 12:11:46 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/06 12:22:55 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void ft_save_exp_arg(t_backpack *backpack, char *res_tok)
 {
     t_list  *temp;
 
-    if(!backpack->flag)
+    if(!backpack->cmd_flag)
     {
         backpack->commands_lst[backpack->n].command = res_tok;
         return ;
