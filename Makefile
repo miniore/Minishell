@@ -4,7 +4,6 @@ LIBFT = Libft/libft.a
 SRC_FILES = src/main.c \
 			src/get_command.c \
 			src/tokenize.c \
-			src/save_tokens.c \
 			src/exp_variables.c \
 			src/parse_utils.c \
 			src/char_utils.c \

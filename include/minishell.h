@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/06 20:58:25 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/07 19:47:24 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,16 @@ struct s_backpack
     tok_lst *commands_lst;
     size_t     commands_nb;
     size_t  len;
+    int     i;
     int     n;
     int     cmd_flag;
-    //int     tok_flag;
+    char    *aux_str;
+    char    *token;
+    char    *str_2_join;
 };
 
 int ft_get_command(t_backpack *backpack, char *input);
-int ft_tokenize(t_backpack *backpack, char *command);
+void    ft_extract_tokens(t_backpack *backpack, char *command);
 
 void	ft_extract_content(t_backpack *backpack, char *command);
 int		ft_syntax_parse(char *input);
@@ -72,7 +75,7 @@ void	free_array(char **array);
 void    ft_save_command(t_backpack *backpack, char *command, int i);
 void    ft_save_qarg(t_backpack *backpack, char *command, int i);
 void    ft_save_arg(t_backpack *backpack, char *command, int i);
-void    ft_exp_var(t_backpack *backpack, char *token);
+char    *ft_exp_var(t_backpack *backpack, char *token);
 
 //Build_ins
 void executor(t_backpack *backpack);

@@ -6,24 +6,11 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:43:39 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/06 12:22:55 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/07 11:54:53 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void ft_save_exp_arg(t_backpack *backpack, char *res_tok)
-{
-    t_list  *temp;
-
-    if(!backpack->cmd_flag)
-    {
-        backpack->commands_lst[backpack->n].command = res_tok;
-        return ;
-    }
-    temp = ft_lstnew(res_tok);
-    ft_lstadd_back(&backpack->commands_lst[backpack->n].arguments, temp); 
-}
 
 static char	*ft_strjoin_shell(char const *s1, char *s2)
 {
@@ -76,7 +63,7 @@ static char *ft_join_tok(t_backpack *backpack, char *res_tok, char *var)
     return(res_tok);
 }
 
-void    ft_exp_var(t_backpack *backpack, char *token) //GESTIONAR CUANDO HAY $$. SE DEBE INTERPRETAR??
+char    *ft_exp_var(t_backpack *backpack, char *token) //GESTIONAR CUANDO HAY $$. SE DEBE INTERPRETAR??
 {
     char    *var;
     char    *res_tok;
@@ -107,5 +94,5 @@ void    ft_exp_var(t_backpack *backpack, char *token) //GESTIONAR CUANDO HAY $$.
         i = (int)len;
         free(var);
     }
-    ft_save_exp_arg(backpack, res_tok);
+    return(res_tok);
 }
