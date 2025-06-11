@@ -6,13 +6,13 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/06/04 19:15:16 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:53:08 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void executor(t_backpack *backpack)
+void executor(t_backpack *backpack, char **envp)
 {
     
     backpack->n = 0;
@@ -40,4 +40,6 @@ void executor(t_backpack *backpack)
     {
         ft_env(&backpack->env);
     }
+    else
+       exec_loop(backpack, envp);
 }
