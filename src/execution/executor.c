@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/06/11 15:53:08 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/11 18:08:39 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ void executor(t_backpack *backpack, char **envp)
         ft_env(&backpack->env);
     }
     else
-       exec_loop(backpack, envp);
+        run_cmd(process_tok(backpack->commands_lst), envp);
 }

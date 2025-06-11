@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/11 15:55:32 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/11 18:17:34 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include <readline/history.h>
 #include <signal.h>
 #include <stdbool.h>
+# include <fcntl.h>
+# include <sys/wait.h>
 
 typedef struct  s_tok tok_lst;
 typedef struct  s_env t_env;
