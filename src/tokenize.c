@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:12:52 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/12 12:38:54 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/12 14:12:55 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,15 @@ void    ft_extract_tokens(t_backpack *backpack, char *command)
             if(!ft_is_dquotes(command[backpack->len]))
                 ft_dquotes_tok(backpack, command);
             while(command[backpack->len] && ft_is_space(command[backpack->len]) &&
-                    ft_is_dquotes(command[backpack->len]) && ft_is_quotes(command[backpack->len]))    // && command[len] != 60 && command[len] != 62
+                    ft_is_dquotes(command[backpack->len]) && ft_is_quotes(command[backpack->len]))
+            {
+                if(!ft_is_redirct(command[backpack->len]))
+                    ft_redirections(backpack, command);
                 backpack->len++;
+            }
             if((int)backpack->len > backpack->i)
                 ft_tok(backpack, command);
         }
         ft_save_tok(backpack);
-        //free(backpack->token);  //necesario?????????
     }
 }

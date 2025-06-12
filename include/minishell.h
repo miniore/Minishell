@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/12 12:31:17 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/12 14:44:45 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,23 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 
+typedef struct  s_redir t_redir;
 typedef struct  s_tok tok_lst;
 typedef struct  s_env t_env;
 typedef struct  s_backpack t_backpack;
 
+struct s_redir
+{
+    char    *op;
+    char    *del;
+    struct s_redir  *next;
+};
 
 struct s_tok
 {
 	char	*command;
 	t_list	*arguments;
-	t_list	*redirection;
+	t_redir	*redirection;
 };
 
 //Estructura para listar el enviroment
@@ -61,6 +68,7 @@ struct s_backpack
 
 int ft_get_command(t_backpack *backpack, char *input);
 void    ft_extract_tokens(t_backpack *backpack, char *command);
+void    ft_redirections(t_backpack *backpack, char *command);
 
 void	ft_extract_content(t_backpack *backpack, char *command);
 int		ft_syntax_parse(char *input);
@@ -74,9 +82,9 @@ int		ft_is_dquotes(char c);
 void	free_array(char **array);
 //void	free_list(t_list *commands_list);
 
-void    ft_save_command(t_backpack *backpack, char *command, int i);
-void    ft_save_qarg(t_backpack *backpack, char *command, int i);
-void    ft_save_arg(t_backpack *backpack, char *command, int i);
+// void    ft_save_command(t_backpack *backpack, char *command, int i);
+// void    ft_save_qarg(t_backpack *backpack, char *command, int i);
+// void    ft_save_arg(t_backpack *backpack, char *command, int i);
 char    *ft_exp_var(t_backpack *backpack, char *token);
 
 //Build_ins
