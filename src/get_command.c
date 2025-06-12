@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:49:11 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/26 20:03:47 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/07 20:01:04 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,14 @@ static void print_commands_list(t_backpack *backpack)
 
     printf("Total de comandos: %zu\n", backpack->commands_nb);
     printf("=============================================\n");
+}
+
+static int ft_tokenize(t_backpack *backpack, char *command)
+{
+    backpack->cmd_flag = 0;
+    backpack->len = 0;
+    ft_extract_tokens(backpack, command);
+    return(EXIT_SUCCESS);
 }
 
 static void ft_extract_commands(t_backpack *backpack, char *input, char **commands)

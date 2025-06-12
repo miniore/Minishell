@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:01:59 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/06/04 19:18:02 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:03:00 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ int fill_env(t_env **env, char **envp)
 t_env *search_node(t_env **env, char *name)
 {
     t_env   *node;
-    //int i;
-    
+    int i;
+     
     node = *env;
-    //i = ft_strlen(name);
-    while(node->next != NULL)
+    i = ft_strlen(name);
+    while(node)
     {
-        if (ft_strcmp(node->var, name) == 0)
+        if (ft_strncmp(node->var, name, i + 1) == 0)
             return (node);
         node = node->next;
     }
@@ -62,19 +62,25 @@ void modify_node(t_env *node, char *var, char *content)
     node->content = content;
 }
 
-void erase_node(t_env *node)
+void erase_node(t_env **env, t_env *node)
 {
-    t_env *temp;
     t_env *prev;
     t_env *next;
 
-    temp = node;
     prev = node->prev;
     next = node->next;
-    prev->next = next;
-    next->prev = prev;
-    //free(node->var);
-    //free(node->content);
+    if(!next)
+        prev->next = NULL;
+    else
+    {
+        if(!prev)
+            *env = next;
+        else
+        {
+            prev->next = next;
+            next->prev = prev;
+        }
+    }
     free(node);
 }
 

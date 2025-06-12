@@ -22,24 +22,26 @@ int exec_loop(t_backpack *backpack, char **envp)
 {
     int i;
     int j;
-    pid_t	pid_one;
+    pid_t	p_id;
     int	status;
 
     status = 0;
     i = backpack->commands_nb;
     j = 1;
+    p_id = 0;
     while(j <= i)
     {
-        pid_one = fork();
-        if (pid_one == -1)
+        p_id = fork();
+        if (p_id == -1)
 		    exit_error();
-	    else if (pid_one == 0)
+	    else if (p_id == 0)
 		    executor(backpack, envp);
        //printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR"); 
        backpack->commands_lst++; //ESTO PUEDE FALLAR SEGURAMENTE !!!!!!!!!!
        j++;
-       waitpid(pid_one, &status, 0);
+       waitpid(p_id, &status, 0);
     }
+    
     return(1);
 }
 
