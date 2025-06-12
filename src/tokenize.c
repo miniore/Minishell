@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:12:52 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/07 21:11:00 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/12 12:38:54 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ void    ft_extract_tokens(t_backpack *backpack, char *command)
                 ft_tok(backpack, command);
         }
         ft_save_tok(backpack);
-        free(backpack->token);  //necesario?????????
+        //free(backpack->token);  //necesario?????????
     }
 }

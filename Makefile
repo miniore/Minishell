@@ -8,7 +8,6 @@ SRC_FILES = src/main.c \
 			src/parse_utils.c \
 			src/char_utils.c \
 			src/free.c \
-			src/executor.c \
 			src/env/env.c \
 			src/env/env_tools.c \
 			src/build_ins/pwd.c \
@@ -16,6 +15,9 @@ SRC_FILES = src/main.c \
 			src/build_ins/cd.c \
 			src/build_ins/export.c \
 			src/build_ins/unset.c \
+			src/execution/executor.c \
+			src/execution/exec_loop.c \
+			src/execution/exec_commons.c \
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 

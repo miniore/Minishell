@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:25:06 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/06/10 09:50:08 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/11 18:01:43 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,9 @@ char *get_cmd(char *cmd, char **envp)
 
 void run_cmd(char **cmd, char **envp)
 {
-    //char    **cmd_flags;
     char    *path;
 
-    //cmd_flags = ft_split(cmd, ' ');
-    path = get_cmd(cmd_flags[0], envp);
+    path = get_cmd(cmd[0], envp);
     if (!path)
     {
         free_split(cmd);
@@ -67,4 +65,29 @@ void run_cmd(char **cmd, char **envp)
         free_split(cmd);
         free (path);
     }
+}
+
+//Funcion que genera un array 2D con el comando y sus flags a partir de un tok_lst
+//para poder pasarlo al execv mas adelante
+char **process_tok(tok_lst *token)
+{
+    int i;
+    char **cmd;
+    t_list *act;
+
+    i = ft_lstsize(token->arguments);
+    cmd = (char **) ft_calloc(i + 2, sizeof (char **));
+    if (!cmd)
+        return(NULL);
+    //printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
+    cmd[0] = token->command;
+    act = token->arguments;
+    i = 1;
+    while(act)
+    {
+        cmd[i] = (char *) act->content;
+        i++;
+        act = act->next;
+    }
+    return(cmd);
 }

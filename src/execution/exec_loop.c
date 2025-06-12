@@ -12,40 +12,36 @@
 
 #include "minishell.h"
 
+void	exit_error(void)
+{
+	perror("ERROR");
+	exit(EXIT_FAILURE);
+}
+
 int exec_loop(t_backpack *backpack, char **envp)
 {
     int i;
     int j;
+    pid_t	p_id;
+    int	status;
 
+    status = 0;
     i = backpack->commands_nb;
     j = 1;
+    p_id = 0;
     while(j <= i)
     {
-       printf("%s\n", backpack->commands_lst->command);
-       void run_cmd(process_tok(backpack->commands_lst), **envp)
+        p_id = fork();
+        if (p_id == -1)
+		    exit_error();
+	    else if (p_id == 0)
+		    executor(backpack, envp);
+       //printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR"); 
        backpack->commands_lst++; //ESTO PUEDE FALLAR SEGURAMENTE !!!!!!!!!!
        j++;
+       waitpid(p_id, &status, 0);
     }
+    
     return(1);
 }
 
-//Funcion que genera un array 2D con el comando y sus flags a partir de un tok_lst
-//para poder pasarlo al execv mas adelante
-char **process_tok(tok_lst *token)
-{
-    int i;
-    char **cmd;
-
-    i = ft_lstsize(token->arguments);
-    cmd = (char **) ft_calloc(i + 2, sizeof (char **));
-    if (!cmd)
-        return(NULL);
-    ft_memcpy(cmd[0], token->command, ft_strlen(token->command));
-    while(token->arguments)
-    {
-        
-        token->arguments++;
-    }
-
-    return(cmd);
-}

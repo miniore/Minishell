@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/03 12:29:24 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/12 12:24:28 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int main(int argc, char **argv, char **envp)
     
     (void)argv;
     (void)envp;
+    //printf con unas macros que indican el archivo y la linea desde donde se a ejecutado para DEBUGEAR!!!!!!!
+    //printf("||((%s En_Linea %d))||=> %s\n", __FILE__, __LINE__, "HOLA ¿¿QUIZAS SOY UN ERROR?? ¿¿O NO??");
     backpack = (t_backpack *)ft_calloc(1, sizeof(t_backpack));     //Mirar si es necesario reservar memoria para backpack
     if(argc != 1)
 		return(EXIT_FAILURE);
@@ -71,7 +73,8 @@ int main(int argc, char **argv, char **envp)
         add_history(input);                 // Arreglar uso del historial si usas ctrl+c en un comando ya usado. Se guarda para la siguiente ejecucion¿?
         if(ft_get_command(backpack, input))
             printf("Syntax error.\n");
-        executor(backpack); // Funcion a la que le pasamos la lista de los comandos y que las cosas se intenten ejecutar.
+        exec_loop(backpack, envp);
+        //executor(backpack); // Funcion a la que le pasamos la lista de los comandos y que las cosas se intenten ejecutar.
         //free_list(comandos, demomento); //MIRAR SEGFAULT CUANDO VARIABLES EXPANDIBLES
         free(input);            //Readline genera malloc para la entrada. En caso de liberarlas no es necesario usar clear_history¿?
     }

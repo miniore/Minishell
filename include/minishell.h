@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/07 19:47:24 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/12 12:31:17 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include <readline/history.h>
 #include <signal.h>
 #include <stdbool.h>
+# include <fcntl.h>
+# include <sys/wait.h>
 
 typedef struct  s_tok tok_lst;
 typedef struct  s_env t_env;
@@ -78,10 +80,10 @@ void    ft_save_arg(t_backpack *backpack, char *command, int i);
 char    *ft_exp_var(t_backpack *backpack, char *token);
 
 //Build_ins
-void executor(t_backpack *backpack);
-void pwd(void);
+void executor(t_backpack *backpack, char **envp);
+int pwd(t_env **env);
 //void echo(t_list *arg);
-void cd(t_list *arg);
+void cd(t_list *arg, t_env *env);
 void    ft_echo(t_list *arg);
 void    ft_export(t_backpack *backpack);
 void	ft_unset(t_backpack *backpack);
@@ -98,5 +100,9 @@ void erase_node(t_env **env, t_env *node);
 void modify_node(t_env *node, char *var, char *content); // esta funcion requiere que los nuevos valores esten en memoria
 int ft_env(t_env **env);
 
+//EXEC COMMONS
+void run_cmd(char **cmd, char **envp);
+int exec_loop(t_backpack *backpack, char **envp);
+char **process_tok(tok_lst *token);
 
 #endif
