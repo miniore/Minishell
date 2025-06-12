@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:21:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/05/27 12:02:53 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:02:35 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	env_add_last(t_env **lst, t_env *new)
 		*lst = new;
 	else
 	{
-        printf("Ey\n");
 		act = *lst;
 		while (act->next != NULL)
 			act = act->next;
@@ -51,7 +50,7 @@ char **var_list(char **envp)
     i = 0;
     while(envp[i])
         i++;
-    lst = (char **) calloc(i + 1, sizeof (char **));
+    lst = (char **) ft_calloc(i + 1, sizeof (char **));
     if (!lst)
         return(NULL);
     i  = 0;
@@ -71,7 +70,9 @@ char *name_var(char *var)
     i = 0;
     while(var[i] != '=')
         i++;
-    name = (char *) calloc(i + 1, sizeof(char *));
+    if(i == 0)
+        return(NULL);
+    name = (char *) ft_calloc(i + 1, sizeof(char *));
     if (!name)
         return(NULL);
     i = 0;
@@ -91,12 +92,14 @@ int ft_env(t_env **env)
         return(0);
     else
     {
+        printf("EYY\n");
         act = *env;
         while(act->next != NULL)
         {
             printf("%s = %s\n", act->var, act->content);
             act = act->next;
         }
+        printf("%s = %s\n", act->var, act->content);
     }
     return (1);
 }

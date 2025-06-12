@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/27 17:48:29 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/07 19:47:24 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,16 @@ struct s_backpack
     tok_lst *commands_lst;
     size_t     commands_nb;
     size_t  len;
+    int     i;
     int     n;
-    int     flag;
+    int     cmd_flag;
+    char    *aux_str;
+    char    *token;
+    char    *str_2_join;
 };
 
 int ft_get_command(t_backpack *backpack, char *input);
-int ft_tokenize(t_backpack *backpack, char *command);
+void    ft_extract_tokens(t_backpack *backpack, char *command);
 
 void	ft_extract_content(t_backpack *backpack, char *command);
 int		ft_syntax_parse(char *input);
@@ -71,7 +75,7 @@ void	free_array(char **array);
 void    ft_save_command(t_backpack *backpack, char *command, int i);
 void    ft_save_qarg(t_backpack *backpack, char *command, int i);
 void    ft_save_arg(t_backpack *backpack, char *command, int i);
-void    ft_exp_var(t_backpack *backpack, char *token);
+char    *ft_exp_var(t_backpack *backpack, char *token);
 
 //Build_ins
 void executor(t_backpack *backpack);
@@ -79,6 +83,8 @@ void pwd(void);
 //void echo(t_list *arg);
 void cd(t_list *arg);
 void    ft_echo(t_list *arg);
+void    ft_export(t_backpack *backpack);
+void	ft_unset(t_backpack *backpack);
 
 //Stack envp
 void	env_add_last(t_env **lst, t_env *new);
@@ -88,7 +94,7 @@ char *name_var(char *var);
 void free_env(t_env **env);
 int fill_env(t_env **env, char **envp);
 t_env *search_node(t_env **env, char *name);
-void erase_node(t_env *node);
+void erase_node(t_env **env, t_env *node);
 void modify_node(t_env *node, char *var, char *content); // esta funcion requiere que los nuevos valores esten en memoria
 int ft_env(t_env **env);
 
