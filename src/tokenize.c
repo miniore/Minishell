@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:12:52 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/12 14:12:55 by porellan         ###   ########.fr       */
+/*   Updated: 2025/06/18 14:37:41 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static void ft_dquotes_tok(t_backpack *backpack, char *command)
 
 static void ft_tok(t_backpack *backpack, char *command)
 {
+    printf("HOLA\n");
     if(!backpack->token)
     {
         backpack->token = ft_substr(command, backpack->i, backpack->len - backpack->i);
@@ -103,12 +104,16 @@ void    ft_extract_tokens(t_backpack *backpack, char *command)
                     ft_is_dquotes(command[backpack->len]) && ft_is_quotes(command[backpack->len]))
             {
                 if(!ft_is_redirct(command[backpack->len]))
+                {
                     ft_redirections(backpack, command);
+                    break;
+                }
                 backpack->len++;
             }
             if((int)backpack->len > backpack->i)
                 ft_tok(backpack, command);
         }
-        ft_save_tok(backpack);
+        if(!backpack->commands_lst[backpack->n].redirection) //mirar mejor opcion para juntar las redir en save_tok tambien
+            ft_save_tok(backpack);
     }
 }
