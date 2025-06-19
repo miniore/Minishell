@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:17:56 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/06/12 12:28:17 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:13:00 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 int pwd(t_env **env)
 {
-     t_env *node;
+    (void)env; 
+     //t_env *node;
 
-     node = search_node(env, "PWD");
+     //node = search_node(env, "PWD");
     // if (node != NULL)
     // {
     //     printf("%s\n", node->content);

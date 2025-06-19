@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:12:52 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/18 14:37:41 by porellan         ###   ########.fr       */
+/*   Updated: 2025/06/19 20:13:44 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static void ft_dquotes_tok(t_backpack *backpack, char *command)
 
 static void ft_tok(t_backpack *backpack, char *command)
 {
-    printf("HOLA\n");
     if(!backpack->token)
     {
         backpack->token = ft_substr(command, backpack->i, backpack->len - backpack->i);
@@ -89,6 +88,7 @@ void    ft_extract_tokens(t_backpack *backpack, char *command)
     {
         backpack->token = NULL;
         backpack->str_2_join = NULL;
+        backpack->red_flag = 0;
         while(!ft_is_space(command[backpack->len]))
             backpack->len++;
         if(command[backpack->len] == '\0')
@@ -105,6 +105,7 @@ void    ft_extract_tokens(t_backpack *backpack, char *command)
             {
                 if(!ft_is_redirct(command[backpack->len]))
                 {
+                    printf("PASOOO\n");
                     ft_redirections(backpack, command);
                     break;
                 }
@@ -113,7 +114,7 @@ void    ft_extract_tokens(t_backpack *backpack, char *command)
             if((int)backpack->len > backpack->i)
                 ft_tok(backpack, command);
         }
-        if(!backpack->commands_lst[backpack->n].redirection) //mirar mejor opcion para juntar las redir en save_tok tambien
+        if(backpack->red_flag == 0)    //mirar mejor opcion para juntar las redir en save_tok tambien
             ft_save_tok(backpack);
     }
 }
