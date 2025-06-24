@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/12 12:31:17 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:22:22 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,6 @@ int ft_env(t_env **env);
 void run_cmd(char **cmd, char **envp);
 int exec_loop(t_backpack *backpack, char **envp);
 char **process_tok(tok_lst *token);
+void	exit_error(void);
 
 #endif
