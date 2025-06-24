@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/19 18:52:45 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/24 22:39:59 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ struct s_backpack
 {
     t_env *env;
     tok_lst *commands_lst;
+    t_redir *new_redir;
+    t_redir *tmp;
     size_t     commands_nb;
     size_t  len;
     int     i;

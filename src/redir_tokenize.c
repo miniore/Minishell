@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 13:46:20 by porellan          #+#    #+#             */
-/*   Updated: 2025/06/19 20:40:16 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/24 22:41:29 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,12 @@
 
 void    ft_redirections(t_backpack *backpack, char *command)
 {
-    t_redir *new_redir;
-    t_redir *tmp;
-
-    new_redir = malloc(sizeof(t_redir));
-    if (!new_redir)
+    backpack->new_redir = malloc(sizeof(t_redir));
+    if (!backpack->new_redir)
         return;
-    new_redir->op = NULL;
-    new_redir->del = NULL;
-    new_redir->next = NULL;
+    backpack->new_redir->op = NULL;
+    backpack->new_redir->del = NULL;
+    backpack->new_redir->next = NULL;
     //backpack->commands_lst[backpack->n].redirection = (t_redir *)ft_calloc(backpack->commands_nb, sizeof(t_redir));
     // if(!backpack->commands_lst[backpack->n].redirection)
     //     return ;
@@ -77,26 +74,57 @@ void    ft_redirections(t_backpack *backpack, char *command)
         return;
     }
     backpack->len++;
-    // backpack->token = ft_substr(command, backpack->i, backpack->len - backpack->i);
-    // backpack->commands_lst[backpack->n].redirection->op = backpack->token;
-    new_redir->op = ft_substr(command, backpack->i, backpack->len - backpack->i);
+    backpack->token = ft_substr(command, backpack->i, backpack->len - backpack->i);
+    backpack->new_redir->op = backpack->token;
+    //backpack->new_redir->op = ft_substr(command, backpack->i, backpack->len - backpack->i);
     while(!ft_is_space(command[backpack->len]))
         backpack->len++;
     backpack->i = (int)backpack->len;
-    // if(command[backpack->len] == '\0')
-    //     return;
+    if(command[backpack->len] == '\0')
+        return ;
     //ft_get_file(backpack, command);
     while (command[backpack->len] && ft_is_space(command[backpack->len]) && ft_is_redirct(command[backpack->len]))
         backpack->len++;
-    new_redir->del = ft_substr(command, backpack->i, backpack->len - backpack->i);
+    backpack->new_redir->del = ft_substr(command, backpack->i, backpack->len - backpack->i);
     if (!backpack->commands_lst[backpack->n].redirection)
-        backpack->commands_lst[backpack->n].redirection = new_redir;
+        backpack->commands_lst[backpack->n].redirection = backpack->new_redir;
     else
     {
-        tmp = backpack->commands_lst[backpack->n].redirection;
-        while (tmp->next)
-            tmp = tmp->next;
-        tmp->next = new_redir;
+        backpack->tmp = backpack->commands_lst[backpack->n].redirection;
+        while (backpack->tmp->next)
+            backpack->tmp = backpack->tmp->next;
+        backpack->tmp->next = backpack->new_redir;
     }
     backpack->red_flag = 1;
 }
+
+// void    ft_redirections(t_backpack *backpack, char *command)
+// {
+//     size_t  i;
+
+//     i = backpack->len;
+
+//     while(!ft_is_redirct(command[i + 1]))
+//         i++;
+//     if(i - backpack->len > 1 || (i - backpack->len == 1 &&
+//             command[i - 1] != command[i]))
+//     {
+//         printf("bash: syntax error near redirection token.");
+//         return;
+//     }
+//     if(i - backpack->len == 1)
+//     {
+//         if(command[i] == '<')
+//             backpack->red_flag = 4;
+//         if(command[i] == '>')
+//             backpack->red_flag = 3;
+//     }
+//     else
+//     {
+//         if(command[i] == '<')
+//             backpack->red_flag = 2;
+//         if(command[i] == '>')
+//             backpack->red_flag = 1;
+//     }
+//     //backpack->len++;
+// }

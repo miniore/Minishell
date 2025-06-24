@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:49:11 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/18 13:00:01 by porellan         ###   ########.fr       */
+/*   Updated: 2025/06/20 11:25:00 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ static size_t ft_count_commands(char *input)
         if (input[i] == '|')
             commands_nb++;
         if(input[i] == '\0')
-            return(commands_nb); 
+            return(commands_nb);
         i++;
     }
     return(commands_nb);

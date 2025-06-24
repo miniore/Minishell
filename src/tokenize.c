@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:12:52 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/19 20:13:44 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/24 22:38:14 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,11 @@ static void ft_save_tok(t_backpack *backpack)
     t_list  *temp;
 
     temp = ft_lstnew(backpack->token);
-    if(backpack->cmd_flag == 0)
+    if(backpack->red_flag == 1)
+    {
+        
+    }
+    else if(backpack->cmd_flag == 0)
     {
         backpack->commands_lst[backpack->n].command = backpack->token;
         backpack->cmd_flag = 1;
@@ -88,7 +92,7 @@ void    ft_extract_tokens(t_backpack *backpack, char *command)
     {
         backpack->token = NULL;
         backpack->str_2_join = NULL;
-        backpack->red_flag = 0;
+        //backpack->red_flag = 0;
         while(!ft_is_space(command[backpack->len]))
             backpack->len++;
         if(command[backpack->len] == '\0')
@@ -105,8 +109,11 @@ void    ft_extract_tokens(t_backpack *backpack, char *command)
             {
                 if(!ft_is_redirct(command[backpack->len]))
                 {
-                    printf("PASOOO\n");
+                    if((int)backpack->len > backpack->i)
+                        ft_tok(backpack, command);
+                    ft_save_tok(backpack);
                     ft_redirections(backpack, command);
+                    backpack->i = (int)backpack->len;
                     break;
                 }
                 backpack->len++;
