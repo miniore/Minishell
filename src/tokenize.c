@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:12:52 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/24 22:38:14 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/25 19:26:39 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,14 @@ static void ft_save_tok(t_backpack *backpack)
     t_list  *temp;
 
     temp = ft_lstnew(backpack->token);
-    if(backpack->red_flag == 1)
-    {
-        
-    }
-    else if(backpack->cmd_flag == 0)
+    if(backpack->cmd_flag == 0)
     {
         backpack->commands_lst[backpack->n].command = backpack->token;
         backpack->cmd_flag = 1;
     }
     else
         ft_lstadd_back(&backpack->commands_lst[backpack->n].arguments, temp);
+    backpack->token = NULL;
 }
 
 void    ft_extract_tokens(t_backpack *backpack, char *command)
@@ -111,9 +108,11 @@ void    ft_extract_tokens(t_backpack *backpack, char *command)
                 {
                     if((int)backpack->len > backpack->i)
                         ft_tok(backpack, command);
-                    ft_save_tok(backpack);
+                    if(!backpack->red_flag && (int)backpack->len > backpack->i)
+                        ft_save_tok(backpack);
+                    else if(backpack->red_flag && (int)backpack->len > backpack->i)
+                        ft_save_redir(backpack);
                     ft_redirections(backpack, command);
-                    backpack->i = (int)backpack->len;
                     break;
                 }
                 backpack->len++;
@@ -121,7 +120,9 @@ void    ft_extract_tokens(t_backpack *backpack, char *command)
             if((int)backpack->len > backpack->i)
                 ft_tok(backpack, command);
         }
-        if(backpack->red_flag == 0)    //mirar mejor opcion para juntar las redir en save_tok tambien
+        if(!backpack->red_flag)    //mirar mejor opcion para juntar las redir en save_tok tambien
             ft_save_tok(backpack);
+        else if(backpack->red_flag && (int)backpack->len > backpack->i)
+            ft_save_redir(backpack);
     }
 }
