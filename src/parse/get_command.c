@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:49:11 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/26 20:03:47 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/20 11:25:00 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ static void print_commands_list(t_backpack *backpack)
             }
         }
 
-        // Imprimir redirecciones como lista
+        // Imprimir redirecciones como lista (nuevo modelo con t_redir)
         printf("   🔴 Redirecciones:\n");
-        t_list *redir_node = cmd->redirection;
+        t_redir *redir_node = cmd->redirection;
         int redir_index = 1;
         if (!redir_node)
         {
@@ -51,7 +51,9 @@ static void print_commands_list(t_backpack *backpack)
         {
             while (redir_node)
             {
-                printf("      %d. %s\n", redir_index++, (char *)redir_node->content);
+                printf("      %d. Operador: %s, Target: %s\n", redir_index++,
+                       redir_node->op ? redir_node->op : "(null)",
+                       redir_node->del ? redir_node->del : "(null)");
                 redir_node = redir_node->next;
             }
         }
@@ -61,6 +63,14 @@ static void print_commands_list(t_backpack *backpack)
 
     printf("Total de comandos: %zu\n", backpack->commands_nb);
     printf("=============================================\n");
+}
+
+static int ft_tokenize(t_backpack *backpack, char *command)
+{
+    backpack->cmd_flag = 0;
+    backpack->len = 0;
+    ft_extract_tokens(backpack, command);
+    return(EXIT_SUCCESS);
 }
 
 static void ft_extract_commands(t_backpack *backpack, char *input, char **commands)
@@ -109,7 +119,7 @@ static size_t ft_count_commands(char *input)
         if (input[i] == '|')
             commands_nb++;
         if(input[i] == '\0')
-            return(commands_nb); 
+            return(commands_nb);
         i++;
     }
     return(commands_nb);
