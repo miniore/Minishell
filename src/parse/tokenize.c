@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:12:52 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/25 19:26:39 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/26 14:05:18 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void    ft_extract_tokens(t_backpack *backpack, char *command)
     {
         backpack->token = NULL;
         backpack->str_2_join = NULL;
-        //backpack->red_flag = 0;
         while(!ft_is_space(command[backpack->len]))
             backpack->len++;
         if(command[backpack->len] == '\0')
@@ -108,9 +107,9 @@ void    ft_extract_tokens(t_backpack *backpack, char *command)
                 {
                     if((int)backpack->len > backpack->i)
                         ft_tok(backpack, command);
-                    if(!backpack->red_flag && (int)backpack->len > backpack->i)
+                    if(!backpack->red_flag && backpack->token)
                         ft_save_tok(backpack);
-                    else if(backpack->red_flag && (int)backpack->len > backpack->i)
+                    else if(backpack->red_flag && backpack->token)
                         ft_save_redir(backpack);
                     ft_redirections(backpack, command);
                     break;
@@ -120,9 +119,9 @@ void    ft_extract_tokens(t_backpack *backpack, char *command)
             if((int)backpack->len > backpack->i)
                 ft_tok(backpack, command);
         }
-        if(!backpack->red_flag)    //mirar mejor opcion para juntar las redir en save_tok tambien
+        if(!backpack->red_flag && backpack->token)
             ft_save_tok(backpack);
-        else if(backpack->red_flag && (int)backpack->len > backpack->i)
+        else if(backpack->red_flag && backpack->token)
             ft_save_redir(backpack);
     }
 }

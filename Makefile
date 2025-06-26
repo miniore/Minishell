@@ -2,12 +2,12 @@ NAME = minishell
 LIBFT = Libft/libft.a
 
 SRC_FILES = src/main.c \
-			src/get_command.c \
-			src/tokenize.c \
-			src/exp_variables.c \
-			src/redir_tokenize.c \
-			src/parse_utils.c \
-			src/char_utils.c \
+			src/parse/get_command.c \
+			src/parse/tokenize.c \
+			src/parse/exp_variables.c \
+			src/parse/redir_tokenize.c \
+			src/parse/parse_utils.c \
+			src/parse/char_utils.c \
 			src/free.c \
 			src/env/env.c \
 			src/env/env_tools.c \
