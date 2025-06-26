@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:12:52 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/12 12:38:54 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/25 19:26:39 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static void ft_save_tok(t_backpack *backpack)
     }
     else
         ft_lstadd_back(&backpack->commands_lst[backpack->n].arguments, temp);
+    backpack->token = NULL;
 }
 
 void    ft_extract_tokens(t_backpack *backpack, char *command)
@@ -88,6 +89,7 @@ void    ft_extract_tokens(t_backpack *backpack, char *command)
     {
         backpack->token = NULL;
         backpack->str_2_join = NULL;
+        //backpack->red_flag = 0;
         while(!ft_is_space(command[backpack->len]))
             backpack->len++;
         if(command[backpack->len] == '\0')
@@ -100,12 +102,27 @@ void    ft_extract_tokens(t_backpack *backpack, char *command)
             if(!ft_is_dquotes(command[backpack->len]))
                 ft_dquotes_tok(backpack, command);
             while(command[backpack->len] && ft_is_space(command[backpack->len]) &&
-                    ft_is_dquotes(command[backpack->len]) && ft_is_quotes(command[backpack->len]))    // && command[len] != 60 && command[len] != 62
+                    ft_is_dquotes(command[backpack->len]) && ft_is_quotes(command[backpack->len]))
+            {
+                if(!ft_is_redirct(command[backpack->len]))
+                {
+                    if((int)backpack->len > backpack->i)
+                        ft_tok(backpack, command);
+                    if(!backpack->red_flag && (int)backpack->len > backpack->i)
+                        ft_save_tok(backpack);
+                    else if(backpack->red_flag && (int)backpack->len > backpack->i)
+                        ft_save_redir(backpack);
+                    ft_redirections(backpack, command);
+                    break;
+                }
                 backpack->len++;
+            }
             if((int)backpack->len > backpack->i)
                 ft_tok(backpack, command);
         }
-        ft_save_tok(backpack);
-        //free(backpack->token);  //necesario?????????
+        if(!backpack->red_flag)    //mirar mejor opcion para juntar las redir en save_tok tambien
+            ft_save_tok(backpack);
+        else if(backpack->red_flag && (int)backpack->len > backpack->i)
+            ft_save_redir(backpack);
     }
 }

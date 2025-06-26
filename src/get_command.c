@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:49:11 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/07 20:01:04 by miniore          ###   ########.fr       */
+/*   Updated: 2025/06/20 11:25:00 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ static void print_commands_list(t_backpack *backpack)
             }
         }
 
-        // Imprimir redirecciones como lista
+        // Imprimir redirecciones como lista (nuevo modelo con t_redir)
         printf("   🔴 Redirecciones:\n");
-        t_list *redir_node = cmd->redirection;
+        t_redir *redir_node = cmd->redirection;
         int redir_index = 1;
         if (!redir_node)
         {
@@ -51,7 +51,9 @@ static void print_commands_list(t_backpack *backpack)
         {
             while (redir_node)
             {
-                printf("      %d. %s\n", redir_index++, (char *)redir_node->content);
+                printf("      %d. Operador: %s, Target: %s\n", redir_index++,
+                       redir_node->op ? redir_node->op : "(null)",
+                       redir_node->del ? redir_node->del : "(null)");
                 redir_node = redir_node->next;
             }
         }
@@ -117,7 +119,7 @@ static size_t ft_count_commands(char *input)
         if (input[i] == '|')
             commands_nb++;
         if(input[i] == '\0')
-            return(commands_nb); 
+            return(commands_nb);
         i++;
     }
     return(commands_nb);
