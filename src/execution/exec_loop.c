@@ -27,10 +27,10 @@ int exec_loop(t_backpack *backpack, char **envp)
     //int i;
     //pid_t	p_id;
     //int fd[3];
-    int	status;
+    //int	status;
    // pid_t comp;
 
-    status = 0;
+    //status = 0;
     backpack->n = 0;
     //fd[0] = STDIN_FILENO;
     if (backpack->commands_nb == 1)
@@ -46,12 +46,15 @@ void exec_pipes(t_backpack *backpack, char **envp)
     pid_t	p_id;
     int fd[3];
     int	status;
-    pid_t comp;
+    //pid_t comp;
 
     i = backpack->commands_nb;
     status = 0;
     while(backpack->n < i)
         {
+            close(fd[0]);
+            close(fd[2]);
+            fd[0] = fd[1];
             if (pipe(&fd[1]) == -1)
             {
                 close(fd[1]);
@@ -59,13 +62,31 @@ void exec_pipes(t_backpack *backpack, char **envp)
                 //return(0);
             }
             p_id = fork();
-            printf("((%s En_Linea %d P_id = %i))||=> %i\n", __FILE__,__LINE__, p_id, backpack->n);
+            //printf("((%s En_Linea %d P_id = %i))||=> %i\n", __FILE__,__LINE__, p_id, backpack->n);
             if (p_id == -1)
                 exit_error();
-            else if (p_id == 0) // Procesos Hijos
+            else if (p_id == 0 && backpack->n == 0) // Procesos Hijos Primer hijo
             {
+                //dup2(fd[1], STDIN_FILENO);
                 dup2(fd[2], STDOUT_FILENO);
-                dup2(fd[1], STDIN_FILENO);
+                //printf("((%s En_Linea %d P_id = %i fd[1] = %i))||\n", __FILE__,__LINE__, p_id, (int)fd[1]);
+                //printf("((%s En_Linea %d P_id = %i fd[2] = %i))||\n", __FILE__,__LINE__, p_id, (int)fd[2]);  
+                executor(backpack, envp);
+                exit(0);    
+            }
+            else if (p_id == 0 && backpack->n > 0 && backpack->n != (i - 1)) // Procesos Hijos intermedios
+            {
+                dup2(fd[0], STDIN_FILENO);
+                dup2(fd[2], STDOUT_FILENO);         
+                //printf("((%s En_Linea %d P_id = %i fd[1] = %i))||\n", __FILE__,__LINE__, p_id, (int)fd[1]);
+                //printf("((%s En_Linea %d P_id = %i fd[2] = %i))||\n", __FILE__,__LINE__, p_id, (int)fd[2]);  
+                executor(backpack, envp);
+                exit(0);    
+            }
+            else if (p_id == 0 && backpack->n > 0 && backpack->n == (i - 1)) // Procesos Hijos ultimo
+            {
+                dup2(fd[0], STDIN_FILENO);
+                //dup2(fd[2], STDOUT_FILENO);         
                 //printf("((%s En_Linea %d P_id = %i fd[1] = %i))||\n", __FILE__,__LINE__, p_id, (int)fd[1]);
                 //printf("((%s En_Linea %d P_id = %i fd[2] = %i))||\n", __FILE__,__LINE__, p_id, (int)fd[2]);  
                 executor(backpack, envp);
@@ -73,8 +94,9 @@ void exec_pipes(t_backpack *backpack, char **envp)
             }
             else if (p_id > 0) // Proceso Padre
             {
-                comp = waitpid(p_id, &status, 0);
-                printf("TERMINO EL HIJO Nº => %i\n\n", comp);
+                waitpid(p_id, &status, 0);
+                //comp = waitpid(p_id, &status, 0);
+                //printf("TERMINO EL HIJO Nº => %i\n\n", comp);
             }
             backpack->n++;
         }
