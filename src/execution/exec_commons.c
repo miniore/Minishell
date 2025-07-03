@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:25:06 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/06/11 18:01:43 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:22:30 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,14 @@ void run_cmd(char **cmd, char **envp)
     if (!path)
     {
         free_split(cmd);
-        free(path);;
+        free(path);
+        exit(127);
     }
     if (execve(path, cmd, envp) == -1)
     {
         free_split(cmd);
         free (path);
+        exit_error();
     }
 }
 
