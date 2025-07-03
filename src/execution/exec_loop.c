@@ -32,6 +32,32 @@ int exec_loop(t_backpack *backpack, char **envp)
     return(1);
 }
 
+void    ft_do_redirections(t_redir *redirection)
+{
+    int fd;
+
+    while(redirection)
+    {
+        if(ft_strcmp(redirection->op, ">")  == 0)
+        {
+            open(redirection->del, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+            dup2(fd, STDOUT_FILENO);
+            close(fd);
+        }
+        if(ft_strcmp(redirection->op, ">>")  == 0)
+        {
+            open(redirection->del, O_CREAT | O_WRONLY | O_APPEND, 0644);
+            dup2(fd, STDOUT_FILENO);
+            close(fd);
+        }
+        if(ft_strcmp(redirection->op, "<")  == 0)
+        {
+
+        }
+        redirection = redirection->next;
+    }
+}
+
 void exec_pipes(t_backpack *backpack, char **envp)
 {
     int pipe_fd[2];
@@ -63,6 +89,7 @@ void exec_pipes(t_backpack *backpack, char **envp)
                 dup2(pipe_fd[1], STDOUT_FILENO);
                 close(pipe_fd[1]);
             }
+            ft_do_redirections(backpack->command_lst[backpack->n].redirection);
             executor(backpack, envp);
             exit(0);
         }
