@@ -1,3 +1,5 @@
+# valgrind --track-fds=yes --trace-children=yes
+# -fsanitize=address -g3
 NAME = minishell
 LIBFT = Libft/libft.a
 
@@ -33,7 +35,6 @@ all: $(NAME)
 
 $(NAME):$(LIBFT) $(OBJ_FILES) 
 		$(CC) $(FLAGS) $(INCLUDE_FLAGS) $(OBJ_FILES) $(LIBFT) -o $(NAME) $(READ_FLAGS) $(LINK_FLAGS)
-
 $(LIBFT):
 		@$(MAKE) -sC Libft
 
