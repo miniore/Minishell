@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:04:42 by porellan          #+#    #+#             */
-/*   Updated: 2025/06/03 12:54:26 by miniore          ###   ########.fr       */
+/*   Updated: 2025/07/01 13:24:24 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void    ft_export(t_backpack *backpack)
 
     backpack->n = 0;
     actual = backpack->commands_lst[backpack->n].arguments;
+    if(!backpack->commands_lst[backpack->n].arguments)
+        ft_env(&backpack->env);
     while(actual)
     {
         if(!ft_strchr(actual->content, 61))
