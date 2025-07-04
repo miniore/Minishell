@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:22:22 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/05/21 17:22:26 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/04 13:04:54 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int ft_check_flag(char *flag)
         return(1);
     while(flag[i])
     {
-        if(flag[i] != 110)
+        if(flag[i] != 'n')
             return(1);
         i++;
     }
@@ -34,25 +34,37 @@ void    ft_echo(t_list *arg)
     bool    opt;
     int     flag;
 
-    temp = arg;
-    opt = false;
-    flag = 0;
-    while (temp->next)
-    {
-        if (((char*)temp->content)[0] == 45 && flag == 0)
-        {
-            if (!ft_check_flag((char*)temp->content))
-            {
-                opt = true;
-                temp = temp->next;
-                continue;
-            }
-        }
-        printf("%s ", (char*)temp->content);
-        flag = 1;
-        temp = temp->next;
-    }
-    printf("%s", (char*)temp->content);
-    if (opt == false)
+    if (!arg)
         printf("\n");
+    else
+    {
+        temp = arg;
+        opt = false;
+        flag = 0;
+        while (temp->next)
+        {
+            if (((char*)temp->content)[0] == '-' && flag == 0)
+            {
+                if (!ft_check_flag((char*)temp->content))
+                {
+                    opt = true;
+                    temp = temp->next;
+                    continue;
+                }
+            }
+            printf("%s ", (char*)temp->content);
+            flag = 1;
+            temp = temp->next;
+        }
+        if (((char*)temp->content)[0] == '-' && flag == 0)
+        {
+            if (ft_check_flag((char*)temp->content))
+                    printf("%s", (char*)temp->content);
+        }
+        else
+            printf("%s", (char*)temp->content);
+        if (opt == false)
+            printf("\n");
+    }
+    
 }
