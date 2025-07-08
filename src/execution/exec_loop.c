@@ -32,32 +32,6 @@ int exec_loop(t_backpack *backpack, char **envp)
     return(1);
 }
 
-void    ft_do_redirections(t_redir *redirection)
-{
-    int fd;
-
-    while(redirection)
-    {
-        if(ft_strcmp(redirection->op, ">")  == 0)
-        {
-            open(redirection->del, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-            dup2(fd, STDOUT_FILENO);
-            close(fd);
-        }
-        if(ft_strcmp(redirection->op, ">>")  == 0)
-        {
-            open(redirection->del, O_CREAT | O_WRONLY | O_APPEND, 0644);
-            dup2(fd, STDOUT_FILENO);
-            close(fd);
-        }
-        if(ft_strcmp(redirection->op, "<")  == 0)
-        {
-
-        }
-        redirection = redirection->next;
-    }
-}
-
 void exec_pipes(t_backpack *backpack, char **envp)
 {
     int pipe_fd[2];
@@ -89,7 +63,7 @@ void exec_pipes(t_backpack *backpack, char **envp)
                 dup2(pipe_fd[1], STDOUT_FILENO);
                 close(pipe_fd[1]);
             }
-            ft_do_redirections(backpack->command_lst[backpack->n].redirection);
+            ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
             executor(backpack, envp);
             exit(0);
         }
@@ -134,14 +108,26 @@ void exec_singels(t_backpack *backpack, char **envp)
 
     backpack->n = 0;
     if (is_buidins(backpack) == 1)
-        executor(backpack, envp);
+    {
+        p_id = fork();//Cuando es un solo comando cambia fd en el proceso padre, la entrada de la shell pasa al archivo
+        if (p_id == 0)
+        {
+            ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
+            executor(backpack, envp);
+            exit(0);
+        }
+        waitpid(p_id, &status, 0);
+    }
     else
     {
         p_id = fork();
         if (p_id == -1)
 		    exit_error();
         else if (p_id == 0)
+        {
+            ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
             run_cmd(process_tok(&backpack->commands_lst[backpack->n]), envp);
+        }
         waitpid(p_id, &status, 0);
     }
 }

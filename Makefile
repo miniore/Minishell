@@ -21,6 +21,7 @@ SRC_FILES = src/main.c \
 			src/execution/executor.c \
 			src/execution/exec_loop.c \
 			src/execution/exec_commons.c \
+			src/execution/exec_redir.c \
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
