@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/26 16:02:13 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/08 21:34:37 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int ft_env(t_env **env);
 void run_cmd(char **cmd, char **envp);
 int exec_loop(t_backpack *backpack, char **envp);
 char **process_tok(tok_lst *token);
+void    ft_exec_redir(t_redir *redirection);
 void	exit_error(void);
 
 #endif
