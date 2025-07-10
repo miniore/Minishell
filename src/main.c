@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/03 12:23:51 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/10 13:53:43 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int main(int argc, char **argv, char **envp)
     if(argc != 1)
 		return(EXIT_FAILURE);
     fill_env(&backpack->env, envp);
-	  while(1)
+	while(1)
     {
         signal(SIGINT, handle_ctrl_c);
         input = readline("Minichelita> ");
@@ -74,9 +74,12 @@ int main(int argc, char **argv, char **envp)
         if(ft_get_command(backpack, input))
             printf("Syntax error.\n");
         exec_loop(backpack, envp);
+        ft_cmd_free(backpack);
         //executor(backpack); // Funcion a la que le pasamos la lista de los comandos y que las cosas se intenten ejecutar.
         //free_list(comandos, demomento); //MIRAR SEGFAULT CUANDO VARIABLES EXPANDIBLES
         free(input);            //Readline genera malloc para la entrada. En caso de liberarlas no es necesario usar clear_history¿?
     }
+    ft_exit_free(backpack);
+    rl_clear_history();
     return(EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:12:52 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/26 14:05:18 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/10 13:24:24 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void ft_quotes_tok(t_backpack *backpack, char *command)
     backpack->len++;
     backpack->i = (int)backpack->len;
     free(backpack->str_2_join);
+    backpack->str_2_join = NULL;
 }
 
 static void ft_dquotes_tok(t_backpack *backpack, char *command)
@@ -37,12 +38,14 @@ static void ft_dquotes_tok(t_backpack *backpack, char *command)
         backpack->aux_str = ft_exp_var(backpack, backpack->str_2_join);
         backpack->token = ft_strjoin(backpack->token, backpack->aux_str);
         free(backpack->aux_str);
+        backpack->aux_str = NULL;
     }
     else
         backpack->token = ft_strjoin(backpack->token, backpack->str_2_join);
     backpack->len++;
     backpack->i = (int)backpack->len;
     free(backpack->str_2_join);
+    backpack->str_2_join = NULL;
 }
 
 static void ft_tok(t_backpack *backpack, char *command)
@@ -61,25 +64,32 @@ static void ft_tok(t_backpack *backpack, char *command)
             backpack->aux_str = ft_exp_var(backpack, backpack->str_2_join);
             backpack->token = ft_strjoin(backpack->token, backpack->aux_str);
             free(backpack->aux_str);
+            backpack->aux_str = NULL;
         }
         else
             backpack->token = ft_strjoin(backpack->token, backpack->str_2_join);
         free(backpack->str_2_join);
+        backpack->str_2_join = NULL;
     }
 }
 
 static void ft_save_tok(t_backpack *backpack)
 {
     t_list  *temp;
+    char    *result;
 
-    temp = ft_lstnew(backpack->token);
+    result = ft_strdup(backpack->token);
     if(backpack->cmd_flag == 0)
     {
-        backpack->commands_lst[backpack->n].command = backpack->token;
+        backpack->commands_lst[backpack->n].command = result;
         backpack->cmd_flag = 1;
     }
     else
+    {
+        temp = ft_lstnew(result);
         ft_lstadd_back(&backpack->commands_lst[backpack->n].arguments, temp);
+    }
+    free(backpack->token);
     backpack->token = NULL;
 }
 

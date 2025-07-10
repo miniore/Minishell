@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:12:31 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/09 14:39:04 by miniore          ###   ########.fr       */
+/*   Updated: 2025/07/10 14:31:33 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,6 @@ void	free_array(char **array)
 	}
 	free(array);
 }
-
-// void free_list(t_list *commands_lst)
-// {
-//     t_list *temp;
-//     tok_lst *cmd;
-
-//     while (commands_lst)
-//     {
-//         temp = commands_lst;
-//         cmd = (tok_lst *)commands_lst->content;
-//         free(cmd->command);
-// 		if(cmd->arguments)
-// 			ft_lstclear(&cmd->arguments, free);
-// 		if(cmd->redirection)
-// 			ft_lstclear(&cmd->redirection, free);
-//         free(cmd->option);
-//         free(cmd);
-//         commands_lst = commands_lst->next;
-//         free(temp);
-//     }
-// }
 
 void free_redirections(t_redir *redir)
 {
@@ -79,39 +58,33 @@ void free_command_list(tok_lst *commands_lst, size_t size)
 
     while (i < size)
     {
-        free_command(&commands_lst[i]);
+        free(commands_lst[i].command);
+        free_arguments(commands_lst[i].arguments);
+        free_redirections(commands_lst[i].redirection);
         i++;
     }
     free(commands_lst);
+    commands_lst = NULL;
 }
 
-void free_env(t_env *env)
+void	ft_cmd_free(t_backpack *backpack)
 {
-    t_env *tmp;
-
-    while (env)
-    {
-        tmp = env->next;
-        free(env->var);
-        free(env->content);
-        free(env);
-        env = tmp;
-    }
-}
-
-void free_backpack(t_backpack *bp)
-{
-    if (!bp)
+    if (!backpack)
         return;
-    free_env(bp->env);
-    free_command_list(bp->commands_lst, bp->commands_nb);
-    free(bp->token);
-    // free(bp->aux_str);
-    // free(bp->str_2_join);
-    // No hace falta liberar bp->new_redir ni bp->tmp si ya están dentro de commands
+    if(backpack->commands_lst)
+        free_command_list(backpack->commands_lst, backpack->commands_nb);
+    //free_env(&backpack->env);
+    //free(backpack->token);
+    //free(backpack);
 }
 
-void	ft_free()
+void	ft_exit_free(t_backpack *backpack)
 {
-	
+    if (!backpack)
+        return;
+    //printf("HOLAAAAAAAAAAAAAAAAAAAA");
+    // if(backpack->commands_lst)
+    //     free_command_list(backpack->commands_lst, backpack->commands_nb);
+    ft_free_env(backpack->env);
+    free(backpack);
 }

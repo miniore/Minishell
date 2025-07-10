@@ -29,6 +29,7 @@ int exec_loop(t_backpack *backpack, char **envp)
         exec_singels(backpack, envp);
     else
         exec_pipes(backpack, envp);
+    //ft_cmd_free(backpack);
     return(1);
 }
 

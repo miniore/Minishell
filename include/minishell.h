@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/08 21:34:37 by miniore          ###   ########.fr       */
+/*   Updated: 2025/07/10 14:22:20 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ struct s_backpack
     char    *str_2_join;
 };
 
-int ft_get_command(t_backpack *backpack, char *input);
+int     ft_get_command(t_backpack *backpack, char *input);
 void    ft_extract_tokens(t_backpack *backpack, char *command);
 void    ft_redirections(t_backpack *backpack, char *command);
 void    ft_save_redir(t_backpack *backpack);
@@ -105,7 +105,7 @@ void	env_add_last(t_env **lst, t_env *new);
 t_env *new_node(char *var, char *content);
 char **var_list(char **envp);
 char *name_var(char *var);
-void free_env(t_env **env);
+void ft_free_env(t_env *env);
 int fill_env(t_env **env, char **envp);
 t_env *search_node(t_env **env, char *name);
 void erase_node(t_env **env, t_env *node);
@@ -118,5 +118,8 @@ int exec_loop(t_backpack *backpack, char **envp);
 char **process_tok(tok_lst *token);
 void    ft_exec_redir(t_redir *redirection);
 void	exit_error(void);
+
+void	ft_cmd_free(t_backpack *backpack);
+void	ft_exit_free(t_backpack *backpack);
 
 #endif

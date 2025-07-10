@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:21:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/06/04 17:02:35 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/10 14:40:12 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ int ft_env(t_env **env)
         return(0);
     else
     {
-        printf("EYY\n");
         act = *env;
         while(act->next != NULL)
         {

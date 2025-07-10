@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:01:59 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/06/04 17:03:00 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/10 14:47:17 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int fill_env(t_env **env, char **envp)
         env_add_last(env, new_node(lst[i], value));
         i++;
     }
-    free(lst);
     return(1);
 }
 
@@ -84,18 +83,16 @@ void erase_node(t_env **env, t_env *node)
     free(node);
 }
 
-void free_env(t_env **env)
+void    ft_free_env(t_env *env)
 {
-    t_env *act;
-    t_env *temp;
+    t_env   *tmp;
     
-    act = *env;
-     while(act->next != NULL)
-     {
-        temp = act;
-        free(act->var);
-        //free(act->content);
-        act = act->next;
-        free(temp);
-     }
+    while(env)
+    {
+        tmp = env->next;
+        free(env->var);
+        //free(env->content);
+        free(env);
+        env = tmp;
+    }
 }
