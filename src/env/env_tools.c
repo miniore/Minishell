@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:01:59 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/06/04 17:03:00 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:38:24 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,12 @@ void modify_node(t_env *node, char *var, char *content)
 {
     char *temp;
 
-    temp = node->var;
+    if (var != NULL)
+    {
+        temp = node->var;
     node->var = var;
     free(temp);
+    }
     temp = node->content;
     node->content = content;
 }

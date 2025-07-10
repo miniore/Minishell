@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:04:42 by porellan          #+#    #+#             */
-/*   Updated: 2025/07/01 13:24:24 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/10 16:56:51 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char    *ft_var_content(char *str)
 
     i = 0;
     len = ft_strlen(str);
-    while(str[i - 1] != 61)
+    while(str[i - 1] != '=')
         i++;
     if(!str[i])
         return(NULL);
@@ -37,10 +37,10 @@ void    ft_export(t_backpack *backpack)
     backpack->n = 0;
     actual = backpack->commands_lst[backpack->n].arguments;
     if(!backpack->commands_lst[backpack->n].arguments)
-        ft_env(&backpack->env);
+        ft_env(&backpack->env, 0);
     while(actual)
     {
-        if(!ft_strchr(actual->content, 61))
+        if(!ft_strchr(actual->content, '='))
         {
             actual = actual->next;
             continue ;
@@ -53,7 +53,13 @@ void    ft_export(t_backpack *backpack)
             continue ;
         }
         content = ft_var_content(actual->content);
-        env_add_last(&backpack->env, new_node(var, content));
+        if (!content)
+            content = "";
+        if (!search_node(&backpack->env, var))
+            env_add_last(&backpack->env, new_node(var, content));
+        else
+            modify_node(search_node(&backpack->env, var), NULL, content);
         actual = actual->next;
     }
+    
 }

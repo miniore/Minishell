@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:43:39 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/07 11:54:53 by miniore          ###   ########.fr       */
+/*   Updated: 2025/07/10 17:18:16 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,25 +74,46 @@ char    *ft_exp_var(t_backpack *backpack, char *token) //GESTIONAR CUANDO HAY $$
     i = 0;
     len = 1;
     res_tok = NULL;
+    printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
     while(token[len])
     {
+        printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
         while(token[len - 1] != '$' && token[len - 1])
-            len++;                         //Mirar el caso en que haya u espacio despues de $. echo hola$ USER o  simplemente echo $
+        {
+            printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
+            len++;
+        }
+            //len++;                         //Mirar el caso en que haya u espacio despues de $. echo hola$ USER o  simplemente echo $
+        printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
         if(len > 1 && !res_tok)
+        {
+            printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
             res_tok = ft_substr(token, i, (len - 1) - i);
+            printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
+        }
         else if(res_tok)
         {
+            printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
             str_2_join = ft_substr(token, i, (len - 1) - i);
+            printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
             res_tok = ft_strjoin(res_tok, str_2_join);
+            printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
             free(str_2_join);
         }
+        //printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
         i = (int)len;
         while(token[len] && (ft_isalnum(token[len]) || token[len] == '_'))
             len++;
+        //printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
         var = ft_substr(token, i, len - i);
+        //printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
         res_tok = ft_join_tok(backpack, res_tok, var);
+        //printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
         i = (int)len;
+        //printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
         free(var);
+        //printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
     }
+    printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
     return(res_tok);
 }

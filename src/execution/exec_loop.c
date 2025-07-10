@@ -106,15 +106,19 @@ void exec_singels(t_backpack *backpack, char **envp)
     int	status;
 
     backpack->n = 0;
-    if (is_buidins(backpack) == 1)
-        executor(backpack, envp);
-    else
+    if (backpack->commands_lst[0].command != NULL)
     {
-        p_id = fork();
-        if (p_id == -1)
-		    exit_error();
-        else if (p_id == 0)
-            run_cmd(process_tok(&backpack->commands_lst[backpack->n]), envp);
-        waitpid(p_id, &status, 0);
+        if (is_buidins(backpack) == 1)
+        executor(backpack, envp);
+        else
+        {
+            p_id = fork();
+            if (p_id == -1)
+		        exit_error();
+            else if (p_id == 0)
+                run_cmd(process_tok(&backpack->commands_lst[backpack->n]), envp);
+            waitpid(p_id, &status, 0);
+        }
     }
+    
 }
