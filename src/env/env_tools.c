@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:01:59 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/09 15:38:24 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/23 12:39:40 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,24 @@ int fill_env(t_env **env, char **envp)
     char **lst;
     char *value;
     
-    lst = var_list(envp);
-    i = 0;
-    while(lst[i])
-    {
-        len = ft_strlen(getenv(lst[i]));
-        value = (char *) ft_calloc(len + 1, sizeof (char *));
-        if (!value)
-            return(0);
-        value = getenv(lst[i]);
-        env_add_last(env, new_node(lst[i], value));
-        i++;
-    }
-    free(lst);
+        lst = var_list(envp);
+        if (!lst[0])
+            env_add_last(env, new_node("PWD", getcwd(NULL, 0)));
+        else
+        {
+        i = 0;
+        while(lst[i])
+        {
+            len = ft_strlen(getenv(lst[i]));
+            value = (char *) ft_calloc(len + 1, sizeof (char *));
+            if (!value)
+                return(0);
+            value = getenv(lst[i]);
+            env_add_last(env, new_node(lst[i], value));
+            i++;
+        }
+        free(lst);
+        }
     return(1);
 }
 
@@ -39,7 +44,7 @@ t_env *search_node(t_env **env, char *name)
 {
     t_env   *node;
     int i;
-     
+    
     node = *env;
     i = ft_strlen(name);
     while(node)
@@ -58,8 +63,8 @@ void modify_node(t_env *node, char *var, char *content)
     if (var != NULL)
     {
         temp = node->var;
-    node->var = var;
-    free(temp);
+        node->var = var;
+        free(temp);
     }
     temp = node->content;
     node->content = content;

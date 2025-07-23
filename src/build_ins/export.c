@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:04:42 by porellan          #+#    #+#             */
-/*   Updated: 2025/07/10 16:56:51 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:38:17 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void    ft_export(t_backpack *backpack)
     backpack->n = 0;
     actual = backpack->commands_lst[backpack->n].arguments;
     if(!backpack->commands_lst[backpack->n].arguments)
-        ft_env(&backpack->env, 0);
+        ft_env(backpack, 0);
     while(actual)
     {
         if(!ft_strchr(actual->content, '='))

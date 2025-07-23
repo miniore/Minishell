@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:21:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/10 16:38:43 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:43:55 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,15 @@ char *name_var(char *var)
     return(name); 
 }
 
-int ft_env(t_env **env, int option)
+int ft_env(t_backpack *backpack, int option)
 {
     t_env *act;
     
-    if(!env)
+    if(!backpack->env || backpack->commands_lst->arguments)
         return(0);
     else
     {
-        act = *env;
+        act = backpack->env;
         while(act->next != NULL)
         {
             if (option == 0)

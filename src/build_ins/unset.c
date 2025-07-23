@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:22:45 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/04 16:48:40 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:23:48 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ void	ft_unset(t_backpack *backpack)
 	t_env	*env_node;
 
 	temp = backpack->commands_lst[0].arguments;
+	if (!temp)
+		return;
 	env_node = search_node(&backpack->env, temp->content);
 	if (!env_node)
-		return ;
+		return;
 	erase_node(&backpack->env, env_node);
 }

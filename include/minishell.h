@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/10 16:25:25 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:37:42 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int fill_env(t_env **env, char **envp);
 t_env *search_node(t_env **env, char *name);
 void erase_node(t_env **env, t_env *node);
 void modify_node(t_env *node, char *var, char *content); // esta funcion requiere que los nuevos valores esten en memoria
-int ft_env(t_env **env, int option);
+int ft_env(t_backpack *backpack, int option);
 
 //EXEC COMMONS
 void run_cmd(char **cmd, char **envp);

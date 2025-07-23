@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/10 16:38:49 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:38:31 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void executor(t_backpack *backpack, char **envp)
     }
     else if(ft_strcmp(backpack->commands_lst[backpack->n].command, "env")  == 0)
     {
-        ft_env(&backpack->env, 1);
+        ft_env(backpack, 1);
     }
     else if(ft_strcmp(backpack->commands_lst[backpack->n].command, "export")  == 0)
     {
