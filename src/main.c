@@ -3,18 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/10 13:53:43 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/18 14:23:26 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+volatile sig_atomic_t g_exit_status = 0;
+
 static void handle_ctrl_c(int sig)
 {
     (void)sig;
+    g_exit_status = 130; // SIGINT => 128 + 2
     printf("\n");
     rl_replace_line("", 0);
     rl_on_new_line();
@@ -52,16 +55,16 @@ int main(int argc, char **argv, char **envp)
     char    *input;
     
     (void)argv;
-    (void)envp;
     //printf con unas macros que indican el archivo y la linea desde donde se a ejecutado para DEBUGEAR!!!!!!!
     //printf("||((%s En_Linea %d))||=> %s\n", __FILE__, __LINE__, "HOLA ¿¿QUIZAS SOY UN ERROR?? ¿¿O NO??");
-    backpack = (t_backpack *)ft_calloc(1, sizeof(t_backpack));     //Mirar si es necesario reservar memoria para backpack
+    backpack = (t_backpack *)ft_calloc(1, sizeof(t_backpack));
     if(argc != 1)
 		return(EXIT_FAILURE);
     fill_env(&backpack->env, envp);
 	while(1)
     {
         signal(SIGINT, handle_ctrl_c);
+        backpack->exit_status = g_exit_status;
         input = readline("Minichelita> ");
         if(ft_catch_exit_signal(input))
             break;
@@ -70,16 +73,56 @@ int main(int argc, char **argv, char **envp)
             free(input);
             continue;
         }
-        add_history(input);                 // Arreglar uso del historial si usas ctrl+c en un comando ya usado. Se guarda para la siguiente ejecucion¿?
+        add_history(input);
         if(ft_get_command(backpack, input))
             printf("Syntax error.\n");
         exec_loop(backpack, envp);
         ft_cmd_free(backpack);
-        //executor(backpack); // Funcion a la que le pasamos la lista de los comandos y que las cosas se intenten ejecutar.
-        //free_list(comandos, demomento); //MIRAR SEGFAULT CUANDO VARIABLES EXPANDIBLES
-        free(input);            //Readline genera malloc para la entrada. En caso de liberarlas no es necesario usar clear_history¿?
+        free(input);
     }
     ft_exit_free(backpack);
     rl_clear_history();
     return(EXIT_SUCCESS);
 }
+// int main(int argc, char **argv, char **envp)
+// {
+//     t_backpack  *backpack;
+//     char    *input;
+
+//     (void)argv;
+//     (void)envp;
+//     if (argc != 1)
+//         return (EXIT_FAILURE);
+
+//     backpack = (t_backpack *)ft_calloc(1, sizeof(t_backpack));
+//     fill_env(&backpack->env, envp);
+
+//     while (1)
+//     {
+//         signal(SIGINT, handle_ctrl_c);
+//         input = readline("Minichelita> ");
+
+//         if (ft_catch_exit_signal(input))
+//         {
+//             free(input);
+//             ft_exit_free(backpack);
+//             rl_clear_history();
+//             return (EXIT_SUCCESS);
+//         }
+
+//         if (ft_void_input(input))
+//         {
+//             free(input);
+//             continue;
+//         }
+
+//         add_history(input);
+
+//         if (ft_get_command(backpack, input))
+//             printf("Syntax error.\n");
+
+//         exec_loop(backpack, envp);
+//         ft_cmd_free(backpack);
+//         free(input);
+//     }
+// }

@@ -6,11 +6,46 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:28:47 by miniore           #+#    #+#             */
-/*   Updated: 2025/05/26 19:28:09 by miniore          ###   ########.fr       */
+/*   Updated: 2025/07/24 13:57:17 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char *ft_strjoin_free(char *s1, char *s2)
+{
+	char *joined;
+
+    joined = ft_strjoin(s1, s2);
+	free(s1);
+	free(s2);
+	return (joined);
+}
+
+void ft_save_tok(t_backpack *backpack)
+{
+    t_list  *temp;
+    char    *result;
+    
+    if(backpack->red_flag && backpack->token)
+        ft_save_redir(backpack);
+    else if(!backpack->red_flag && backpack->token)
+    {
+        result = ft_strdup(backpack->token);
+        if(backpack->cmd_flag == 0)
+        {
+            backpack->commands_lst[backpack->n].command = result;
+            backpack->cmd_flag = 1;
+        }
+        else
+        {
+            temp = ft_lstnew(result);
+            ft_lstadd_back(&backpack->commands_lst[backpack->n].arguments, temp);
+        }
+        free(backpack->token);
+        backpack->token = NULL;
+    }
+}
 
 void	ft_extract_content(t_backpack *backpack, char *command)
 {
@@ -27,28 +62,6 @@ void	ft_extract_content(t_backpack *backpack, char *command)
             backpack->len++;
     }
 }
-
-// static int  ft_check_dquotes(char *input, int i, int flag)
-// {
-// 	flag = 1;
-// 	i++;
-// 	while(ft_is_dquotes(input[i]) && input[i] != '\0')
-// 		i++;
-// 	if(!ft_is_dquotes(input[i]))
-// 		flag = 0;
-//     return(flag);
-// }
-
-// static int  ft_check_quotes(char *input, int i, int flag)
-// {
-// 	flag = 1;
-// 	i++;
-// 	while(ft_is_quotes(input[i]) && input[i] != '\0')
-// 		i++;
-// 	if(!ft_is_quotes(input[i]))
-// 		flag = 0;
-//     return(flag);
-// }
 
 int	ft_syntax_parse(char *input)
 {

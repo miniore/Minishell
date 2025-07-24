@@ -6,7 +6,7 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 21:05:27 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/08 21:33:40 by miniore          ###   ########.fr       */
+/*   Updated: 2025/07/24 14:03:39 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	ft_redir_in(t_redir *redirection)
     close(fd);
 }
 
-static void	ft_redir_heredoc(t_redir *redirection)
+static void	ft_redir_heredoc(t_redir *redirection) //AÑADIR GESTION DE CTRL+C!!!!!
 {
     int pipe_fd[2];
 	char *input;

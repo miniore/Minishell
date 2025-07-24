@@ -6,40 +6,11 @@
 /*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:43:39 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/07 11:54:53 by miniore          ###   ########.fr       */
+/*   Updated: 2025/07/24 13:56:45 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*ft_strjoin_shell(char const *s1, char *s2)
-{
-	char	*new_str;
-	size_t	new_str_len;
-	int		i;
-	int		j;
-
-	if (!s1)
-		return (s2);
-	new_str_len = ft_strlen(s1) + ft_strlen(s2);
-	new_str = ft_calloc(new_str_len + 1, 1);
-	if (new_str == NULL)
-		return (0);
-	i = 0;
-	j = 0;
-	while (s1[i] != '\0')
-	{
-		new_str[i] = s1[i];
-		i++;
-	}
-	while (s2[j] != '\0')
-	{
-		new_str[i] = s2[j];
-		i++;
-		j++;
-	}
-	return (new_str);
-}
 
 static char *ft_get_var_value(t_env *env, char *var_name)
 {
@@ -56,43 +27,77 @@ static char *ft_get_var_value(t_env *env, char *var_name)
 static char *ft_join_tok(t_backpack *backpack, char *res_tok, char *var)
 {
     char    *var_value;
-    
+
     var_value = ft_get_var_value(backpack->env, var);
     if(var_value)
-        res_tok = ft_strjoin_shell(res_tok, var_value);
+    {
+        if(!res_tok)
+            res_tok = var_value;
+        else
+            res_tok = ft_strjoin_free(res_tok, var_value);
+    }
     return(res_tok);
 }
 
-char    *ft_exp_var(t_backpack *backpack, char *token) //GESTIONAR CUANDO HAY $$. SE DEBE INTERPRETAR??
+char *ft_exp_var(t_backpack *backpack, char *token)
 {
-    char    *var;
-    char    *res_tok;
-    char    *str_2_join;
-    int     i;
-    size_t  len;
+    char    *res_tok = NULL;
+    char    *var = NULL;
+    int     i = 0;
+    int     start;
 
-    i = 0;
-    len = 1;
-    res_tok = NULL;
-    while(token[len])
+    if(!token[i + 1] && token[i] == '$')
+        return(res_tok = ft_strdup("$"));
+    while (token[i])
     {
-        while(token[len - 1] != '$' && token[len - 1])
-            len++;                         //Mirar el caso en que haya u espacio despues de $. echo hola$ USER o  simplemente echo $
-        if(len > 1 && !res_tok)
-            res_tok = ft_substr(token, i, (len - 1) - i);
-        else if(res_tok)
+        start = i;
+        while (token[i] && token[i] != '$')
+            i++;
+        if(i > start && !res_tok)
+            res_tok = ft_substr(token, start, i - start);
+        else if (i > start)
+            res_tok = ft_strjoin_free(res_tok, ft_substr(token, start, i - start));
+        if (token[i] == '$')
         {
-            str_2_join = ft_substr(token, i, (len - 1) - i);
-            res_tok = ft_strjoin(res_tok, str_2_join);
-            free(str_2_join);
+            i++;
+            if (token[i] == '$')
+            {
+                if(!res_tok)
+                    res_tok = ft_itoa(getpid());
+                else
+                    res_tok = ft_strjoin_free(res_tok, ft_itoa(getpid()));
+                i++;
+                if(token[i] && token[i] != '$')
+                {
+                    start = i;
+                    while (token[i] && token[i] != '$')
+                        i++;
+                    res_tok = ft_strjoin_free(res_tok, ft_substr(token, start, i - start));
+                }
+            }
+            else if (token[i] == '?')
+            {
+                if(!res_tok)
+                    res_tok = ft_itoa(backpack->exit_status);
+                else
+                    res_tok = ft_strjoin_free(res_tok, ft_itoa(backpack->exit_status));
+                i++;
+            }
+            else if (token[i] && (ft_isalpha(token[i]) || token[i] == '_'))
+            {
+                start = i;
+                while (token[i] && (ft_isalnum(token[i]) || token[i] == '_'))
+                    i++;
+                var = ft_substr(token, start, i - start);
+                res_tok = ft_join_tok(backpack, res_tok, var);
+                free(var);
+                var = NULL;
+            }
+            else
+                res_tok = ft_strjoin_free(res_tok, ft_strdup("$"));
         }
-        i = (int)len;
-        while(token[len] && (ft_isalnum(token[len]) || token[len] == '_'))
-            len++;
-        var = ft_substr(token, i, len - i);
-        res_tok = ft_join_tok(backpack, res_tok, var);
-        i = (int)len;
-        free(var);
     }
-    return(res_tok);
+    if (!res_tok)
+        return (ft_strdup(""));
+    return (res_tok);
 }

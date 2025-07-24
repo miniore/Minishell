@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:21:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/10 14:40:12 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/10 21:49:12 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_env *new_node(char *var, char *content)
     node = (t_env *) malloc (sizeof(t_env));
     if (!node)
         return (NULL);
-    node->var = var;
+    node->var = ft_strdup(var);
     node->content = content;
     node->prev = NULL;
     node->next = NULL;
@@ -50,7 +50,7 @@ char **var_list(char **envp)
     i = 0;
     while(envp[i])
         i++;
-    lst = (char **) ft_calloc(i + 1, sizeof (char **));
+    lst = (char **) ft_calloc(i + 1, sizeof (char *));
     if (!lst)
         return(NULL);
     i  = 0;

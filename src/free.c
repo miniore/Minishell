@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:12:31 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/10 14:31:33 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:58:55 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void free_arguments(t_list *args)
     while (args)
     {
         tmp = args->next;
-        free(args->content); // cada argumento es un string duplicado
+        free(args->content);
         free(args);
         args = tmp;
     }
@@ -82,7 +82,6 @@ void	ft_exit_free(t_backpack *backpack)
 {
     if (!backpack)
         return;
-    //printf("HOLAAAAAAAAAAAAAAAAAAAA");
     // if(backpack->commands_lst)
     //     free_command_list(backpack->commands_lst, backpack->commands_nb);
     ft_free_env(backpack->env);

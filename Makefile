@@ -1,3 +1,4 @@
+# valgrind --leak-check=full --show-leak-kinds=all ./minishell
 # valgrind --track-fds=yes --trace-children=yes
 # -fsanitize=address -g3
 NAME = minishell

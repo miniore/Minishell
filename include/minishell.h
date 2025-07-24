@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/10 14:22:20 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:59:43 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 #include <stdbool.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+
+extern volatile sig_atomic_t g_exit_status;
 
 typedef struct  s_redir t_redir;
 typedef struct  s_tok tok_lst;
@@ -67,11 +69,14 @@ struct s_backpack
     char    *aux_str;
     char    *token;
     char    *str_2_join;
+    int     exit_status;
 };
 
 int     ft_get_command(t_backpack *backpack, char *input);
 void    ft_extract_tokens(t_backpack *backpack, char *command);
+char    *ft_exp_var(t_backpack *backpack, char *token);
 void    ft_redirections(t_backpack *backpack, char *command);
+void    ft_save_tok(t_backpack *backpack);
 void    ft_save_redir(t_backpack *backpack);
 
 void	ft_extract_content(t_backpack *backpack, char *command);
@@ -84,12 +89,7 @@ int		ft_is_quotes(char c);
 int		ft_is_dquotes(char c);
 
 void	free_array(char **array);
-//void	free_list(t_list *commands_list);
-
-// void    ft_save_command(t_backpack *backpack, char *command, int i);
-// void    ft_save_qarg(t_backpack *backpack, char *command, int i);
-// void    ft_save_arg(t_backpack *backpack, char *command, int i);
-char    *ft_exp_var(t_backpack *backpack, char *token);
+char    *ft_strjoin_free(char *s1, char *s2);
 
 //Build_ins
 void executor(t_backpack *backpack, char **envp);
