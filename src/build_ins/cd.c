@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:49:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/23 18:34:18 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/24 11:59:59 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,16 +92,7 @@ static void ft_commond_cd(char *path, t_env *pwd, t_env *old_pwd)
         ft_putstr_fd(" No such file or directory\n", 2);
     }
     else
-    {
         ft_swap_pwd(pwd, old_pwd, temp);
-    }
-    if (pwd != NULL)
-    {
-        temp = pwd->content;
-        pwd->content = getcwd(NULL, 0);
-        if (old_pwd != NULL)
-            old_pwd->content = temp;
-    }
 }
 
 void cd(t_list *arg, t_env *env)
