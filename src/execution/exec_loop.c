@@ -12,8 +12,8 @@
 
 #include "minishell.h"
 
-void exec_singels(t_backpack *backpack, char **envp);
-void exec_pipes(t_backpack *backpack, char **envp);
+void exec_singels(t_backpack *backpack, char **envp, t_env *path);
+void exec_pipes(t_backpack *backpack, char **envp, t_env *path);
 int is_buidins(t_backpack *backpack);
 
 void	exit_error(void)
@@ -24,15 +24,18 @@ void	exit_error(void)
 
 int exec_loop(t_backpack *backpack, char **envp)
 {
+    t_env *path;
+
+    path = search_node(&backpack->env, "PATH");
     backpack->n = 0;
     if (backpack->commands_nb == 1)
-        exec_singels(backpack, envp);
+        exec_singels(backpack, envp, path);    
     else
-        exec_pipes(backpack, envp);
+        exec_pipes(backpack, envp, path);
     return(1);
 }
 
-void exec_pipes(t_backpack *backpack, char **envp)
+void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
 {
     int pipe_fd[2];
     int prev_fd = -1;
@@ -63,7 +66,7 @@ void exec_pipes(t_backpack *backpack, char **envp)
                 dup2(pipe_fd[1], STDOUT_FILENO);
                 close(pipe_fd[1]);
             }
-            executor(backpack, envp);
+            executor(backpack, envp, path);
             exit(0);
         }
         else
@@ -100,7 +103,7 @@ int is_buidins(t_backpack *backpack)
     return (0);
 }
 
-void exec_singels(t_backpack *backpack, char **envp)
+void exec_singels(t_backpack *backpack, char **envp, t_env *path)
 {
     pid_t	p_id;
     int	status;
@@ -109,16 +112,15 @@ void exec_singels(t_backpack *backpack, char **envp)
     if (backpack->commands_lst[0].command != NULL)
     {
         if (is_buidins(backpack) == 1)
-        executor(backpack, envp);
+            executor(backpack, envp, path);
         else
         {
             p_id = fork();
             if (p_id == -1)
 		        exit_error();
             else if (p_id == 0)
-                run_cmd(process_tok(&backpack->commands_lst[backpack->n]), envp);
+                run_cmd(process_tok(&backpack->commands_lst[backpack->n]), path, envp);          
             waitpid(p_id, &status, 0);
         }
     }
-    
 }

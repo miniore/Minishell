@@ -6,13 +6,13 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/23 18:08:30 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:21:00 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void executor(t_backpack *backpack, char **envp)
+void executor(t_backpack *backpack, char **envp, t_env *path)
 {
     
     if (ft_strcmp(backpack->commands_lst[backpack->n].command, "pwd")  == 0)
@@ -49,5 +49,5 @@ void executor(t_backpack *backpack, char **envp)
         ft_unset(backpack);
     }
     else
-        run_cmd(process_tok(&backpack->commands_lst[backpack->n]), envp);
+        run_cmd(process_tok(&backpack->commands_lst[backpack->n]), path, envp);
 }

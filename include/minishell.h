@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/18 12:37:42 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:22:06 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	free_array(char **array);
 char    *ft_exp_var(t_backpack *backpack, char *token);
 
 //Build_ins
-void executor(t_backpack *backpack, char **envp);
+void executor(t_backpack *backpack, char **envp, t_env *path);
 int pwd(t_env **env);
 //void echo(t_list *arg);
 void cd(t_list *arg, t_env *env);
@@ -113,7 +113,7 @@ void modify_node(t_env *node, char *var, char *content); // esta funcion requier
 int ft_env(t_backpack *backpack, int option);
 
 //EXEC COMMONS
-void run_cmd(char **cmd, char **envp);
+void run_cmd(char **cmd, t_env *env, char **envp);
 int exec_loop(t_backpack *backpack, char **envp);
 char **process_tok(tok_lst *token);
 void	exit_error(void);
