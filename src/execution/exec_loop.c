@@ -66,6 +66,7 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
                 dup2(pipe_fd[1], STDOUT_FILENO);
                 close(pipe_fd[1]);
             }
+            ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
             executor(backpack, envp, path);
             exit(0);
         }
@@ -112,14 +113,20 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
     if (backpack->commands_lst[0].command != NULL)
     {
         if (is_buidins(backpack) == 1)
+        {
+            ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
             executor(backpack, envp, path);
+        }
         else
         {
             p_id = fork();
             if (p_id == -1)
 		        exit_error();
             else if (p_id == 0)
+            {
+                ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
                 run_cmd(process_tok(&backpack->commands_lst[backpack->n]), path, envp);          
+            }
             waitpid(p_id, &status, 0);
         }
     }
