@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:43:39 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/24 13:56:45 by miniore          ###   ########.fr       */
+/*   Updated: 2025/07/25 18:44:23 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,23 @@ char *ft_exp_var(t_backpack *backpack, char *token)
                 free(var);
                 var = NULL;
             }
-            else
+            else if(token[i] && (!ft_isalnum(token[i]) || token[i] != '_'))
+            {
+                start = i;
+                while(token[i] && token[i] != '$')
+                    i++;
+                if(!res_tok)
+                {
+                    res_tok = ft_strdup("$");
+                    res_tok = ft_strjoin_free(res_tok, ft_substr(token, start, i - start));
+                }
+                else
+                {
+                    res_tok = ft_strjoin_free(res_tok, ft_strdup("$"));
+                    res_tok = ft_strjoin_free(res_tok, ft_substr(token, start, i - start));
+                }
+            }
+            else if(!token[i])
                 res_tok = ft_strjoin_free(res_tok, ft_strdup("$"));
         }
     }
