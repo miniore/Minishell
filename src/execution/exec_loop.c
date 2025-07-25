@@ -114,8 +114,14 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
     {
         if (is_buidins(backpack) == 1)
         {
-            ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
-            executor(backpack, envp, path);
+            p_id = fork();//Cuando es un solo comando cambia fd en el proceso padre, la entrada de la shell pasa al archivo
+            if (p_id == 0)
+            {
+                ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
+                executor(backpack, envp, path);
+                exit(0);
+            }
+            waitpid(p_id, &status, 0);
         }
         else
         {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commons.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:25:06 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/24 18:09:54 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/25 19:23:23 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char *get_cmd(char *cmd, t_env *env)
         path = ft_strjoin(envp_paths[i], "/");
         cmd_path = ft_strjoin(path, cmd);
         free(path);
-        printf("%s\n", cmd_path);
+        //printf("%s\n", cmd_path);
         if (access (cmd_path, F_OK) == 0)
         {
             free_split(envp_paths);
