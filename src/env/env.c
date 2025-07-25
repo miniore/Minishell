@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*                                                    +:+ +:+         +:+     *
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:21:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/10 21:49:12 by miniore          ###   ########.fr       */
+/*   Updated: 2025/07/18 12:43:55 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,21 +84,31 @@ char *name_var(char *var)
     return(name); 
 }
 
-int ft_env(t_env **env)
+int ft_env(t_backpack *backpack, int option)
 {
     t_env *act;
     
-    if(!env)
+    if(!backpack->env || backpack->commands_lst->arguments)
         return(0);
     else
     {
-        act = *env;
+        act = backpack->env;
         while(act->next != NULL)
         {
-            printf("%s = %s\n", act->var, act->content);
+            if (option == 0)
+            {
+                printf("declare -x %s = %s\n", act->var, act->content);   
+            }
+            else
+                printf("%s = %s\n", act->var, act->content);
             act = act->next;
         }
-        printf("%s = %s\n", act->var, act->content);
+        if (option == 0)
+        {
+            printf("declare -x %s = %s\n", act->var, act->content);   
+        }
+        else
+            printf("%s = %s\n", act->var, act->content);
     }
     return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:01:59 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/10 21:47:58 by miniore          ###   ########.fr       */
+/*   Updated: 2025/07/23 12:39:40 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,33 @@
 int fill_env(t_env **env, char **envp)
 {
     int i;
-    //int len;
     char **lst;
     char *value;
 
     lst = var_list(envp);
-    i = 0;
-    while(lst[i])
+    if (!lst[0])
+        env_add_last(env, new_node("PWD", getcwd(NULL, 0)));
+    else
     {
-        //len = ft_strlen(getenv(lst[i]));
-        // value = (char *) ft_calloc(len + 1, sizeof (char *));
-        // if (!value)
-        //     return(0);
-        value = getenv(lst[i]);
-        if (value)
-            value = ft_strdup(value);
-        env_add_last(env, new_node(lst[i], value));
-        i++;
-    }
-    free_array(lst);
-    return(1);
+        i = 0;
+        while(lst[i])
+        {
+            value = getenv(lst[i]);
+            if (value)
+                value = ft_strdup(value);
+            env_add_last(env, new_node(lst[i], value));
+            i++;
+        }
+        free_array(lst);
+     }
+     return(1);
 }
 
 t_env *search_node(t_env **env, char *name)
 {
     t_env   *node;
     int i;
-     
+    
     node = *env;
     i = ft_strlen(name);
     while(node)
@@ -57,9 +57,12 @@ void modify_node(t_env *node, char *var, char *content)
 {
     char *temp;
 
-    temp = node->var;
-    node->var = var;
-    free(temp);
+    if (var != NULL)
+    {
+        temp = node->var;
+        node->var = var;
+        free(temp);
+    }
     temp = node->content;
     node->content = content;
 }
