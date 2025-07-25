@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:04:42 by porellan          #+#    #+#             */
-/*   Updated: 2025/07/18 12:38:17 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/25 21:32:57 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ static char    *ft_var_content(char *str)
 
     i = 0;
     len = ft_strlen(str);
-    while(str[i - 1] != '=')
+    while(str[i] != '=')
         i++;
     if(!str[i])
         return(NULL);
+    i++;
     content = ft_substr(str, i, len);
     return (content);
 }
@@ -59,6 +60,7 @@ void    ft_export(t_backpack *backpack)
             env_add_last(&backpack->env, new_node(var, content));
         else
             modify_node(search_node(&backpack->env, var), NULL, content);
+        free(var);
         actual = actual->next;
     }
     

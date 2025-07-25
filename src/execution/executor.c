@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/24 17:21:00 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/25 21:14:35 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void executor(t_backpack *backpack, char **envp, t_env *path)
     }
     else if(ft_strcmp(backpack->commands_lst[backpack->n].command, "exit")  == 0)
     {
-        exit(EXIT_SUCCESS); // habria que mirar de liberar.......
+        ft_exit(backpack); // habria que mirar de liberar.......
     }
     else if(ft_strcmp(backpack->commands_lst[backpack->n].command, "env")  == 0)
     {

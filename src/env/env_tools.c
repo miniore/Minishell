@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:01:59 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/23 12:39:40 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/25 21:35:50 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int fill_env(t_env **env, char **envp)
             i++;
         }
         free_array(lst);
-     }
-     return(1);
+    }
+    return(1);
 }
 
 t_env *search_node(t_env **env, char *name)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:12:31 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/24 13:58:55 by miniore          ###   ########.fr       */
+/*   Updated: 2025/07/25 21:22:36 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,12 @@ void free_command_list(tok_lst *commands_lst, size_t size)
 
     while (i < size)
     {
-        free(commands_lst[i].command);
-        free_arguments(commands_lst[i].arguments);
-        free_redirections(commands_lst[i].redirection);
+        if(commands_lst[i].command)
+            free(commands_lst[i].command);
+        if(commands_lst[i].arguments)
+            free_arguments(commands_lst[i].arguments);
+        if(commands_lst[i].redirection)
+            free_redirections(commands_lst[i].redirection);
         i++;
     }
     free(commands_lst);
@@ -82,8 +85,8 @@ void	ft_exit_free(t_backpack *backpack)
 {
     if (!backpack)
         return;
-    // if(backpack->commands_lst)
-    //     free_command_list(backpack->commands_lst, backpack->commands_nb);
+    if(backpack->commands_lst)
+        free_command_list(backpack->commands_lst, backpack->commands_nb);
     ft_free_env(backpack->env);
     free(backpack);
 }

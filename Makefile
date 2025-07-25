@@ -19,6 +19,7 @@ SRC_FILES = src/main.c \
 			src/build_ins/cd.c \
 			src/build_ins/export.c \
 			src/build_ins/unset.c \
+			src/build_ins/exit.c \
 			src/execution/executor.c \
 			src/execution/exec_loop.c \
 			src/execution/exec_commons.c \

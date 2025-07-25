@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:49:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/24 11:59:59 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/25 21:42:17 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,18 @@
 
 static void ft_swap_pwd(t_env *pwd, t_env *old_pwd, char *temp)
 {
+    char *tmp;
+    
     if(!old_pwd)
         free(temp);
     else
         old_pwd->content = temp;
     if (pwd != NULL)
+    {
+        tmp = pwd->content;
         pwd->content = getcwd(NULL, 0);
+        free(tmp);
+    }
 }
 
 static void ft_cd_home(t_env *pwd, t_env *old_pwd, t_env *home)
@@ -54,6 +60,7 @@ static void ft_cd_home(t_env *pwd, t_env *old_pwd, t_env *home)
 static void ft_oldpwd(t_env *pwd, t_env *old_pwd)
 {
     char *temp;
+    char    *tmp_2_free;
 
     if (!old_pwd)
         ft_putstr_fd("cd: not set OLDPWD\n", 2);
@@ -73,7 +80,11 @@ static void ft_oldpwd(t_env *pwd, t_env *old_pwd)
                 pwd->content = getcwd(NULL, 0);
                 printf("%s\n", pwd->content);
                 if (old_pwd != NULL)
+                {
+                    tmp_2_free = old_pwd->content;
                     old_pwd->content = temp;
+                    free(tmp_2_free);
+                }
             }
         }
     }

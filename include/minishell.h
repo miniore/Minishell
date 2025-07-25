@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/24 17:22:06 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/25 21:14:46 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ struct s_env
 
 struct s_backpack
 {
-    t_env *env;
+    t_env   *env;
     tok_lst *commands_lst;
     t_redir *new_redir;
     t_redir *tmp;
@@ -99,6 +99,7 @@ void cd(t_list *arg, t_env *env);
 void    ft_echo(t_list *arg);
 void    ft_export(t_backpack *backpack);
 void	ft_unset(t_backpack *backpack);
+void    ft_exit(t_backpack *backpack);
 
 //Stack envp
 void	env_add_last(t_env **lst, t_env *new);
