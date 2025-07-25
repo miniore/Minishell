@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:43:39 by miniore           #+#    #+#             */
-/*   Updated: 2025/06/07 11:54:53 by miniore          ###   ########.fr       */
+/*   Updated: 2025/07/18 11:33:39 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,17 @@ char    *ft_exp_var(t_backpack *backpack, char *token) //GESTIONAR CUANDO HAY $$
     while(token[len])
     {
         while(token[len - 1] != '$' && token[len - 1])
-            len++;                         //Mirar el caso en que haya u espacio despues de $. echo hola$ USER o  simplemente echo $
+        {
+            len++;
+        }
+            //len++;                         //Mirar el caso en que haya u espacio despues de $. echo hola$ USER o  simplemente echo $
         if(len > 1 && !res_tok)
+        {
             res_tok = ft_substr(token, i, (len - 1) - i);
+        }
         else if(res_tok)
         {
-            str_2_join = ft_substr(token, i, (len - 1) - i);
+            str_2_join = ft_substr(token, i, (len - 1) - i);;
             res_tok = ft_strjoin(res_tok, str_2_join);
             free(str_2_join);
         }

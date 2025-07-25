@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:25:06 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/06/24 17:22:30 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:09:54 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,41 +22,53 @@ void free_split(char **str)
     free(str);
 }
 
-char *get_cmd(char *cmd, char **envp)
+char *get_cmd(char *cmd, t_env *env)
 {
     char    **envp_paths;
     char    *path;
     char    *cmd_path;
     int     i;
     
+    if (!env)
+        return(NULL);
+    envp_paths = ft_split(env->content, ':');
     i = 0;
-    while (!ft_strnstr(envp[i], "PATH=", 5))
-        i++;
-    envp_paths = ft_split(envp[i] + 5, ':');
-    i = -1;
-    while (envp_paths[++i])
+    while (envp_paths[i])
     {
         path = ft_strjoin(envp_paths[i], "/");
         cmd_path = ft_strjoin(path, cmd);
         free(path);
+        printf("%s\n", cmd_path);
         if (access (cmd_path, F_OK) == 0)
         {
             free_split(envp_paths);
             return (cmd_path);
         }
         free(cmd_path);
+        i++;
     }
     free_split(envp_paths);
     return (NULL);
 }
 
-void run_cmd(char **cmd, char **envp)
+void run_cmd(char **cmd, t_env *env, char **envp)
 {
     char    *path;
-
-    path = get_cmd(cmd[0], envp);
+    
+    if (access (cmd[0], F_OK) == 0)
+    {
+        if (execve(cmd[0], cmd, envp) == -1)
+        {
+            free_split(cmd);
+            exit_error();
+        }
+    }
+    path = get_cmd(cmd[0], env);
     if (!path)
     {
+        ft_putstr_fd("Command '", 2);
+        ft_putstr_fd(cmd[0], 2);
+        ft_putstr_fd("' not found.\n", 2);
         free_split(cmd);
         free(path);
         exit(127);
