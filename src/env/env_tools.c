@@ -15,29 +15,26 @@
 int fill_env(t_env **env, char **envp)
 {
     int i;
-    int len;
     char **lst;
     char *value;
-    
-        lst = var_list(envp);
-        if (!lst[0])
-            env_add_last(env, new_node("PWD", getcwd(NULL, 0)));
-        else
-        {
+
+    lst = var_list(envp);
+    if (!lst[0])
+        env_add_last(env, new_node("PWD", getcwd(NULL, 0)));
+    else
+    {
         i = 0;
         while(lst[i])
         {
-            len = ft_strlen(getenv(lst[i]));
-            value = (char *) ft_calloc(len + 1, sizeof (char *));
-            if (!value)
-                return(0);
             value = getenv(lst[i]);
+            if (value)
+                value = ft_strdup(value);
             env_add_last(env, new_node(lst[i], value));
             i++;
         }
-        free(lst);
-        }
-    return(1);
+        free_array(lst);
+     }
+     return(1);
 }
 
 t_env *search_node(t_env **env, char *name)
@@ -92,18 +89,16 @@ void erase_node(t_env **env, t_env *node)
     free(node);
 }
 
-void free_env(t_env **env)
+void    ft_free_env(t_env *env)
 {
-    t_env *act;
-    t_env *temp;
+    t_env   *tmp;
     
-    act = *env;
-     while(act->next != NULL)
-     {
-        temp = act;
-        free(act->var);
-        //free(act->content);
-        act = act->next;
-        free(temp);
-     }
+    while(env)
+    {
+        tmp = env->next;
+        free(env->var);
+        free(env->content);
+        free(env);
+        env = tmp;
+    }
 }
