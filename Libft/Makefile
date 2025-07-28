@@ -47,10 +47,10 @@ SRC_FILES_BONUS = ft_lstadd_back_bonus.c \
 OBJ_FILES = $(SRC_FILES:.c=.o)
 BONUS_OBJ_FILES = $(SRC_FILES_BONUS:.c=.o)
 
-CC = gcc
-CFLAGS = -Wall -Werror -Wextra
+CC = cc
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
 AR = ar
-ARFLAGS = -rcs
+ARFLAGS = -rcs 
 
 all: $(NAME) bonus
 

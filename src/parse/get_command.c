@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:49:11 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/16 12:34:06 by miniore          ###   ########.fr       */
+/*   Updated: 2025/07/28 20:12:42 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static void print_commands_list(t_backpack *backpack)
     {
         tok_lst *cmd = &backpack->commands_lst[i];
         printf("\n🔹 **Comando %zu**\n", i + 1);
-        printf("   🟢 Comando: %s\n", cmd->command ? cmd->command : "(null)");
+        printf("   🟢 Comando: %s\n", (char *)cmd->command);
+        printf("   🟢 Comando: %s\n", cmd->command ? cmd->command : "null");
 
         // Imprimir argumentos como lista
         printf("   🟠 Argumentos:\n");
@@ -84,12 +85,20 @@ static void ft_extract_commands(t_backpack *backpack, char *input, char **comman
     len = 0;
     while(input[len] != '\0')
     {
+        if(input[i] == '|' && input[i + 1] == '|')
+            break ;
         while(input[len] != '|' && input[len] != '\0')
         {
             if(!ft_is_quotes(input[len]) || !ft_is_dquotes(input[len]))
                 len = ft_ignore_qargs(input, len);
             len++;
         }
+        if(len == 0)
+        {
+            ft_putstr_fd("Minichelita: syntax error near unexpected token `|'", 2);
+            break ;
+        }
+        printf("SIGOOOOO??????\n");
         if(i != 0)
             i++;
         commands[j] = ft_substr(input, i, len - i);
@@ -117,7 +126,11 @@ static size_t ft_count_commands(char *input)
         if(!ft_is_dquotes(input[i]))
             i = ft_ignore_qargs(input, i);
         if (input[i] == '|')
+        {
+            if (input[i + 1] == '|')
+                return(commands_nb);
             commands_nb++;
+        }
         if(input[i] == '\0')
             return(commands_nb);
         i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/18 14:23:26 by miniore          ###   ########.fr       */
+/*   Updated: 2025/07/28 18:59:57 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@ static void handle_ctrl_c(int sig)
     rl_redisplay();
 }
 
-static int ft_catch_exit_signal(char *input)
-{
-    signal(SIGQUIT, SIG_IGN);
-    if(!input)
-    {
-        printf("Nos vamos. Saliendo.\n");
-        free(input);
-        return(EXIT_FAILURE);
-    }
-    return(EXIT_SUCCESS);
-}
+// static int ft_catch_exit_signal(char *input)
+// {
+//     //signal(SIGQUIT, SIG_IGN);
+//     // if(!input)
+//     // {
+//         printf("Nos vamos. Saliendo.\n");
+//         //free(input);
+//         return(EXIT_FAILURE);
+//     //}
+//     return(EXIT_SUCCESS);
+// }
 static int  ft_void_input(char *input)
 {
         int     i;
@@ -63,11 +63,14 @@ int main(int argc, char **argv, char **envp)
     fill_env(&backpack->env, envp);
 	while(1)
     {
-        signal(SIGINT, handle_ctrl_c);
         backpack->exit_status = g_exit_status;
+        signal(SIGINT, handle_ctrl_c);
         input = readline("Minichelita> ");
-        if(ft_catch_exit_signal(input))
+        if(!input)
+        {
+            backpack->commands_nb = 0;
             break;
+        }
         if(ft_void_input(input))
         {
             free(input);
@@ -80,6 +83,7 @@ int main(int argc, char **argv, char **envp)
         ft_cmd_free(backpack);
         free(input);
     }
+    printf("Nos vamos. Saliendo.\n");
     ft_exit_free(backpack);
     rl_clear_history();
     return(EXIT_SUCCESS);
