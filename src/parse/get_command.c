@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:49:11 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/28 20:12:42 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/29 20:40:16 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,6 @@ static void ft_extract_commands(t_backpack *backpack, char *input, char **comman
                 len = ft_ignore_qargs(input, len);
             len++;
         }
-        if(len == 0)
-        {
-            ft_putstr_fd("Minichelita: syntax error near unexpected token `|'", 2);
-            break ;
-        }
-        printf("SIGOOOOO??????\n");
         if(i != 0)
             i++;
         commands[j] = ft_substr(input, i, len - i);
@@ -143,7 +137,10 @@ int ft_get_command(t_backpack *backpack, char *input)
     char **commands;
 
     if(ft_syntax_parse(input))
+    {
+        backpack->commands_nb = 0;
         return(EXIT_FAILURE);
+    }
     backpack->n = 0;
     backpack->commands_nb = ft_count_commands(input);
     commands = (char **)ft_calloc(backpack->commands_nb + 1, sizeof(char *));
