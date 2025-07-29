@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/28 20:01:25 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/29 21:59:12 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void executor(t_backpack *backpack, char **envp, t_env *path)
 {
-    
     if (!backpack->commands_lst[backpack->n].command)
         return ;
     if (ft_strcmp(backpack->commands_lst[backpack->n].command, "pwd")  == 0)
