@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:01:59 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/25 21:35:50 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/29 18:51:17 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_env *search_node(t_env **env, char *name)
 void modify_node(t_env *node, char *var, char *content)
 {
     char *temp;
+    char *temp_content;
 
     if (var != NULL)
     {
@@ -63,8 +64,9 @@ void modify_node(t_env *node, char *var, char *content)
         node->var = var;
         free(temp);
     }
-    temp = node->content;
+    temp_content = node->content;
     node->content = content;
+    free(temp_content);
 }
 
 void erase_node(t_env **env, t_env *node)
@@ -86,6 +88,8 @@ void erase_node(t_env **env, t_env *node)
             next->prev = prev;
         }
     }
+    free(node->var);
+    free(node->content);
     free(node);
 }
 

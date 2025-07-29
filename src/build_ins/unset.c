@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:22:45 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/18 12:23:48 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/29 16:45:17 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,15 @@ void	ft_unset(t_backpack *backpack)
 	temp = backpack->commands_lst[0].arguments;
 	if (!temp)
 		return;
-	env_node = search_node(&backpack->env, temp->content);
-	if (!env_node)
-		return;
-	erase_node(&backpack->env, env_node);
+	while(temp)
+	{
+		env_node = search_node(&backpack->env, temp->content);
+		if (!env_node)
+			temp=temp->next;
+		else
+		{
+			erase_node(&backpack->env, env_node);
+			temp=temp->next;
+		}
+	}
 }
