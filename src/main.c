@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/28 18:59:57 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/29 20:08:22 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,11 @@ int main(int argc, char **argv, char **envp)
         }
         add_history(input);
         if(ft_get_command(backpack, input))
-            printf("Syntax error.\n");
+        {
+            ft_cmd_free(backpack);
+            free(input);
+            continue;
+        }
         exec_loop(backpack, envp);
         ft_cmd_free(backpack);
         free(input);

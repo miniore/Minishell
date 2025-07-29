@@ -5,6 +5,7 @@ NAME = minishell
 LIBFT = Libft/libft.a
 
 SRC_FILES = src/main.c \
+			src/parse/syntax_parse.c \
 			src/parse/get_command.c \
 			src/parse/tokenize.c \
 			src/parse/exp_variables.c \
