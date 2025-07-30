@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:49:11 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/29 20:40:16 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:23:58 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,19 +136,22 @@ int ft_get_command(t_backpack *backpack, char *input)
 {
     char **commands;
 
-    if(ft_syntax_parse(input))
-    {
-        backpack->commands_nb = 0;
+    if(ft_syntax_parse(backpack, input))
         return(EXIT_FAILURE);
-    }
     backpack->n = 0;
     backpack->commands_nb = ft_count_commands(input);
     commands = (char **)ft_calloc(backpack->commands_nb + 1, sizeof(char *));
     if (!commands)
+    {
+        ft_put_pererr(backpack, "Minichelita: malloc error.\n", 1);
         return (EXIT_FAILURE);
+    }
     backpack->commands_lst = (tok_lst *)ft_calloc(backpack->commands_nb, sizeof(tok_lst));
     if (!backpack->commands_lst)
+    {
+        ft_put_pererr(backpack, "Minichelita: malloc error.\n", 1);
         return (EXIT_FAILURE);
+    }
     ft_extract_commands(backpack, input, commands);
     free_array(commands);
     return(EXIT_SUCCESS);

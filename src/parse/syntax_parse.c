@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:39:38 by porellan          #+#    #+#             */
-/*   Updated: 2025/07/29 20:40:10 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:24:35 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,16 +80,16 @@ int ft_pipe_syntax(char *input)
     return (EXIT_SUCCESS);
 }
 
-int ft_syntax_parse(char *input)
+int ft_syntax_parse(t_backpack *backpack, char *input)
 {
     if(ft_quotes_syntax(input))
     {
-        ft_putstr_fd("Minichelita: quotes syntax error\n", 2);
+        ft_put_pererr(backpack, "Minichelita: quotes syntax error\n", 258);
         return(EXIT_FAILURE);
     }
     if(ft_pipe_syntax(input))
     {
-        ft_putstr_fd("Minichelita: syntax error near unexpected token `|'\n", 2);
+        ft_put_pererr(backpack , "Minichelita: syntax error near unexpected token `|'\n", 258);
         return(EXIT_FAILURE);
     }
     return(EXIT_SUCCESS);

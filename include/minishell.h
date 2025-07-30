@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/25 21:14:46 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:25:27 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void    ft_save_tok(t_backpack *backpack);
 void    ft_save_redir(t_backpack *backpack);
 
 void	ft_extract_content(t_backpack *backpack, char *command);
-int		ft_syntax_parse(char *input);
+int		ft_syntax_parse(t_backpack *backpack, char *input);
 size_t	ft_ignore_qargs(char *command, size_t len);
 
 int		ft_is_redirct(char c);
@@ -90,6 +90,7 @@ int		ft_is_dquotes(char c);
 
 void	free_array(char **array);
 char    *ft_strjoin_free(char *s1, char *s2);
+void    ft_put_pererr(t_backpack *backpack, char *err, int n);
 
 //Build_ins
 void executor(t_backpack *backpack, char **envp, t_env *path);

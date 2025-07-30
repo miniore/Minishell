@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_tokenize.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 13:46:20 by porellan          #+#    #+#             */
-/*   Updated: 2025/07/24 13:57:51 by miniore          ###   ########.fr       */
+/*   Updated: 2025/07/30 13:55:25 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void    ft_redirections(t_backpack *backpack, char *command)
     if(backpack->len - backpack->i > 1 || (backpack->len - backpack->i == 1 &&
             command[backpack->len - 1] != command[backpack->len]))
     {
-        printf("bash: syntax error near redirection token.");
+        ft_put_pererr(backpack, "Minichelita: syntax error near redirection token.", 258);
         return;
     }
     if(backpack->len - backpack->i == 1)

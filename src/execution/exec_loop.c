@@ -18,7 +18,7 @@ int is_buidins(t_backpack *backpack);
 
 void	exit_error(void)
 {
-	perror("ERROR");
+	perror("Minichelita");
 	exit(EXIT_FAILURE);
 }
 
@@ -32,6 +32,7 @@ int exec_loop(t_backpack *backpack, char **envp)
         exec_singels(backpack, envp, path);    
     else
         exec_pipes(backpack, envp, path);
+    g_exit_status = 0;
     return(1);
 }
 

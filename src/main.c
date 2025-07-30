@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/29 20:08:22 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:28:13 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,20 @@ static int  ft_void_input(char *input)
         return(EXIT_SUCCESS);
 }
 
+// void    ft_put_syserr()
+// {
+//     ft_putstr_fd();
+//     g_exit_status = 
+//     backpack->commands_nb = 0;
+// }
+
+void    ft_put_pererr(t_backpack *backpack, char *err, int n)
+{
+    ft_putstr_fd(err, 2);
+    g_exit_status = n;
+    backpack->commands_nb = 0;
+}
+
 int main(int argc, char **argv, char **envp)
 {
     t_backpack  *backpack;
@@ -63,8 +77,8 @@ int main(int argc, char **argv, char **envp)
     fill_env(&backpack->env, envp);
 	while(1)
     {
-        backpack->exit_status = g_exit_status;
         signal(SIGINT, handle_ctrl_c);
+        backpack->exit_status = g_exit_status;
         input = readline("Minichelita> ");
         if(!input)
         {
