@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commons.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:25:06 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/25 19:23:23 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/30 16:35:22 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char *get_cmd(char *cmd, t_env *env)
         path = ft_strjoin(envp_paths[i], "/");
         cmd_path = ft_strjoin(path, cmd);
         free(path);
-        //printf("%s\n", cmd_path);
         if (access (cmd_path, F_OK) == 0)
         {
             free_split(envp_paths);
@@ -77,12 +76,11 @@ void run_cmd(char **cmd, t_env *env, char **envp)
     {
         free_split(cmd);
         free (path);
+        ft_free_env(env);
         exit_error();
     }
 }
 
-//Funcion que genera un array 2D con el comando y sus flags a partir de un tok_lst
-//para poder pasarlo al execv mas adelante
 char **process_tok(tok_lst *token)
 {
     int i;

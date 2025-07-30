@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/29 20:08:22 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/30 22:16:51 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static void handle_ctrl_c(int sig)
     (void)sig;
     g_exit_status = 130; // SIGINT => 128 + 2
     printf("\n");
-    rl_replace_line("", 0);
     rl_on_new_line();
+    rl_replace_line("", 0);
     rl_redisplay();
 }
 

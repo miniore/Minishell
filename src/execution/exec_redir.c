@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 21:05:27 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/28 18:56:43 by porellan         ###   ########.fr       */
+/*   Updated: 2025/07/30 22:18:49 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,34 @@ static void	ft_redir_in(t_redir *redirection)
     close(fd);
 }
 
-static void	ft_redir_heredoc(t_redir *redirection) //AÑADIR GESTION DE CTRL+C Y CTRL+D!!!!!
+static void hdoc_ctrl_c(int sig)
+{
+    (void)sig;
+    g_exit_status = 130; // SIGINT => 128 + 2
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    exit(0);
+}
+
+static void	ft_redir_heredoc(t_redir *redirection)
 {
     int pipe_fd[2];
 	char *input;
 
 	if (pipe(pipe_fd) == -1)
         exit_error();
+    rl_clear_history();
     while(1)
     {
+        signal(SIGQUIT, SIG_IGN);
+        signal(SIGINT, hdoc_ctrl_c);
         input = readline(">");
+        if(!input)
+        {
+            ft_putstr_fd("warning: here-document delimited by end-of-file (wanted `out')\n", 2);
+            free(input);
+            break;
+        }  
         if(ft_strcmp(input, redirection->del) == 0)
         {
             free(input);

@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/29 21:59:12 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/07/30 21:00:30 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,7 @@ void executor(t_backpack *backpack, char **envp, t_env *path)
         return ;
     if (ft_strcmp(backpack->commands_lst[backpack->n].command, "pwd")  == 0)
     {
-        if(backpack->commands_lst[backpack->n].arguments == NULL)
-        {
             pwd(&backpack->env);
-        }
-        else
-            perror("pwd: too many arguments"); // Esto del los errores hay que mirarlo.
     }
     else if(ft_strcmp(backpack->commands_lst[backpack->n].command, "echo")  == 0)
     {
