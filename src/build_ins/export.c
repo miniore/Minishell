@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:04:42 by porellan          #+#    #+#             */
-/*   Updated: 2025/07/25 21:32:57 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/04 20:15:50 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void    ft_export(t_backpack *backpack)
         var = name_var(actual->content);
         if(!var || (!ft_isalpha(var[0]) && var[0] != '_'))
         {
-            printf("Minichelita: export: `%s': not a valid identifier\n", (char *)actual->content);
+            ft_put_pererr(backpack, "Minichelita: export: `%s': not a valid identifier.\n", 258);
             actual = actual->next;
             continue ;
         }

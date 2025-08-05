@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/30 13:25:27 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:42:45 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@
 #include <readline/history.h>
 #include <signal.h>
 #include <stdbool.h>
-# include <fcntl.h>
-# include <sys/wait.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <errno.h>
 
 extern volatile sig_atomic_t g_exit_status;
 
@@ -91,6 +92,7 @@ int		ft_is_dquotes(char c);
 void	free_array(char **array);
 char    *ft_strjoin_free(char *s1, char *s2);
 void    ft_put_pererr(t_backpack *backpack, char *err, int n);
+void    ft_put_syserr_exit(t_backpack *backpack, char *err);
 
 //Build_ins
 void executor(t_backpack *backpack, char **envp, t_env *path);
