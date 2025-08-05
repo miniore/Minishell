@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 19:39:22 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/05 12:21:16 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:43:36 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@ void hdoc_ctrl_c(int sig)
     g_exit_status = SIGINT; // SIGINT => 128 + 2
     printf("\n");
     rl_on_new_line();
-    exit(0);
+    exit(130);
 }

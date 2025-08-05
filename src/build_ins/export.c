@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:04:42 by porellan          #+#    #+#             */
-/*   Updated: 2025/07/29 18:59:55 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/05 20:17:46 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void    ft_export(t_backpack *backpack)
             continue ;
         }
         var = name_var(actual->content);
-        if(!var || (!ft_isalpha(var[0]) && var[0] != '_'))
+        //
+        if(!var || (!ft_isalpha(var[0]) && var[0] != '_')) 
         {
             if(!ft_isalpha(var[0]) && var[0] != '_')
                 free(var);

@@ -50,7 +50,7 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
             if (pipe(pipe_fd) == -1)
                 exit_error();
         }
-        signal(SIGQUIT, SIG_IGN);
+        signal(SIGQUIT, SIG_DFL);
         signal(SIGINT, SIG_IGN);
         pid = fork();
         if (pid == -1)
@@ -63,13 +63,25 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
                 dup2(prev_fd, STDIN_FILENO);
                 close(prev_fd);
             }
-            ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
-            if (backpack->n < (int)backpack->commands_nb - 1)
+            if(!backpack->commands_lst[backpack->n].redirection)
             {
-                close(pipe_fd[0]);
-                dup2(pipe_fd[1], STDOUT_FILENO);
-                close(pipe_fd[1]);
+                if (backpack->n < (int)backpack->commands_nb - 1)
+                {
+                    close(pipe_fd[0]);
+                    dup2(pipe_fd[1], STDOUT_FILENO);
+                    close(pipe_fd[1]);
+                }
             }
+            else
+			{
+                ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
+				if (backpack->n < (int)backpack->commands_nb - 1)
+                {
+                    close(pipe_fd[0]);
+                    dup2(pipe_fd[1], STDOUT_FILENO);
+                    close(pipe_fd[1]);
+                }
+			}
             executor(backpack, envp, path);
             ft_exit_free(backpack);
             exit(0);
@@ -122,7 +134,7 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
                 executor(backpack, envp, path);
             else
             {
-                signal(SIGQUIT, SIG_IGN);
+                signal(SIGQUIT, SIG_DFL);
                 signal(SIGINT, SIG_IGN);
                 p_id = fork();//Cuando es un solo comando cambia fd en el proceso padre, la entrada de la shell pasa al archivo
                 if (p_id == 0)
@@ -138,7 +150,7 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
         }
         else
         {
-            signal(SIGQUIT, SIG_IGN);
+            signal(SIGQUIT, SIG_DFL);
             signal(SIGINT, SIG_IGN);
             p_id = fork();
             if (p_id == -1)
