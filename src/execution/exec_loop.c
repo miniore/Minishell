@@ -29,7 +29,7 @@ int exec_loop(t_backpack *backpack, char **envp)
     path = search_node(&backpack->env, "PATH");
     backpack->n = 0;
     if (backpack->commands_nb == 1)
-        exec_singels(backpack, envp, path);    
+        exec_singels(backpack, envp, path);
     else
         exec_pipes(backpack, envp, path);
     return(1);
@@ -50,24 +50,28 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
             if (pipe(pipe_fd) == -1)
                 exit_error();
         }
+        signal(SIGQUIT, SIG_IGN);
+        signal(SIGINT, SIG_IGN);
         pid = fork();
         if (pid == -1)
             exit_error();
         else if (pid == 0)
         {
+            signal(SIGINT, handle_ctrl_c);
             if (prev_fd != -1)
             {
                 dup2(prev_fd, STDIN_FILENO);
                 close(prev_fd);
             }
+            ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
             if (backpack->n < (int)backpack->commands_nb - 1)
             {
                 close(pipe_fd[0]);
                 dup2(pipe_fd[1], STDOUT_FILENO);
                 close(pipe_fd[1]);
             }
-            ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
             executor(backpack, envp, path);
+            ft_exit_free(backpack);
             exit(0);
         }
         else
@@ -118,11 +122,15 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
                 executor(backpack, envp, path);
             else
             {
+                signal(SIGQUIT, SIG_IGN);
+                signal(SIGINT, SIG_IGN);
                 p_id = fork();//Cuando es un solo comando cambia fd en el proceso padre, la entrada de la shell pasa al archivo
                 if (p_id == 0)
                 {
+                    signal(SIGINT, handle_ctrl_c);
                     ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
                     executor(backpack, envp, path);
+                    ft_exit_free(backpack);
                     exit(0);
                 }
                 waitpid(p_id, &status, 0);
@@ -130,15 +138,21 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
         }
         else
         {
+            signal(SIGQUIT, SIG_IGN);
+            signal(SIGINT, SIG_IGN);
             p_id = fork();
             if (p_id == -1)
 		        exit_error();
             else if (p_id == 0)
             {
+                signal(SIGINT, handle_ctrl_c);
                 ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
-                run_cmd(process_tok(&backpack->commands_lst[backpack->n]), path, envp);          
+                run_cmd(process_tok(&backpack->commands_lst[backpack->n]), path, envp);
             }
             waitpid(p_id, &status, 0);
         }
     }
+    //printf("%i\n", g_exit_status);
+    // if (g_exit_status == SIGINT || g_exit_status == SIGQUIT)
+	//     write(1, "\n", 1);
 }
