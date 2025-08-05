@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:49:11 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/30 13:23:58 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/05 19:55:18 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void print_commands_list(t_backpack *backpack)
     printf("=============================================\n");
 }
 
-static int ft_tokenize(t_backpack *backpack, char *command)
+static int ft_tokenize(t_backpack *backpack, char *command)  //static int o void??
 {
     backpack->cmd_flag = 0;
     backpack->len = 0;
@@ -136,6 +136,7 @@ int ft_get_command(t_backpack *backpack, char *input)
 {
     char **commands;
 
+    backpack->err_flag = 0;
     if(ft_syntax_parse(backpack, input))
         return(EXIT_FAILURE);
     backpack->n = 0;
