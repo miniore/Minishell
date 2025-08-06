@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 21:05:27 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/04 21:19:27 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/06 20:48:25 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,16 @@ static void	ft_redir_out(t_redir *redirection, int flag)
     close(fd);
 }
 
-static void	ft_redir_in(t_redir *redirection)
+static int	ft_redir_in(t_redir *redirection)
 {
     int fd;
 
     fd = open(redirection->del, O_RDONLY);
-    if(fd == 0)
-        return;
+    if(fd == -1)
+        return (EXIT_FAILURE);    //modificar con perror???
     dup2(fd, STDIN_FILENO);
     close(fd);
+    return (EXIT_SUCCESS);
 }
 
 static void	ft_redir_heredoc(t_redir *redirection)
@@ -67,9 +68,8 @@ static void	ft_redir_heredoc(t_redir *redirection)
     close(pipe_fd[0]);
 }
 
-void    ft_exec_redir(t_redir *redirection)
+int    ft_exec_redir(t_redir *redirection)
 {
-
     while(redirection)
     {
         if(ft_strcmp(redirection->op, ">")  == 0)
@@ -77,9 +77,13 @@ void    ft_exec_redir(t_redir *redirection)
         if(ft_strcmp(redirection->op, ">>")  == 0)
 			ft_redir_out(redirection, 1);
         if(ft_strcmp(redirection->op, "<")  == 0)
-			ft_redir_in(redirection);
+        {
+			if(ft_redir_in(redirection))
+                return (EXIT_FAILURE);
+        }
         if(ft_strcmp(redirection->op, "<<")  == 0)
 			ft_redir_heredoc(redirection);
         redirection = redirection->next;
     }
+    return (EXIT_SUCCESS);
 }

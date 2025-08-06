@@ -41,6 +41,7 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
     int prev_fd = -1;
     pid_t pid;
     int status;
+    t_redir *redirection;
 
     backpack->n = 0;
     while (backpack->n < (int)backpack->commands_nb)
@@ -74,8 +75,25 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
             }
             else
 			{
-                ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
-				if (backpack->n < (int)backpack->commands_nb - 1)
+                redirection = backpack->commands_lst[backpack->n].redirection;
+                if(ft_strcmp(redirection->op, "<<")  == 0)
+                {
+                    dup2(STDIN_FILENO, prev_fd);
+                }
+                if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
+                {
+                    ft_putstr_fd("Error de archivo\n", 2);
+                    if (backpack->n < (int)backpack->commands_nb - 1)
+                    {
+                        close(pipe_fd[0]);
+                        dup2(pipe_fd[1], STDOUT_FILENO);
+                        close(pipe_fd[1]);
+                    }
+                    ft_exit_free(backpack);
+                    exit(0);
+                }
+                if ((ft_strcmp(redirection->op, "<")  == 0 || ft_strcmp(redirection->op, "<<")  == 0) &&
+                        backpack->n < (int)backpack->commands_nb - 1)
                 {
                     close(pipe_fd[0]);
                     dup2(pipe_fd[1], STDOUT_FILENO);
