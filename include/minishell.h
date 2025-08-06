@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/05 19:46:42 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/06 20:58:39 by miniore          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,12 @@ int		ft_is_dquotes(char c);
 void	free_array(char **array);
 char    *ft_strjoin_free(char *s1, char *s2);
 void    ft_put_pererr(t_backpack *backpack, char *err, int n);
+void    ft_put_syserr(t_backpack *backpack, char *err);
 void    ft_put_syserr_exit(t_backpack *backpack, char *err);
 
 //Build_ins
 void executor(t_backpack *backpack, char **envp, t_env *path);
-int pwd(t_env **env);
+void    pwd(t_backpack *backpack);
 //void echo(t_list *arg);
 void cd(t_list *arg, t_env *env);
 void    ft_echo(t_list *arg);
