@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 21:05:27 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/06 20:48:25 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/07 22:04:41 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	ft_redir_in(t_redir *redirection)
     return (EXIT_SUCCESS);
 }
 
-static void	ft_redir_heredoc(t_redir *redirection)
+static void	ft_redir_heredoc(t_redir *redirection, int exec)
 {
     int pipe_fd[2];
 	char *input;
@@ -63,26 +63,63 @@ static void	ft_redir_heredoc(t_redir *redirection)
         write(pipe_fd[1], "\n", 1);
         free(input);
     }
-    close(pipe_fd[1]);
-    dup2(pipe_fd[0], STDIN_FILENO);
-    close(pipe_fd[0]);
+    if (exec == 1)
+    {
+        close(pipe_fd[1]);
+        dup2(pipe_fd[0], STDIN_FILENO);
+        close(pipe_fd[0]);
+    }
+    else
+    {
+        close(pipe_fd[1]);
+        close(pipe_fd[0]);
+    }
+}
+
+static void ft_exec_hdoc(t_redir *redirection)
+{
+    t_redir *iter;
+    int i;
+    int j;
+    
+    i = 0;
+    j = 1;
+    iter = redirection;
+    while(iter)
+    {
+        if(ft_strcmp(iter->op, "<<")  == 0)
+            i++;
+        iter = iter->next;  
+    }
+    iter = redirection;
+    while(iter)
+    {
+        if(ft_strcmp(iter->op, "<<")  == 0)
+        {
+            if (j == i)
+                ft_redir_heredoc(iter, 1);
+            else
+                ft_redir_heredoc(iter, 0);
+            j++;
+        }
+        iter = iter->next;  
+    }
 }
 
 int    ft_exec_redir(t_redir *redirection)
 {
+    ft_exec_hdoc(redirection);
     while(redirection)
     {
-        if(ft_strcmp(redirection->op, ">")  == 0)
-			ft_redir_out(redirection, 0);
-        if(ft_strcmp(redirection->op, ">>")  == 0)
-			ft_redir_out(redirection, 1);
         if(ft_strcmp(redirection->op, "<")  == 0)
         {
 			if(ft_redir_in(redirection))
                 return (EXIT_FAILURE);
         }
-        if(ft_strcmp(redirection->op, "<<")  == 0)
-			ft_redir_heredoc(redirection);
+        if(ft_strcmp(redirection->op, ">")  == 0)
+			ft_redir_out(redirection, 0);
+        if(ft_strcmp(redirection->op, ">>")  == 0)
+			ft_redir_out(redirection, 1);
         redirection = redirection->next;
     }
     return (EXIT_SUCCESS);

@@ -59,13 +59,13 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
         else if (pid == 0)
         {
             signal(SIGINT, handle_ctrl_c);
-            if (prev_fd != -1)
-            {
-                dup2(prev_fd, STDIN_FILENO);
-                close(prev_fd);
-            }
             if(!backpack->commands_lst[backpack->n].redirection)
             {
+                if (prev_fd != -1)
+                {
+                    dup2(prev_fd, STDIN_FILENO);
+                    close(prev_fd);
+                }
                 if (backpack->n < (int)backpack->commands_nb - 1)
                 {
                     close(pipe_fd[0]);
@@ -76,10 +76,16 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
             else
 			{
                 redirection = backpack->commands_lst[backpack->n].redirection;
-                if(ft_strcmp(redirection->op, "<<")  == 0)
+                if(ft_strcmp(redirection->op, "<<")  != 0)
                 {
-                    dup2(STDIN_FILENO, prev_fd);
+                    if (prev_fd != -1)
+                    {
+                        dup2(prev_fd, STDIN_FILENO);
+                        close(prev_fd);
+                    }
                 }
+                else
+                    close(prev_fd);
                 if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
                 {
                     ft_putstr_fd("Error de archivo\n", 2);
@@ -97,6 +103,11 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
                 {
                     close(pipe_fd[0]);
                     dup2(pipe_fd[1], STDOUT_FILENO);
+                    close(pipe_fd[1]);
+                }
+                else
+                {
+                    close(pipe_fd[0]);
                     close(pipe_fd[1]);
                 }
 			}
@@ -158,8 +169,11 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
                 if (p_id == 0)
                 {
                     signal(SIGINT, handle_ctrl_c);
-                    ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
-                    executor(backpack, envp, path);
+                    //ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
+                    if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
+                        ft_putstr_fd("Error de archivo\n", 2);
+                    else
+                        executor(backpack, envp, path);
                     ft_exit_free(backpack);
                     exit(0);
                 }
@@ -176,7 +190,13 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
             else if (p_id == 0)
             {
                 signal(SIGINT, handle_ctrl_c);
-                ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
+                if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
+                {
+                    ft_putstr_fd("Error de archivo\n", 2);
+                    ft_exit_free(backpack);
+                    exit(0);
+                }
+                else
                 run_cmd(process_tok(&backpack->commands_lst[backpack->n]), path, envp);
             }
             waitpid(p_id, &status, 0);
