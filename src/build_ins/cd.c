@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:49:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/04 20:44:27 by miniore          ###   ########.fr       */
+/*   Updated: 2025/08/07 19:56:45 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void ft_cd_home(t_env *pwd, t_env *old_pwd, t_env *home)
     if (!home)
     {
         ft_putstr_fd("cd: not set HOME\n", 2);    
-        g_exit_status = 1;
+        //backpack->exit_status = 1;
     }
     else
     {
@@ -46,7 +46,7 @@ static void ft_cd_home(t_env *pwd, t_env *old_pwd, t_env *home)
             ft_putstr_fd("cd: ", 2);
             ft_putstr_fd(home->content, 2);
             ft_putstr_fd(": No such file or directory\n", 2);
-            g_exit_status = 1;
+            //backpack->exit_status = 1;
         }       
         else
         {
@@ -71,7 +71,7 @@ static void ft_oldpwd(t_env *pwd, t_env *old_pwd)
     if (!old_pwd)
     {
         ft_putstr_fd("cd: not set OLDPWD\n", 2);
-        g_exit_status = 1;    
+        //backpack->exit_status = 1;    
     }
     else
     {
@@ -80,7 +80,7 @@ static void ft_oldpwd(t_env *pwd, t_env *old_pwd)
             ft_putstr_fd("cd: ", 2);
             ft_putstr_fd(old_pwd->content, 2);
             ft_putstr_fd(": No such file or directory\n", 2);
-            g_exit_status = 1;
+            //backpack->exit_status = 1;
         }
         else
         {
@@ -111,7 +111,7 @@ static void ft_commond_cd(char *path, t_env *pwd, t_env *old_pwd)
         ft_putstr_fd("cd: ", 2);
         ft_putstr_fd(path, 2);
         ft_putstr_fd(" No such file or directory\n", 2);
-        g_exit_status = 1;
+        //backpack->exit_status = 1;
     }
     else
         ft_swap_pwd(pwd, old_pwd, temp);
@@ -138,6 +138,6 @@ void cd(t_list *arg, t_env *env)
     else
     {
         ft_putstr_fd("cd: too many arguments\n", 2);
-        g_exit_status = 1;
+        //backpack->exit_status = 1;
     }
 }

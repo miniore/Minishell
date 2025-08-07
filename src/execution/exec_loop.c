@@ -33,7 +33,7 @@ int exec_loop(t_backpack *backpack, char **envp)
     else
         exec_pipes(backpack, envp, path);
     if(!backpack->err_flag)
-        g_exit_status = 0;
+        backpack->exit_status = 0;
     return(1);
 }
 

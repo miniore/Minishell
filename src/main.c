@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/06 21:02:37 by miniore          ###   ########.fr       */
+/*   Updated: 2025/08/07 20:06:23 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,30 @@ int main(int argc, char **argv, char **envp)
     (void)argv;
     //printf con unas macros que indican el archivo y la linea desde donde se a ejecutado para DEBUGEAR!!!!!!!
     //printf("||((%s En_Linea %d))||=> %s\n", __FILE__, __LINE__, "HOLA ¿¿QUIZAS SOY UN ERROR?? ¿¿O NO??");
+    if(argc != 1)
+		return(EXIT_FAILURE);
     backpack = (t_backpack *)ft_calloc(1, sizeof(t_backpack));
     if(!backpack)
     {
         ft_put_pererr(backpack, "Minichelita: malloc error.\n", 1);
         return(EXIT_FAILURE);
     }
-    if(argc != 1)
-		return(EXIT_FAILURE);
     fill_env(&backpack->env, envp);
 	while(1)
     {
         signal(SIGINT, handle_ctrl_c);
         input = readline("Minichelita> ");
-        backpack->exit_status = g_exit_status;
+        if(g_exit_status == 130)
+            backpack->exit_status = g_exit_status;
         printf("%i\n",g_exit_status);
         if(!input)
         {
+            g_exit_status = 131;
+            backpack->exit_status = g_exit_status;
             backpack->commands_nb = 0;
             break;
         }
+        g_exit_status = 0;
         if(ft_void_input(input))
         {
             free(input);
