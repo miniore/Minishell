@@ -29,7 +29,7 @@ int exec_loop(t_backpack *backpack, char **envp)
     path = search_node(&backpack->env, "PATH");
     backpack->n = 0;
     if (backpack->commands_nb == 1)
-        exec_singels(backpack, envp, path);    
+        exec_singels(backpack, envp, path);
     else
         exec_pipes(backpack, envp, path);
     return(1);
@@ -41,6 +41,7 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
     int prev_fd = -1;
     pid_t pid;
     int status;
+    t_redir *redirection;
 
     backpack->n = 0;
     while (backpack->n < (int)backpack->commands_nb)
@@ -50,24 +51,68 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
             if (pipe(pipe_fd) == -1)
                 exit_error();
         }
+        signal(SIGQUIT, SIG_DFL);
+        signal(SIGINT, SIG_IGN);
         pid = fork();
         if (pid == -1)
             exit_error();
         else if (pid == 0)
         {
-            if (prev_fd != -1)
+            signal(SIGINT, handle_ctrl_c);
+            if(!backpack->commands_lst[backpack->n].redirection)
             {
-                dup2(prev_fd, STDIN_FILENO);
-                close(prev_fd);
+                if (prev_fd != -1)
+                {
+                    dup2(prev_fd, STDIN_FILENO);
+                    close(prev_fd);
+                }
+                if (backpack->n < (int)backpack->commands_nb - 1)
+                {
+                    close(pipe_fd[0]);
+                    dup2(pipe_fd[1], STDOUT_FILENO);
+                    close(pipe_fd[1]);
+                }
             }
-            if (backpack->n < (int)backpack->commands_nb - 1)
-            {
-                close(pipe_fd[0]);
-                dup2(pipe_fd[1], STDOUT_FILENO);
-                close(pipe_fd[1]);
-            }
-            ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
+            else
+			{
+                redirection = backpack->commands_lst[backpack->n].redirection;
+                if(ft_strcmp(redirection->op, "<<")  != 0)
+                {
+                    if (prev_fd != -1)
+                    {
+                        dup2(prev_fd, STDIN_FILENO);
+                        close(prev_fd);
+                    }
+                }
+                else
+                    close(prev_fd);
+                if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
+                {
+                    ft_putstr_fd("Error de archivo\n", 2);
+                    if (backpack->n < (int)backpack->commands_nb - 1)
+                    {
+                        close(pipe_fd[0]);
+                        dup2(pipe_fd[1], STDOUT_FILENO);
+                        close(pipe_fd[1]);
+                    }
+                    ft_exit_free(backpack);
+                    exit(0);
+                }
+                if ((ft_strcmp(redirection->op, "<")  == 0 || ft_strcmp(redirection->op, "<<")  == 0) &&
+                        backpack->n < (int)backpack->commands_nb - 1)
+                {
+                    close(pipe_fd[0]);
+                    dup2(pipe_fd[1], STDOUT_FILENO);
+                    close(pipe_fd[1]);
+                }
+                else
+                {
+                    close(pipe_fd[0]);
+                    close(pipe_fd[1]);
+                }
+			}
             executor(backpack, envp, path);
+            ft_exit_free(backpack);
             exit(0);
         }
         else
@@ -118,11 +163,18 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
                 executor(backpack, envp, path);
             else
             {
+                signal(SIGQUIT, SIG_DFL);
+                signal(SIGINT, SIG_IGN);
                 p_id = fork();//Cuando es un solo comando cambia fd en el proceso padre, la entrada de la shell pasa al archivo
                 if (p_id == 0)
                 {
-                    ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
-                    executor(backpack, envp, path);
+                    signal(SIGINT, handle_ctrl_c);
+                    //ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
+                    if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
+                        ft_putstr_fd("Error de archivo\n", 2);
+                    else
+                        executor(backpack, envp, path);
+                    ft_exit_free(backpack);
                     exit(0);
                 }
                 waitpid(p_id, &status, 0);
@@ -130,15 +182,27 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
         }
         else
         {
+            signal(SIGQUIT, SIG_DFL);
+            signal(SIGINT, SIG_IGN);
             p_id = fork();
             if (p_id == -1)
 		        exit_error();
             else if (p_id == 0)
             {
-                ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
-                run_cmd(process_tok(&backpack->commands_lst[backpack->n]), path, envp);          
+                signal(SIGINT, handle_ctrl_c);
+                if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
+                {
+                    ft_putstr_fd("Error de archivo\n", 2);
+                    ft_exit_free(backpack);
+                    exit(0);
+                }
+                else
+                run_cmd(process_tok(&backpack->commands_lst[backpack->n]), path, envp);
             }
             waitpid(p_id, &status, 0);
         }
     }
+    //printf("%i\n", g_exit_status);
+    // if (g_exit_status == SIGINT || g_exit_status == SIGQUIT)
+	//     write(1, "\n", 1);
 }
