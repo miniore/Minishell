@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/06 20:22:58 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:03:16 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,8 @@ void	ft_exit_free(t_backpack *backpack);
 //SIGNALS
 void handle_ctrl_c(int sig);
 void hdoc_ctrl_c(int sig);
+
+//redirtools
+int ft_n_hdocs(t_redir *redirection);
 
 #endif

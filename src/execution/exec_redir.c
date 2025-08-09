@@ -6,11 +6,27 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 21:05:27 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/07 22:04:41 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/09 22:11:44 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int ft_lst_rdo(t_redir *redirection)
+{
+    t_redir *iter;
+    
+    iter = redirection->next; // le pasamos el siguiente nodo a iter
+    while(iter) //si iter fuera NULL no entraria
+    {
+        if(ft_strcmp(iter->op, "<")  == 0) //comprobamos si iter-> es <
+            return (1);//si lo es devolvemos 1 indicando que redirection no es la ultima redireccion de entrada
+        if(ft_strcmp(iter->op, "<<")  == 0)// lo mismo con los Hdocs
+            return (1);
+        iter = iter->next;
+    }
+    return (0);
+}
 
 static void	ft_redir_out(t_redir *redirection, int flag)
 {
@@ -31,8 +47,11 @@ static int	ft_redir_in(t_redir *redirection)
     fd = open(redirection->del, O_RDONLY);
     if(fd == -1)
         return (EXIT_FAILURE);    //modificar con perror???
-    dup2(fd, STDIN_FILENO);
-    close(fd);
+    if (ft_lst_rdo(redirection) == 0)
+    {
+        dup2(fd, STDIN_FILENO);
+        close(fd);
+    }
     return (EXIT_SUCCESS);
 }
 
@@ -47,7 +66,7 @@ static void	ft_redir_heredoc(t_redir *redirection, int exec)
     while(1)
     {
         signal(SIGINT, hdoc_ctrl_c);
-        input = readline(">");
+        input = readline(">"); //  el here doc falla en la primmera pipe
         if(!input)
         {
             ft_putstr_fd("warning: here-document delimited by end-of-file (wanted `out')\n", 2);
@@ -63,17 +82,10 @@ static void	ft_redir_heredoc(t_redir *redirection, int exec)
         write(pipe_fd[1], "\n", 1);
         free(input);
     }
+    close(pipe_fd[1]);
     if (exec == 1)
-    {
-        close(pipe_fd[1]);
         dup2(pipe_fd[0], STDIN_FILENO);
-        close(pipe_fd[0]);
-    }
-    else
-    {
-        close(pipe_fd[1]);
-        close(pipe_fd[0]);
-    }
+    close(pipe_fd[0]);
 }
 
 static void ft_exec_hdoc(t_redir *redirection)
@@ -91,20 +103,20 @@ static void ft_exec_hdoc(t_redir *redirection)
             i++;
         iter = iter->next;  
     }
-    iter = redirection;
-    while(iter)
+    while(redirection)
     {
-        if(ft_strcmp(iter->op, "<<")  == 0)
+        if(ft_strcmp(redirection->op, "<<")  == 0)
         {
             if (j == i)
-                ft_redir_heredoc(iter, 1);
+                ft_redir_heredoc(redirection, 1);
             else
-                ft_redir_heredoc(iter, 0);
+                ft_redir_heredoc(redirection, 0);
             j++;
         }
-        iter = iter->next;  
+        redirection = redirection->next;  
     }
 }
+
 
 int    ft_exec_redir(t_redir *redirection)
 {
