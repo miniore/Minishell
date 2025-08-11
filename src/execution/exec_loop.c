@@ -86,12 +86,6 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
                 }
                 else
                     close(prev_fd);
-                if (backpack->n < (int)backpack->commands_nb - 1)
-                {
-                    close(pipe_fd[0]);
-                    dup2(pipe_fd[1], STDOUT_FILENO);
-                    close(pipe_fd[1]);
-                }
                 if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
                 {
                     ft_putstr_fd("Error de archivo\n", 2);
@@ -110,6 +104,17 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
                 //     dup2(pipe_fd[1], STDOUT_FILENO);
                 //     close(pipe_fd[1]);
                 // }
+                if (ft_n_hdocs(redirection) == 0 && backpack->n < (int)backpack->commands_nb - 1)
+                {
+                    close(pipe_fd[0]);
+                    dup2(pipe_fd[1], STDOUT_FILENO);
+                    close(pipe_fd[1]);
+                }
+                else
+                {
+                    close(pipe_fd[0]);
+                    close(pipe_fd[1]);
+                }
                 // if ((ft_strcmp(redirection->op, "<")  == 0 || ft_strcmp(redirection->op, "<<")  == 0) &&
                 //         backpack->n < (int)backpack->commands_nb - 1)
                 // {
