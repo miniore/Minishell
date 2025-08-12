@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 21:05:27 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/09 22:11:44 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/12 13:04:55 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ static int	ft_redir_in(t_redir *redirection)
         dup2(fd, STDIN_FILENO);
         close(fd);
     }
+    else
+        close(fd);
     return (EXIT_SUCCESS);
 }
 

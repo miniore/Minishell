@@ -98,13 +98,7 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
                     ft_exit_free(backpack);
                     exit(0);
                 }
-                // if (backpack->n < (int)backpack->commands_nb - 1)
-                // {
-                //     close(pipe_fd[0]);
-                //     dup2(pipe_fd[1], STDOUT_FILENO);
-                //     close(pipe_fd[1]);
-                // }
-                if (ft_n_hdocs(redirection) == 0 && backpack->n < (int)backpack->commands_nb - 1)
+                if (ft_n_redout(redirection) == 0)
                 {
                     close(pipe_fd[0]);
                     dup2(pipe_fd[1], STDOUT_FILENO);
