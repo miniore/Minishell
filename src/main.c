@@ -14,17 +14,6 @@
 
 volatile sig_atomic_t g_exit_status = 0;
 
-// static int ft_catch_exit_signal(char *input)
-// {
-//     //signal(SIGQUIT, SIG_IGN);
-//     // if(!input)
-//     // {
-//         printf("Nos vamos. Saliendo.\n");
-//         //free(input);
-//         return(EXIT_FAILURE);
-//     //}
-//     return(EXIT_SUCCESS);
-// }
 static int  ft_void_input(char *input)
 {
         int     i;
@@ -47,22 +36,32 @@ int main(int argc, char **argv, char **envp)
     (void)argv;
     //printf con unas macros que indican el archivo y la linea desde donde se a ejecutado para DEBUGEAR!!!!!!!
     //printf("||((%s En_Linea %d))||=> %s\n", __FILE__, __LINE__, "HOLA ¿¿QUIZAS SOY UN ERROR?? ¿¿O NO??");
-    backpack = (t_backpack *)ft_calloc(1, sizeof(t_backpack));
     if(argc != 1)
 		return(EXIT_FAILURE);
+    backpack = (t_backpack *)ft_calloc(1, sizeof(t_backpack));
+    if(!backpack)
+    {
+        ft_put_pererr(backpack, "Minichelita: malloc error.\n", 1);
+        return(EXIT_FAILURE);
+    }
     fill_env(&backpack->env, envp);
 	while(1)
     {
-        backpack->exit_status = g_exit_status;
         signal(SIGINT, handle_ctrl_c);
         // if (g_exit_status == SIGINT || g_exit_status == SIGQUIT)
 	    //     write(1, "\r", 1);
         input = readline("Minichelita> ");
+        if(g_exit_status == 130)
+            backpack->exit_status = g_exit_status;
+        printf("%i\n",g_exit_status);
         if(!input)
         {
+            g_exit_status = 131;
+            backpack->exit_status = g_exit_status;
             backpack->commands_nb = 0;
             break;
         }
+        g_exit_status = 0;
         if(ft_void_input(input))
         {
             free(input);
@@ -75,7 +74,7 @@ int main(int argc, char **argv, char **envp)
             free(input);
             continue;
         }
-        exec_loop(backpack, envp);
+        exec_loop(backpack, envp);   //else??
         ft_cmd_free(backpack);
         free(input);
     }

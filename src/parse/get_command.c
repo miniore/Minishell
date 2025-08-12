@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:49:11 by miniore           #+#    #+#             */
-/*   Updated: 2025/07/29 20:40:16 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/05 19:55:18 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void print_commands_list(t_backpack *backpack)
     printf("=============================================\n");
 }
 
-static int ft_tokenize(t_backpack *backpack, char *command)
+static int ft_tokenize(t_backpack *backpack, char *command)  //static int o void??
 {
     backpack->cmd_flag = 0;
     backpack->len = 0;
@@ -136,19 +136,23 @@ int ft_get_command(t_backpack *backpack, char *input)
 {
     char **commands;
 
-    if(ft_syntax_parse(input))
-    {
-        backpack->commands_nb = 0;
+    backpack->err_flag = 0;
+    if(ft_syntax_parse(backpack, input))
         return(EXIT_FAILURE);
-    }
     backpack->n = 0;
     backpack->commands_nb = ft_count_commands(input);
     commands = (char **)ft_calloc(backpack->commands_nb + 1, sizeof(char *));
     if (!commands)
+    {
+        ft_put_pererr(backpack, "Minichelita: malloc error.\n", 1);
         return (EXIT_FAILURE);
+    }
     backpack->commands_lst = (tok_lst *)ft_calloc(backpack->commands_nb, sizeof(tok_lst));
     if (!backpack->commands_lst)
+    {
+        ft_put_pererr(backpack, "Minichelita: malloc error.\n", 1);
         return (EXIT_FAILURE);
+    }
     ft_extract_commands(backpack, input, commands);
     free_array(commands);
     return(EXIT_SUCCESS);

@@ -29,6 +29,20 @@ static char    *ft_var_content(char *str)
     return (content);
 }
 
+static int  ft_valid_char(char *var)
+{
+    int i;
+
+    i = 0;
+    while(var[i])
+    {
+        if(!ft_isalnum(var[i]) && var[i] != '_')
+            return(EXIT_FAILURE);
+        i++;
+    }
+    return(EXIT_SUCCESS);
+}
+
 void    ft_export(t_backpack *backpack)
 {
     t_list  *actual;
@@ -47,19 +61,22 @@ void    ft_export(t_backpack *backpack)
             continue ;
         }
         var = name_var(actual->content);
-        //
-        if(!var || (!ft_isalpha(var[0]) && var[0] != '_')) 
+        if(!var || (!ft_isalpha(var[0]) && var[0] != '_') || ft_valid_char(var))
         {
-            if(!ft_isalpha(var[0]) && var[0] != '_')
+            if((!ft_isalpha(var[0]) && var[0] != '_') || ft_valid_char(var))
                 free(var);
-            ft_putstr_fd("Minichelita: export: `", 2);
-            ft_putstr_fd((char *)actual->content, 2);
-            ft_putstr_fd("': not a valid identifier\n", 2);
-            //printf("Minichelita: export: `%s': not a valid identifier\n", (char *)actual->content);
+            ft_put_pererr(backpack, "Minichelita: export: not a valid identifier.\n", 258);
             actual = actual->next;
             continue ;
         }
-        content = ft_var_content(actual->content);
+        // if(ft_valid_char(var))
+        // {
+        //     ft_put_pererr(backpack, "Minichelita: export: not a valid identifier.\n", 258);
+        //     free(var);
+        //     actual = actual->next;
+        //     continue ;
+        // }
+        content = ft_var_content(actual->content);  
         if (!content)
             content = "";
         if (!search_node(&backpack->env, var))

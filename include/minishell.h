@@ -21,8 +21,9 @@
 #include <readline/history.h>
 #include <signal.h>
 #include <stdbool.h>
-# include <fcntl.h>
-# include <sys/wait.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <errno.h>
 
 extern volatile sig_atomic_t g_exit_status;
 
@@ -66,6 +67,7 @@ struct s_backpack
     int     n;
     int     cmd_flag;
     int     red_flag;
+    int     err_flag;
     char    *aux_str;
     char    *token;
     char    *str_2_join;
@@ -80,7 +82,7 @@ void    ft_save_tok(t_backpack *backpack);
 void    ft_save_redir(t_backpack *backpack);
 
 void	ft_extract_content(t_backpack *backpack, char *command);
-int		ft_syntax_parse(char *input);
+int		ft_syntax_parse(t_backpack *backpack, char *input);
 size_t	ft_ignore_qargs(char *command, size_t len);
 
 int		ft_is_redirct(char c);
@@ -90,10 +92,13 @@ int		ft_is_dquotes(char c);
 
 void	free_array(char **array);
 char    *ft_strjoin_free(char *s1, char *s2);
+void    ft_put_pererr(t_backpack *backpack, char *err, int n);
+void    ft_put_syserr(t_backpack *backpack, char *err);
+void    ft_put_syserr_exit(t_backpack *backpack, char *err);
 
 //Build_ins
 void executor(t_backpack *backpack, char **envp, t_env *path);
-int pwd(t_env **env);
+void    pwd(t_backpack *backpack);
 //void echo(t_list *arg);
 void cd(t_list *arg, t_env *env);
 void    ft_echo(t_list *arg);
