@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/09 19:03:16 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/12 11:23:34 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,6 @@ void hdoc_ctrl_c(int sig);
 
 //redirtools
 int ft_n_hdocs(t_redir *redirection);
+int ft_n_redout(t_redir *redirection);
 
 #endif
