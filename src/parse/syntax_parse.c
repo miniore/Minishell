@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:39:38 by porellan          #+#    #+#             */
-/*   Updated: 2025/08/07 21:19:22 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:55:55 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ int ft_redir_syntax(char *input)
             len++;
             if((!ft_is_redirct(input[len]) && !ft_is_redirct(input[len + 1])) ||
                     (!ft_is_redirct(input[len]) && (input[len - 1] != input[len])))
-                return(EXIT_FAILURE);            
+                return(EXIT_FAILURE);
+            while (input[len] && !ft_is_space(input[len]))                
+                len++;
+            if(!input[len] || !ft_is_redirct(input[len]) || input[len] == '|')
+                return (EXIT_FAILURE);
         }
     }
     return(EXIT_SUCCESS);
