@@ -13,6 +13,7 @@ SRC_FILES = src/main.c \
 			src/parse/parse_utils.c \
 			src/parse/char_utils.c \
 			src/free.c \
+			src/error.c \
 			src/env/env.c \
 			src/env/env_tools.c \
 			src/build_ins/pwd.c \
