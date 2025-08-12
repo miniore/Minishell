@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/12 13:47:36 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/12 21:23:41 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ void executor(t_backpack *backpack, char **envp, t_env *path)
     else if(ft_strcmp(backpack->commands_lst[backpack->n].command, "unset")  == 0)
         ft_unset(backpack);
     else
-        run_cmd(process_tok(&backpack->commands_lst[backpack->n]), path, envp);
+        process_tok(backpack, path, envp);
 }

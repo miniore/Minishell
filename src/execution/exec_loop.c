@@ -204,7 +204,7 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
             {
                 signal(SIGINT, handle_ctrl_c);
                 if(!backpack->commands_lst[backpack->n].redirection)
-                    run_cmd(process_tok(&backpack->commands_lst[backpack->n]), path, envp);
+                    process_tok(backpack, path, envp);
                 else
                 {
                     if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
@@ -216,11 +216,13 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
                     else
                     {
                         //printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, backpack->commands_lst[backpack->n].redirection->op);
-                        run_cmd(process_tok(&backpack->commands_lst[backpack->n]), path, envp);
+                        process_tok(backpack, path, envp);
                     }
                 }
             }
             waitpid(p_id, &status, 0);
+            backpack->exit_status = errno;
+            printf("%i\n", backpack->exit_status);
         }
     }
     //printf("%i\n", g_exit_status);

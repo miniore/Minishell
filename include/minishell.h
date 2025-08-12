@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/12 14:15:16 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/12 21:04:46 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,9 +119,9 @@ void modify_node(t_env *node, char *var, char *content); // esta funcion requier
 int ft_env(t_backpack *backpack, int option);
 
 //EXEC COMMONS
-void run_cmd(char **cmd, t_env *env, char **envp);
+//void run_cmd(char **cmd, t_env *env, char **envp);
 int exec_loop(t_backpack *backpack, char **envp);
-char **process_tok(tok_lst *token);
+void    process_tok(t_backpack *backpack, t_env *env, char **envp);
 int    ft_exec_redir(t_redir *redirection);
 void	exit_error(void);
 
