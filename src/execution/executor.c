@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/30 21:00:30 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/12 13:47:36 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void executor(t_backpack *backpack, char **envp, t_env *path)
     else if(ft_strcmp(backpack->commands_lst[backpack->n].command, "echo")  == 0)
         ft_echo(backpack->commands_lst[backpack->n].arguments);
     else if(ft_strcmp(backpack->commands_lst[backpack->n].command, "cd")  == 0)
-        cd(backpack->commands_lst[backpack->n].arguments, backpack->env);
+        cd(backpack);
     else if(ft_strcmp(backpack->commands_lst[backpack->n].command, "exit")  == 0)
         ft_exit(backpack); // habria que mirar de liberar.......
     else if(ft_strcmp(backpack->commands_lst[backpack->n].command, "env")  == 0)

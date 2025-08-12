@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:49:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/07 19:56:45 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/12 14:14:04 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,16 @@ static void ft_swap_pwd(t_env *pwd, t_env *old_pwd, char *temp)
     }
 }
 
-static void ft_cd_home(t_env *pwd, t_env *old_pwd, t_env *home)
+static void ft_cd_home(t_backpack *backpack, t_env *pwd, t_env *old_pwd, t_env *home)
 {
     char *temp;
     
     if (!home)
-    {
-        ft_putstr_fd("cd: not set HOME\n", 2);    
-        //backpack->exit_status = 1;
-    }
+        ft_put_pererr(backpack, "cd: not set HOME\n", 1);
     else
     {
         if (chdir(home->content) == -1)
-        {
-            ft_putstr_fd("cd: ", 2);
-            ft_putstr_fd(home->content, 2);
-            ft_putstr_fd(": No such file or directory\n", 2);
-            //backpack->exit_status = 1;
-        }       
+            ft_put_pererr(backpack, "Minichelita: cd: No such file or directory\n", 1);    
         else
         {
             if (pwd != NULL)
@@ -63,25 +55,17 @@ static void ft_cd_home(t_env *pwd, t_env *old_pwd, t_env *home)
     }    
 }
 
-static void ft_oldpwd(t_env *pwd, t_env *old_pwd)
+static void ft_oldpwd(t_backpack *backpack, t_env *pwd, t_env *old_pwd)
 {
     char *temp;
     char    *tmp_2_free;
 
     if (!old_pwd)
-    {
-        ft_putstr_fd("cd: not set OLDPWD\n", 2);
-        //backpack->exit_status = 1;    
-    }
+        ft_put_pererr(backpack, "cd: not set OLDPWD\n", 1);
     else
     {
         if (chdir(old_pwd->content) == -1)
-        {
-            ft_putstr_fd("cd: ", 2);
-            ft_putstr_fd(old_pwd->content, 2);
-            ft_putstr_fd(": No such file or directory\n", 2);
-            //backpack->exit_status = 1;
-        }
+            ft_put_pererr(backpack, "Minichelita: cd: No such file or directory\n", 1);
         else
         {
             if (pwd != NULL)
@@ -101,43 +85,39 @@ static void ft_oldpwd(t_env *pwd, t_env *old_pwd)
         
 }
 
-static void ft_commond_cd(char *path, t_env *pwd, t_env *old_pwd)
+static int ft_commond_cd(char *path, t_env *pwd, t_env *old_pwd)
 {
     char *temp;
     
     temp = getcwd(NULL, 0);
     if (chdir(path) == -1)
-    {
-        ft_putstr_fd("cd: ", 2);
-        ft_putstr_fd(path, 2);
-        ft_putstr_fd(" No such file or directory\n", 2);
-        //backpack->exit_status = 1;
-    }
+        return(EXIT_FAILURE);
     else
         ft_swap_pwd(pwd, old_pwd, temp);
+    return(EXIT_SUCCESS);
 }
 
-void cd(t_list *arg, t_env *env)
+void cd(t_backpack *backpack)
 {
     t_env *pwd;
     t_env *old_pwd;
     t_env *home;
 
-    pwd = search_node(&env, "PWD");
-    old_pwd = search_node(&env, "OLDPWD");
-    home = search_node(&env, "HOME");
-    if(!arg)
-        ft_cd_home(pwd, old_pwd, home);           
-    else if(ft_lstsize(arg) == 1)
+    pwd = search_node(&backpack->env, "PWD");
+    old_pwd = search_node(&backpack->env, "OLDPWD");
+    home = search_node(&backpack->env, "HOME");
+    if(!backpack->commands_lst[backpack->n].arguments)
+        ft_cd_home(backpack, pwd, old_pwd, home);           
+    else if(ft_lstsize(backpack->commands_lst[backpack->n].arguments) == 1)
     {
-        if (ft_strcmp((char *)arg->content, "-") == 0)
-            ft_oldpwd(pwd, old_pwd); 
+        if (ft_strcmp(backpack->commands_lst[backpack->n].arguments->content, "-") == 0)
+            ft_oldpwd(backpack, pwd, old_pwd); 
         else
-            ft_commond_cd((char *)arg->content, pwd, old_pwd);
+        {
+            if(ft_commond_cd(backpack->commands_lst[backpack->n].arguments->content, pwd, old_pwd))
+                ft_put_pererr(backpack, "Minichelita: cd: No such file or directory\n", 1);
+        }
     }
     else
-    {
-        ft_putstr_fd("cd: too many arguments\n", 2);
-        //backpack->exit_status = 1;
-    }
+        ft_putstr_fd("Minichelita: cd: too many arguments\n", 2);
 }

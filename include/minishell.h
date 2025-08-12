@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/12 11:23:34 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/12 14:15:16 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void    ft_put_syserr_exit(t_backpack *backpack, char *err);
 void executor(t_backpack *backpack, char **envp, t_env *path);
 void    pwd(t_backpack *backpack);
 //void echo(t_list *arg);
-void cd(t_list *arg, t_env *env);
+void    cd(t_backpack *backpack);
 void    ft_echo(t_list *arg);
 void    ft_export(t_backpack *backpack);
 void	ft_unset(t_backpack *backpack);
