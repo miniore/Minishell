@@ -3,26 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/07 20:06:23 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/04 20:20:12 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 volatile sig_atomic_t g_exit_status = 0;
-
-static void handle_ctrl_c(int sig)
-{
-    (void)sig;
-    g_exit_status = 130; // SIGINT => 128 + 2
-    printf("\n");
-    rl_replace_line("", 0);
-    rl_on_new_line();
-    rl_redisplay();
-}
 
 static int  ft_void_input(char *input)
 {
@@ -58,6 +48,8 @@ int main(int argc, char **argv, char **envp)
 	while(1)
     {
         signal(SIGINT, handle_ctrl_c);
+        // if (g_exit_status == SIGINT || g_exit_status == SIGQUIT)
+	    //     write(1, "\r", 1);
         input = readline("Minichelita> ");
         if(g_exit_status == 130)
             backpack->exit_status = g_exit_status;
