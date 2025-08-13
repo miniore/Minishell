@@ -6,14 +6,15 @@ LIBFT = Libft/libft.a
 
 SRC_FILES = src/main.c \
 			src/parse/syntax_parse.c \
+			src/parse/redir_syntax_parse.c \
 			src/parse/get_command.c \
 			src/parse/tokenize.c \
 			src/parse/exp_variables.c \
 			src/parse/redir_tokenize.c \
 			src/parse/parse_utils.c \
 			src/parse/char_utils.c \
-			src/free.c \
-			src/error.c \
+			src/free/free.c \
+			src/error/error.c \
 			src/env/env.c \
 			src/env/env_tools.c \
 			src/build_ins/pwd.c \
@@ -32,7 +33,7 @@ SRC_FILES = src/main.c \
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
 CC = cc
-FLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+FLAGS = -Wall -Wextra -Werror
 READ_FLAGS = -lreadline -lhistory
 INCLUDE_FLAGS = -I Libft/ -I Libft/Printf/ -I include/
 LINK_FLAGS = -L Libft -L Libft/Printf/ -lft -lftprintf

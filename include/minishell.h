@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/12 21:04:46 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/13 20:05:56 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void    ft_save_redir(t_backpack *backpack);
 
 void	ft_extract_content(t_backpack *backpack, char *command);
 int		ft_syntax_parse(t_backpack *backpack, char *input);
+int     ft_redir_syntax(char *input);
 size_t	ft_ignore_qargs(char *command, size_t len);
 
 int		ft_is_redirct(char c);

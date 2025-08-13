@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:49:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/13 14:43:33 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/13 18:51:47 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,10 @@ static int ft_commond_cd(t_backpack *backpack, t_env *pwd, t_env *old_pwd)
     
     temp = getcwd(NULL, 0);
     if (chdir(backpack->commands_lst[backpack->n].arguments->content) == -1)
+    {
+        free(temp);
         return(EXIT_FAILURE);
+    }
     else
     {
         if(ft_swap_pwd(pwd, old_pwd, temp))

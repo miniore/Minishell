@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/12 18:47:11 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/13 19:14:24 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int main(int argc, char **argv, char **envp)
         input = readline("Minichelita> ");
         if(g_exit_status == 130)
             backpack->exit_status = g_exit_status;
-        printf("%i\n",g_exit_status);
+        //printf("%i\n",g_exit_status);
         if(!input)
         {
             g_exit_status = 131;

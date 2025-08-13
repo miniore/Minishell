@@ -16,7 +16,7 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path);
 void exec_pipes(t_backpack *backpack, char **envp, t_env *path);
 int is_buidins(t_backpack *backpack);
 
-void	exit_error(void)
+void	exit_error(void)   //borraaaaar!!
 {
 	perror("Minichelita");
 	exit(EXIT_FAILURE);
@@ -51,13 +51,13 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
         if (backpack->n < (int)backpack->commands_nb - 1)
         {
             if (pipe(pipe_fd) == -1)
-                exit_error();
+                ft_put_syserr_exit(backpack, "Minichelita");
         }
         signal(SIGQUIT, SIG_DFL);
         signal(SIGINT, SIG_IGN);
         pid = fork();
         if (pid == -1)
-            exit_error();
+            ft_put_syserr_exit(backpack, "Minichelita");
         else if (pid == 0)
         {
             signal(SIGINT, handle_ctrl_c);
@@ -90,7 +90,7 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
                     close(prev_fd);
                 if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
                 {
-                    ft_putstr_fd("Error de archivo\n", 2);
+                    ft_put_syserr(backpack, "Minichelita");
                     if (backpack->n < (int)backpack->commands_nb - 1)
                     {
                         close(pipe_fd[0]);
@@ -98,7 +98,7 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
                         close(pipe_fd[1]);
                     }
                     ft_exit_free(backpack);
-                    exit(0);
+                    exit(backpack->exit_status);
                 }
                 if (ft_n_redout(redirection) == 0)
                 {
@@ -184,11 +184,11 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
                     signal(SIGINT, handle_ctrl_c);
                     //ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
                     if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
-                        ft_putstr_fd("Error de archivo\n", 2);
+                        ft_put_syserr(backpack, "Minichelita");
                     else
                         executor(backpack, envp, path);
                     ft_exit_free(backpack);
-                    exit(0);
+                    exit(backpack->exit_status);
                 }
                 waitpid(p_id, &status, 0);
             }
@@ -199,7 +199,7 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
             signal(SIGINT, SIG_IGN);
             p_id = fork();
             if (p_id == -1)
-		        exit_error();
+		        ft_put_syserr_exit(backpack, "Minichelita");
             else if (p_id == 0)
             {
                 signal(SIGINT, handle_ctrl_c);
@@ -209,9 +209,9 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
                 {
                     if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
                     {
-                        ft_putstr_fd("Error de archivo\n", 2);
+                        ft_put_syserr(backpack, "Minichelita");
                         ft_exit_free(backpack);
-                        exit(0);
+                        exit(backpack->exit_status);
                     }
                     else
                     {
@@ -222,7 +222,6 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
             }
             waitpid(p_id, &status, 0);
             backpack->exit_status = errno;
-            printf("%i\n", backpack->exit_status);
         }
     }
     //printf("%i\n", g_exit_status);

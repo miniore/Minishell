@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:25:06 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/12 21:24:41 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/13 19:12:02 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void run_cmd(t_backpack *backpack, char **cmd, t_env *env, char **envp)
         if (execve(cmd[0], cmd, envp) == -1)
         {
             free_split(cmd);
-            exit_error();
+            ft_put_syserr_exit(backpack, "Minichelita");
         }
     }
     path = get_cmd(cmd[0], env);
