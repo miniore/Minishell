@@ -48,7 +48,7 @@ OBJ_FILES = $(SRC_FILES:.c=.o)
 BONUS_OBJ_FILES = $(SRC_FILES_BONUS:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Werror
+CFLAGS = -Wall -Werror -fsanitize=address -g3
 AR = ar
 ARFLAGS = -rcs
 all: $(NAME) bonus

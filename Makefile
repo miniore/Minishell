@@ -32,7 +32,7 @@ SRC_FILES = src/main.c \
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 READ_FLAGS = -lreadline -lhistory
 INCLUDE_FLAGS = -I Libft/ -I Libft/Printf/ -I include/
 LINK_FLAGS = -L Libft -L Libft/Printf/ -lft -lftprintf
