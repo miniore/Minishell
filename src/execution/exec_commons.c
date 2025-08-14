@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commons.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:25:06 by frlorenz          #+#    #+#             */
 /*   Updated: 2025/08/12 16:44:01 by frlorenz         ###   ########.fr       */
@@ -50,7 +50,7 @@ char *get_cmd(char *cmd, t_env *env)
     return (NULL);
 }
 
-void run_cmd(char **cmd, t_env *env, char **envp)
+static void run_cmd(t_backpack *backpack, char **cmd, t_env *env, char **envp)
 {
     char    *path;
     
@@ -59,42 +59,40 @@ void run_cmd(char **cmd, t_env *env, char **envp)
         if (execve(cmd[0], cmd, envp) == -1)
         {
             free_split(cmd);
-            exit_error();
+            ft_put_syserr_exit(backpack, "Minichelita");
         }
     }
     path = get_cmd(cmd[0], env);
     if (!path)
     {
-        ft_putstr_fd("Command '", 2);
-        ft_putstr_fd(cmd[0], 2);
-        ft_putstr_fd("' not found.\n", 2);
         free_split(cmd);
         free(path);
         ft_free_env(env);
-        exit(127);
+        ft_put_syserr_exit(backpack, "Minichelita");
     }
     if (execve(path, cmd, envp) == -1)
     {
         free_split(cmd);
         free (path);
         ft_free_env(env);
-        exit_error();
+        ft_put_syserr_exit(backpack, "Minichelita"); //el mensaje seria execve para perror??
     }
+    free(path);
 }
 
-char **process_tok(tok_lst *token)
+void    process_tok(t_backpack *backpack, t_env *env, char **envp)
 {
     int i;
     char **cmd;
     t_list *act;
 
-    i = ft_lstsize(token->arguments);
+    i = ft_lstsize(backpack->commands_lst[backpack->n].arguments);
     cmd = (char **) ft_calloc(i + 2, sizeof (char **));
     if (!cmd)
-        return(NULL);
+        return(ft_put_pererr(backpack, "Minichelita: malloc error", 1));
     //printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
-    cmd[0] = token->command;
-    act = token->arguments;
+    cmd[0] = backpack->commands_lst[backpack->n].command;
+    act = backpack->commands_lst[backpack->n].arguments;
     i = 1;
     while(act)
     {
@@ -102,5 +100,5 @@ char **process_tok(tok_lst *token)
         i++;
         act = act->next;
     }
-    return(cmd);
+    run_cmd(backpack, cmd, env, envp);
 }

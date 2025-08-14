@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/12 11:23:34 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/13 21:02:45 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void    ft_save_redir(t_backpack *backpack);
 
 void	ft_extract_content(t_backpack *backpack, char *command);
 int		ft_syntax_parse(t_backpack *backpack, char *input);
+int     ft_redir_syntax(char *input);
 size_t	ft_ignore_qargs(char *command, size_t len);
 
 int		ft_is_redirct(char c);
@@ -91,6 +92,7 @@ int		ft_is_quotes(char c);
 int		ft_is_dquotes(char c);
 
 void	free_array(char **array);
+void free_command_list(tok_lst *commands_lst, size_t size);
 char    *ft_strjoin_free(char *s1, char *s2);
 void    ft_put_pererr(t_backpack *backpack, char *err, int n);
 void    ft_put_syserr(t_backpack *backpack, char *err);
@@ -100,7 +102,7 @@ void    ft_put_syserr_exit(t_backpack *backpack, char *err);
 void executor(t_backpack *backpack, char **envp, t_env *path);
 void    pwd(t_backpack *backpack);
 //void echo(t_list *arg);
-void cd(t_list *arg, t_env *env);
+void    cd(t_backpack *backpack);
 void    ft_echo(t_list *arg);
 void    ft_export(t_backpack *backpack);
 void	ft_unset(t_backpack *backpack);
@@ -119,9 +121,9 @@ void modify_node(t_env *node, char *var, char *content); // esta funcion requier
 int ft_env(t_backpack *backpack, int option);
 
 //EXEC COMMONS
-void run_cmd(char **cmd, t_env *env, char **envp);
+//void run_cmd(char **cmd, t_env *env, char **envp);
 int exec_loop(t_backpack *backpack, char **envp);
-char **process_tok(tok_lst *token);
+void    process_tok(t_backpack *backpack, t_env *env, char **envp);
 int    ft_exec_redir(t_redir *redirection);
 void	exit_error(void);
 

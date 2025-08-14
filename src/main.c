@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
 /*   Updated: 2025/08/13 15:51:07 by frlorenz         ###   ########.fr       */
@@ -59,7 +59,7 @@ int main(int argc, char **argv, char **envp)
         {
             g_exit_status = 131;
             backpack->exit_status = g_exit_status;
-            backpack->commands_nb = 0;
+            backpack->commands_nb = 0;  //necesariio????
             break;
         }
         g_exit_status = 0;

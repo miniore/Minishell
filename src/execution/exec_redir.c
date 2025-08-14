@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 21:05:27 by miniore           #+#    #+#             */
 /*   Updated: 2025/08/14 19:10:19 by frlorenz         ###   ########.fr       */
@@ -66,7 +66,7 @@ static void	ft_redir_heredoc(t_redir *redirection, int exec)
 	char *input;
 
 	if (pipe(pipe_fd) == -1)
-        exit_error();
+        exit_error();  //cambiarrrrr!!!!!
     rl_clear_history();
     dup_fd = dup(STDIN_FILENO);
     while(g_exit_status != 130)
