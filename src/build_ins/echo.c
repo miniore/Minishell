@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:22:22 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/10 17:01:08 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/14 20:44:08 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,43 +28,42 @@ static int ft_check_flag(char *flag)
     return(0);
 }
 
-void    ft_echo(t_list *arg)
+static void	ft_echo_print(t_list *temp, bool opt)
 {
-    t_list  *temp;
-    bool    opt;
-    int     flag;
+	while (temp->next)
+	{
+		printf("%s ", (char*)temp->content);
+		temp = temp->next;
+	}
+	printf("%s", (char*)temp->content);
+	if (!opt)
+		printf("\n");
+}
 
-    if (!arg)
-        printf("\n");
+void	ft_echo(t_list *arg)
+{
+	t_list	*temp;
+	bool	opt;
+	int		flag;
+
+	temp = arg;
+	opt = false;
+	flag = 0;
+	if (!arg)
+		printf("\n");
     else
     {
-        temp = arg;
-        opt = false;
-        flag = 0;
-        while (temp->next)
+        while (temp->next && ((char*)temp->content)[0] == '-' && !flag)
         {
-            if (((char*)temp->content)[0] == '-' && flag == 0)
+            if (!ft_check_flag((char*)temp->content))
             {
-                if (!ft_check_flag((char*)temp->content))
-                {
-                    opt = true;
-                    temp = temp->next;
-                    continue;
-                }
+                opt = true;
+                temp = temp->next;
             }
-            printf("%s ", (char*)temp->content);
-            flag = 1;
-            temp = temp->next;
-        }
-        if (((char*)temp->content)[0] == '-' && flag == 0)
-        {
-            if (ft_check_flag((char*)temp->content))
-                    printf("%s", (char*)temp->content);
-        }
-        else
-            printf("%s", (char*)temp->content);
-        if (opt == false)
-            printf("\n");
+            else
+                break;        
+        }    
     }
-    
+	ft_echo_print(temp, opt);
 }
+
