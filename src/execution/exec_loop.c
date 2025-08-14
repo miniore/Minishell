@@ -86,7 +86,7 @@ void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
                         close(prev_fd);
                     }
                 }
-                else
+                else if (prev_fd != -1)
                     close(prev_fd);
                 if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
                 {

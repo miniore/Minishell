@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:25:06 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/13 19:12:02 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/12 16:44:01 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,8 @@ static void run_cmd(t_backpack *backpack, char **cmd, t_env *env, char **envp)
     {
         free_split(cmd);
         free(path);
-        //ft_put_pererr(backpack, "Minichelita: command not found\n", 127);
+        ft_free_env(env);
         ft_put_syserr_exit(backpack, "Minichelita");
-        //exit(127);
     }
     if (execve(path, cmd, envp) == -1)
     {

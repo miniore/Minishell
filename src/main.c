@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/13 19:14:24 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/13 15:51:07 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int main(int argc, char **argv, char **envp)
     fill_env(&backpack->env, envp);
 	while(1)
     {
+        signal(SIGQUIT, SIG_DFL);
         signal(SIGINT, handle_ctrl_c);
         // if (g_exit_status == SIGINT || g_exit_status == SIGQUIT)
 	    //     write(1, "\r", 1);
