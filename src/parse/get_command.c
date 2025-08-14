@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:49:11 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/05 19:55:18 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/13 20:25:41 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,22 @@ static void print_commands_list(t_backpack *backpack)
     printf("=============================================\n");
 }
 
-static int ft_tokenize(t_backpack *backpack, char *command)  //static int o void??
+static void ft_tokenize(t_backpack *backpack, char *command)
 {
     backpack->cmd_flag = 0;
     backpack->len = 0;
     ft_extract_tokens(backpack, command);
-    return(EXIT_SUCCESS);
+}
+
+static size_t   ft_ignore_quotes(char *input, size_t len)
+{
+    while(input[len] != '|' && input[len] != '\0')
+    {
+        if(!ft_is_quotes(input[len]) || !ft_is_dquotes(input[len]))
+            len = ft_ignore_qargs(input, len);
+        len++;
+    }
+    return(len);
 }
 
 static void ft_extract_commands(t_backpack *backpack, char *input, char **commands)
@@ -87,12 +97,7 @@ static void ft_extract_commands(t_backpack *backpack, char *input, char **comman
     {
         if(input[i] == '|' && input[i + 1] == '|')
             break ;
-        while(input[len] != '|' && input[len] != '\0')
-        {
-            if(!ft_is_quotes(input[len]) || !ft_is_dquotes(input[len]))
-                len = ft_ignore_qargs(input, len);
-            len++;
-        }
+        len = ft_ignore_quotes(input, len);
         if(i != 0)
             i++;
         commands[j] = ft_substr(input, i, len - i);

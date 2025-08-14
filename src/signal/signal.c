@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 19:39:22 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/12 13:03:12 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/12 18:50:53 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void handle_ctrl_c(int sig)
 {
     (void)sig;
-    g_exit_status = SIGINT; // SIGINT => 128 + 2
+    g_exit_status = SIGINT + 128; // SIGINT => 128 + 2
     write(1,"\n", 1);
     rl_on_new_line();
     rl_replace_line("", 0);
@@ -24,7 +24,7 @@ void handle_ctrl_c(int sig)
 void hdoc_ctrl_c(int sig)
 {
     (void)sig;
-    g_exit_status = SIGINT; // SIGINT => 128 + 2
+    g_exit_status = SIGINT + 128; // SIGINT => 128 + 2
     write(1,"\n", 1);
     rl_on_new_line();
     exit(130);

@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 13:46:20 by porellan          #+#    #+#             */
-/*   Updated: 2025/08/07 21:18:29 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/13 20:13:57 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,6 @@ void    ft_redirections(t_backpack *backpack, char *command)
     backpack->i = (int)backpack->len;
     while(!ft_is_redirct(command[backpack->len + 1]))
         backpack->len++;
-    // if(backpack->len - backpack->i > 1 || (backpack->len - backpack->i == 1 &&
-    //         command[backpack->len - 1] != command[backpack->len]))
-    // {
-    //     ft_put_pererr(backpack, "Minichelita: syntax error near redirection token.", 258);
-    //     return;
-    // }
     if(backpack->len - backpack->i == 1)
     {
         if(command[backpack->i] == '<')

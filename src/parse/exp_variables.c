@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniore <miniore@student.42.fr>            +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:43:39 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/05 19:02:32 by miniore          ###   ########.fr       */
+/*   Updated: 2025/08/14 19:49:15 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,62 @@ static char *ft_join_tok(t_backpack *backpack, char *res_tok, char *var)
     }
     return(res_tok);
 }
+static char *ft_pid_var(char *token, char *res_tok, int *i, int *start)
+{
+    int aux;
+
+    aux = *i;
+    if(!res_tok)
+        res_tok = ft_itoa(getpid());
+    else
+        res_tok = ft_strjoin_free(res_tok, ft_itoa(getpid()));
+    aux++;
+    if(token[aux] && token[aux] != '$')
+    {
+        *start = aux;
+        while (token[aux] && token[aux] != '$')
+            aux++;
+        res_tok = ft_strjoin_free(res_tok, ft_substr(token, *start, aux - *start));
+    }
+    *i = aux;
+    return(res_tok);
+}
+
+static char *ft_es_var(t_backpack *backpack, char *res_tok, int *i)
+{
+    int aux;
+
+    aux = *i;
+    if(!res_tok)
+        res_tok = ft_itoa(backpack->exit_status);
+    else
+        res_tok = ft_strjoin_free(res_tok, ft_itoa(backpack->exit_status));
+    aux++;
+    *i = aux;
+    return(res_tok);
+}
+
+static char *ft_invalid_var(char *token, char *res_tok, int *i, int *start)
+{
+    int aux;
+
+    aux = *i;
+    *start = aux;
+    while(token[aux] && token[aux] != '$')
+        aux++;
+    if(!res_tok)
+    {
+        res_tok = ft_strdup("$");
+        res_tok = ft_strjoin_free(res_tok, ft_substr(token, *start, aux - *start));
+    }
+    else
+    {
+        res_tok = ft_strjoin_free(res_tok, ft_strdup("$"));
+        res_tok = ft_strjoin_free(res_tok, ft_substr(token, *start, aux - *start));
+    }
+    *i = aux;
+    return(res_tok);
+}
 
 char *ft_exp_var(t_backpack *backpack, char *token)
 {
@@ -61,28 +117,9 @@ char *ft_exp_var(t_backpack *backpack, char *token)
         {
             i++;
             if (token[i] == '$')
-            {
-                if(!res_tok)
-                    res_tok = ft_itoa(getpid());
-                else
-                    res_tok = ft_strjoin_free(res_tok, ft_itoa(getpid()));
-                i++;
-                if(token[i] && token[i] != '$')
-                {
-                    start = i;
-                    while (token[i] && token[i] != '$')
-                        i++;
-                    res_tok = ft_strjoin_free(res_tok, ft_substr(token, start, i - start));
-                }
-            }
+                res_tok = ft_pid_var(token, res_tok, &i, &start);
             else if (token[i] == '?')
-            {
-                if(!res_tok)
-                    res_tok = ft_itoa(backpack->exit_status);
-                else
-                    res_tok = ft_strjoin_free(res_tok, ft_itoa(backpack->exit_status));
-                i++;
-            }
+                res_tok = ft_es_var(backpack, res_tok, &i);
             else if (token[i] && (ft_isalpha(token[i]) || token[i] == '_'))
             {
                 start = i;
@@ -94,21 +131,7 @@ char *ft_exp_var(t_backpack *backpack, char *token)
                 var = NULL;
             }
             else if(token[i] && (!ft_isalnum(token[i]) || token[i] != '_'))
-            {
-                start = i;
-                while(token[i] && token[i] != '$')
-                    i++;
-                if(!res_tok)
-                {
-                    res_tok = ft_strdup("$");
-                    res_tok = ft_strjoin_free(res_tok, ft_substr(token, start, i - start));
-                }
-                else
-                {
-                    res_tok = ft_strjoin_free(res_tok, ft_strdup("$"));
-                    res_tok = ft_strjoin_free(res_tok, ft_substr(token, start, i - start));
-                }
-            }
+                res_tok = ft_invalid_var(token, res_tok, &i, &start);
             else if(!token[i])
                 res_tok = ft_strjoin_free(res_tok, ft_strdup("$"));
         }
