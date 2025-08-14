@@ -14,6 +14,7 @@ SRC_FILES = src/main.c \
 			src/parse/parse_utils.c \
 			src/parse/char_utils.c \
 			src/free/free.c \
+			src/free/final_free.c \
 			src/error/error.c \
 			src/env/env.c \
 			src/env/env_tools.c \

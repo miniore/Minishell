@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:49:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/13 18:51:47 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/13 21:05:56 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,7 @@ static void ft_oldpwd(t_backpack *backpack, t_env *pwd, t_env *old_pwd)
                 }
             }
         }
-    }
-        
+    }    
 }
 
 static int ft_commond_cd(t_backpack *backpack, t_env *pwd, t_env *old_pwd)

@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:12:31 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/13 19:15:58 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/13 20:46:48 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,25 +71,4 @@ void free_command_list(tok_lst *commands_lst, size_t size)
         free(commands_lst);
         commands_lst = NULL;
     }
-}
-
-void	ft_cmd_free(t_backpack *backpack)
-{
-    if (!backpack)
-        return;
-    if(backpack->commands_lst)
-        free_command_list(backpack->commands_lst, backpack->commands_nb);
-    //free_env(&backpack->env);
-    //free(backpack->token);
-    //free(backpack);
-}
-
-void	ft_exit_free(t_backpack *backpack)
-{
-    if (!backpack)
-        return;
-    if(backpack->commands_lst)
-        free_command_list(backpack->commands_lst, backpack->commands_nb);
-    ft_free_env(backpack->env);
-    free(backpack);
 }
