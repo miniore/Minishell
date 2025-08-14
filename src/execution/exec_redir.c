@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 21:05:27 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/12 13:04:55 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/14 19:10:19 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,34 +60,47 @@ static int	ft_redir_in(t_redir *redirection)
 static void	ft_redir_heredoc(t_redir *redirection, int exec)
 {
     int pipe_fd[2];
+    int dup_fd;
+    char buffer[102400];
+    size_t bytes_read;
 	char *input;
 
 	if (pipe(pipe_fd) == -1)
         exit_error();
     rl_clear_history();
-    while(1)
+    dup_fd = dup(STDIN_FILENO);
+    while(g_exit_status != 130)
     {
         signal(SIGINT, hdoc_ctrl_c);
-        input = readline(">"); //  el here doc falla en la primmera pipe
+        input = readline(">");
         if(!input)
         {
-            ft_putstr_fd("warning: here-document delimited by end-of-file (wanted `out')\n", 2);
-            free(input);
-            break;
-        }  
-        if(ft_strcmp(input, redirection->del) == 0)
-        {
+            if(!input && g_exit_status != 130)
+                ft_putstr_fd("warning: here-document delimited by end-of-file (wanted `out')\n", 2);
             free(input);
             break;
         }
-        write(pipe_fd[1], input, ft_strlen(input));
-        write(pipe_fd[1], "\n", 1);
-        free(input);
+            if(ft_strcmp(input, redirection->del) == 0)
+            {
+                free(input);
+                break;
+            }
+            write(pipe_fd[1], input, ft_strlen(input));
+            write(pipe_fd[1], "\n", 1);
+            free(input);   
+    }
+    if(g_exit_status == 130 && exec == 1)
+    {
+        write(pipe_fd[1], " ", 1);
+        bytes_read = read(pipe_fd[0], buffer, sizeof(buffer));
     }
     close(pipe_fd[1]);
     if (exec == 1)
         dup2(pipe_fd[0], STDIN_FILENO);
+    if(g_exit_status == 130 && exec == 0)
+        dup2(dup_fd, STDIN_FILENO);
     close(pipe_fd[0]);
+    close(dup_fd);
 }
 
 static void ft_exec_hdoc(t_redir *redirection)

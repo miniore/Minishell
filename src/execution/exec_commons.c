@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:25:06 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/30 16:35:22 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/12 16:44:01 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void run_cmd(char **cmd, t_env *env, char **envp)
         ft_putstr_fd("' not found.\n", 2);
         free_split(cmd);
         free(path);
+        ft_free_env(env);
         exit(127);
     }
     if (execve(path, cmd, envp) == -1)
