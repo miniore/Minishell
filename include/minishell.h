@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/13 21:02:45 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/15 14:42:40 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,11 @@ void	exit_error(void);
 
 void	ft_cmd_free(t_backpack *backpack);
 void	ft_exit_free(t_backpack *backpack);
+void ft_cmond_singel(t_backpack *backpack, char **envp, t_env *path);
+void ft_bin_singel(t_backpack *backpack, char **envp, t_env *path);
+//void ft_pipe_redir(t_backpack *backpack, int prev_fd, int *pipe_fd);
+void ft_pipe_son(t_backpack *backpack, int prev_fd, int *pipe_fd, char **envp, t_env *path);
+int ft_pipe_father(t_backpack *backpack, char **envp, t_env *path, int prev_fd);
 
 //SIGNALS
 void handle_ctrl_c(int sig);
@@ -137,5 +142,7 @@ void hdoc_ctrl_c(int sig);
 //redirtools
 int ft_n_hdocs(t_redir *redirection);
 int ft_n_redout(t_redir *redirection);
+int fr_input_handler(t_redir *redirection, int pipe_fd);
+int ft_lst_rdo(t_redir *redirection);
 
 #endif

@@ -29,7 +29,9 @@ SRC_FILES = src/main.c \
 			src/execution/exec_commons.c \
 			src/execution/exec_redir.c \
 			src/signal/signal.c \
-			src/redirection/redir_tools.c
+			src/redirection/redir_tools.c \
+			src/execution/exec_redir_tools.c \
+			src/execution/exec_loop_tools.c
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
