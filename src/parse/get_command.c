@@ -6,159 +6,158 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:49:11 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/15 15:32:48 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/15 19:26:38 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void print_commands_list(t_backpack *backpack)
+// static void print_commands_list(t_backpack *backpack)
+// {
+//     printf("\n=========== 🧠 LISTA DE COMANDOS ===========\n");
+
+//     for (size_t i = 0; i < backpack->commands_nb; i++)
+//     {
+//         tok_lst *cmd = &backpack->commands_lst[i];
+//         printf("\n🔹 **Comando %zu**\n", i + 1);
+//         printf("   🟢 Comando: %s\n", cmd->command ? cmd->command : "null");
+
+//         // Imprimir argumentos como lista
+//         printf("   🟠 Argumentos:\n");
+//         t_list *arg_node = cmd->arguments;
+//         int arg_index = 1;
+//         if (!arg_node)
+//         {
+//             printf("      - (Ninguno)\n");
+//         }
+//         else
+//         {
+//             while (arg_node)
+//             {
+//                 printf("      %d. %s\n", arg_index++, (char *)arg_node->content);
+//                 arg_node = arg_node->next;
+//             }
+//         }
+
+//         // Imprimir redirecciones como lista (nuevo modelo con t_redir)
+//         printf("   🔴 Redirecciones:\n");
+//         t_redir *redir_node = cmd->redirection;
+//         int redir_index = 1;
+//         if (!redir_node)
+//         {
+//             printf("      - (Ninguna)\n");
+//         }
+//         else
+//         {
+//             while (redir_node)
+//             {
+//                 printf("      %d. Operador: %s, Target: %s\n", redir_index++,
+//                        redir_node->op ? redir_node->op : "(null)",
+//                        redir_node->del ? redir_node->del : "(null)");
+//                 redir_node = redir_node->next;
+//             }
+//         }
+
+//         printf("---------------------------------------------\n");
+//     }
+
+//     printf("Total de comandos: %zu\n", backpack->commands_nb);
+//     printf("=============================================\n");
+// }
+
+static void	ft_tokenize(t_backpack *backpack, char *command)
 {
-    printf("\n=========== 🧠 LISTA DE COMANDOS ===========\n");
-
-    for (size_t i = 0; i < backpack->commands_nb; i++)
-    {
-        tok_lst *cmd = &backpack->commands_lst[i];
-        printf("\n🔹 **Comando %zu**\n", i + 1);
-        printf("   🟢 Comando: %s\n", (char *)cmd->command);
-        printf("   🟢 Comando: %s\n", cmd->command ? cmd->command : "null");
-
-        // Imprimir argumentos como lista
-        printf("   🟠 Argumentos:\n");
-        t_list *arg_node = cmd->arguments;
-        int arg_index = 1;
-        if (!arg_node)
-        {
-            printf("      - (Ninguno)\n");
-        }
-        else
-        {
-            while (arg_node)
-            {
-                printf("      %d. %s\n", arg_index++, (char *)arg_node->content);
-                arg_node = arg_node->next;
-            }
-        }
-
-        // Imprimir redirecciones como lista (nuevo modelo con t_redir)
-        printf("   🔴 Redirecciones:\n");
-        t_redir *redir_node = cmd->redirection;
-        int redir_index = 1;
-        if (!redir_node)
-        {
-            printf("      - (Ninguna)\n");
-        }
-        else
-        {
-            while (redir_node)
-            {
-                printf("      %d. Operador: %s, Target: %s\n", redir_index++,
-                       redir_node->op ? redir_node->op : "(null)",
-                       redir_node->del ? redir_node->del : "(null)");
-                redir_node = redir_node->next;
-            }
-        }
-
-        printf("---------------------------------------------\n");
-    }
-
-    printf("Total de comandos: %zu\n", backpack->commands_nb);
-    printf("=============================================\n");
+	backpack->cmd_flag = 0;
+	backpack->len = 0;
+	ft_extract_tokens(backpack, command);
 }
 
-static void ft_tokenize(t_backpack *backpack, char *command)
+static size_t	ft_ignore_quotes(char *input, size_t len)
 {
-    backpack->cmd_flag = 0;
-    backpack->len = 0;
-    ft_extract_tokens(backpack, command);
+	while (input[len] != '|' && input[len] != '\0')
+	{
+		if (!ft_is_quotes(input[len]) || !ft_is_dquotes(input[len]))
+			len = ft_ignore_qargs(input, len);
+		len++;
+	}
+	return (len);
 }
 
-static size_t   ft_ignore_quotes(char *input, size_t len)
+static void	ft_extract_commands(t_backpack *backpack, char *input, char **commands)
 {
-    while(input[len] != '|' && input[len] != '\0')
-    {
-        if(!ft_is_quotes(input[len]) || !ft_is_dquotes(input[len]))
-            len = ft_ignore_qargs(input, len);
-        len++;
-    }
-    return(len);
+	size_t	len;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	len = 0;
+	while (input[len] != '\0')
+	{
+		if (input[i] == '|' && input[i + 1] == '|')
+			break ;
+		len = ft_ignore_quotes(input, len);
+		if (i != 0)
+			i++;
+		commands[j] = ft_substr(input, i, len - i);
+		ft_tokenize(backpack, commands[j]);
+		i = (int)len;
+		if (input[len] == '|')
+			len++;
+		j++;
+		backpack->n++;
+	}
+	print_commands_list(backpack);
 }
 
-static void ft_extract_commands(t_backpack *backpack, char *input, char **commands)
+static size_t	ft_count_commands(char *input)
 {
-    size_t  len;
-    int     i;
-    int     j;
-    
-    i = 0;
-    j = 0;
-    len = 0;
-    while(input[len] != '\0')
-    {
-        if(input[i] == '|' && input[i + 1] == '|')
-            break ;
-        len = ft_ignore_quotes(input, len);
-        if(i != 0)
-            i++;
-        commands[j] = ft_substr(input, i, len - i);
-        ft_tokenize(backpack, commands[j]);
-        i = (int)len;
-        if(input[len] == '|')
-            len++;
-        j++;
-        backpack->n++;
-    }
-    print_commands_list(backpack);
+	size_t	i;
+	size_t	commands_nb;
+
+	i = 0;
+	commands_nb = 1;
+	while (input[i] != '\0')
+	{
+		if (!ft_is_quotes(input[i]))
+			i = ft_ignore_qargs(input, i);
+		if (!ft_is_dquotes(input[i]))
+			i = ft_ignore_qargs(input, i);
+		if (input[i] == '|')
+		{
+			if (input[i + 1] == '|')
+				return (commands_nb);
+			commands_nb++;
+		}
+		if (input[i] == '\0')
+			return (commands_nb);
+		i++;
+	}
+	return (commands_nb);
 }
 
-static size_t ft_count_commands(char *input)
+int	ft_get_command(t_backpack *backpack, char *input)
 {
-    size_t i;
-    size_t commands_nb;
-    
-    i = 0;
-    commands_nb = 1;
-    while (input[i] != '\0')
-    {
-        if(!ft_is_quotes(input[i]))
-            i = ft_ignore_qargs(input, i);
-        if(!ft_is_dquotes(input[i]))
-            i = ft_ignore_qargs(input, i);
-        if (input[i] == '|')
-        {
-            if (input[i + 1] == '|')
-                return(commands_nb);
-            commands_nb++;
-        }
-        if(input[i] == '\0')
-            return(commands_nb);
-        i++;
-    }
-    return(commands_nb);
-}
+	char	**commands;
 
-int ft_get_command(t_backpack *backpack, char *input)
-{
-    char **commands;
-
-    backpack->err_flag = 0;
-    backpack->n = 0;
-    if(ft_syntax_parse(backpack, input))
-        return(EXIT_FAILURE);
-    backpack->commands_nb = ft_count_commands(input);
-    commands = (char **)ft_calloc(backpack->commands_nb + 1, sizeof(char *));
-    if (!commands)
-    {
-        ft_put_pererr(backpack, "Minichelita: malloc error.\n", 1);
-        return (EXIT_FAILURE);
-    }
-    backpack->commands_lst = (tok_lst *)ft_calloc(backpack->commands_nb, sizeof(tok_lst));
-    if (!backpack->commands_lst)
-    {
-        ft_put_pererr(backpack, "Minichelita: malloc error.\n", 1);
-        return (EXIT_FAILURE);
-    }
-    ft_extract_commands(backpack, input, commands);
-    free_array(commands);
-    return(EXIT_SUCCESS);
+	backpack->err_flag = 0;
+	backpack->n = 0;
+	if (ft_syntax_parse(backpack, input))
+		return (EXIT_FAILURE);
+	backpack->commands_nb = ft_count_commands(input);
+	commands = (char **)ft_calloc(backpack->commands_nb + 1, sizeof(char *));
+	if (!commands)
+	{
+		ft_put_pererr(backpack, "Minichelita: malloc error.\n", 1);
+		return (EXIT_FAILURE);
+	}
+	backpack->commands_lst = (tok_lst *)ft_calloc(backpack->commands_nb, sizeof(tok_lst));
+	if (!backpack->commands_lst)
+	{
+		ft_put_pererr(backpack, "Minichelita: malloc error.\n", 1);
+		return (EXIT_FAILURE);
+	}
+	ft_extract_commands(backpack, input, commands);
+	free_array(commands);
+	return (EXIT_SUCCESS);
 }
