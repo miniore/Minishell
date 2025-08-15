@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/13 21:02:45 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/15 15:11:33 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ struct s_backpack
 int     ft_get_command(t_backpack *backpack, char *input);
 void    ft_extract_tokens(t_backpack *backpack, char *command);
 char    *ft_exp_var(t_backpack *backpack, char *token);
+char    *ft_var_found(t_backpack *backpack, char *token, char *res_tok, int *i, int *start);
 void    ft_redirections(t_backpack *backpack, char *command);
 void    ft_save_tok(t_backpack *backpack);
 void    ft_save_redir(t_backpack *backpack);
@@ -85,6 +86,7 @@ void	ft_extract_content(t_backpack *backpack, char *command);
 int		ft_syntax_parse(t_backpack *backpack, char *input);
 int     ft_redir_syntax(char *input);
 size_t	ft_ignore_qargs(char *command, size_t len);
+char    *ft_get_var_value(t_env *env, char *var_name);
 
 int		ft_is_redirct(char c);
 int		ft_is_space(char c);
