@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:21:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/07/29 21:58:36 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/15 20:09:47 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,91 +24,87 @@ void	env_add_last(t_env **lst, t_env *new)
 		while (act->next != NULL)
 			act = act->next;
 		act->next = new;
-        new->prev = act;
+		new->prev = act;
 	}
 }
 
-t_env *new_node(char *var, char *content)
+t_env	*new_node(char *var, char *content)
 {
-    t_env *node;
+	t_env	*node;
 
-    node = (t_env *) malloc (sizeof(t_env));
-    if (!node)
-        return (NULL);
-    node->var = ft_strdup(var);
-    node->content = content;
-    node->prev = NULL;
-    node->next = NULL;
-    return (node);
+	node = (t_env *) malloc (sizeof(t_env));
+	if (!node)
+		return (NULL);
+	node->var = ft_strdup(var);
+	node->content = content;
+	node->prev = NULL;
+	node->next = NULL;
+	return (node);
 }
 
-char **var_list(char **envp)
+char	**var_list(char **envp)
 {
-    char **lst;
-    int i;
+	char	**lst;
+	int		i;
 
-    i = 0;
-    while(envp[i])
-        i++;
-    lst = (char **) ft_calloc(i + 1, sizeof (char *));
-    if (!lst)
-        return(NULL);
-    i  = 0;
-    while(envp[i])
-    {  
-        lst[i] = name_var(envp[i]);
-        i++;
-    }
-    return(lst);
+	i = 0;
+	while (envp[i])
+		i++;
+	lst = (char **) ft_calloc(i + 1, sizeof (char *));
+	if (!lst)
+		return (NULL);
+	i = 0;
+	while (envp[i])
+	{
+		lst[i] = name_var(envp[i]);
+		i++;
+	}
+	return (lst);
 }
 
-char *name_var(char *var)
+char	*name_var(char *var)
 {
-    char *name;
-    int i;
-    
-    i = 0;
-    while(var[i] != '=')
-        i++;
-    if(i == 0)
-        return(NULL);
-    name = (char *) ft_calloc(i + 1, sizeof(char)); //Podria ser char solo
-    if (!name)
-        return(NULL);
-    i = 0;
-    while(var[i] != '=')
-    {
-        name[i] = var[i];
-        i++;
-    }
-    return(name); 
+	char	*name;
+	int		i;
+
+	i = 0;
+	while (var[i] != '=')
+		i++;
+	if (i == 0)
+		return (NULL);
+	name = (char *) ft_calloc(i + 1, sizeof(char));
+	if (!name)
+		return (NULL);
+	i = 0;
+	while (var[i] != '=')
+	{
+		name[i] = var[i];
+		i++;
+	}
+	return (name);
 }
 
-int ft_env(t_backpack *backpack, int option)
+int	ft_env(t_bp *bp, int option)
 {
-    t_env *act;
+	t_env	*act;
 
-    if(!backpack->env || backpack->commands_lst[backpack->n].arguments)
-        return(0);
-    else
-    {
-        act = backpack->env;
-        while(act->next != NULL)
-        {
-            if (option == 0)
-            {
-                printf("declare -x %s = %s\n", act->var, act->content);   
-            }
-            else
-                printf("%s = %s\n", act->var, act->content);
-            act = act->next;
-        }
-        if (option == 0)
-        {
-            printf("declare -x %s = %s\n", act->var, act->content);   
-        }
-        else
-            printf("%s = %s\n", act->var, act->content);
-    }
-    return (1);
+	if (!bp->env || bp->commands_lst[bp->n].arguments)
+		return (0);
+	else
+	{
+		act = bp->env;
+		while (act->next != NULL)
+		{
+			if (option == 0)
+				printf("declare -x %s = %s\n", act->var, act->content);
+			else
+				printf("%s = %s\n", act->var, act->content);
+			act = act->next;
+		}
+		if (option == 0)
+			printf("declare -x %s = %s\n", act->var, act->content);
+		else
+			printf("%s = %s\n", act->var, act->content);
+	}
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 20:37:39 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/15 18:49:55 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/15 19:53:52 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	fr_input_handler(t_redir *redirection, int pipe_fd)
 	if (!input)
 	{
 		if (!input && g_exit_status != 130)
-			ft_putstr_fd("warning: here-document delimited by end-of-file (wanted `out')\n", 2);
+			ft_putstr_fd("warning: here-document delimited by EOF\n", 2);
 		free(input);
 		return (EXIT_FAILURE);
 	}

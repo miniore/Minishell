@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 21:05:27 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/15 18:48:44 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/15 19:35:59 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ static int	ft_redir_in(t_redir *redirection)
 	return (EXIT_SUCCESS);
 }
 
-static void	ft_redir_heredoc(t_backpack *backpack, t_redir *redirection, int exec)
+static void	ft_redir_heredoc(t_bp *bp, t_redir *redirection, int exec)
 {
 	int		pipe_fd[2];
 	int		dup_fd;
 	char	buffer[102400];
 
 	if (pipe(pipe_fd) == -1)
-		ft_put_syserr_exit(backpack, "Minishell");
+		ft_put_syserr_exit(bp, "Minishell");
 	rl_clear_history();
 	dup_fd = dup(STDIN_FILENO);
 	while (g_exit_status != 130)
@@ -70,7 +70,7 @@ static void	ft_redir_heredoc(t_backpack *backpack, t_redir *redirection, int exe
 	close(dup_fd);
 }
 
-static void	ft_exec_hdoc(t_backpack *backpack, t_redir *redirection)
+static void	ft_exec_hdoc(t_bp *bp, t_redir *redirection)
 {
 	t_redir	*iter;
 	int		i;
@@ -90,18 +90,18 @@ static void	ft_exec_hdoc(t_backpack *backpack, t_redir *redirection)
 		if (ft_strcmp(redirection->op, "<<") == 0)
 		{
 			if (j == i)
-				ft_redir_heredoc(backpack, redirection, 1);
+				ft_redir_heredoc(bp, redirection, 1);
 			else
-				ft_redir_heredoc(backpack, redirection, 0);
+				ft_redir_heredoc(bp, redirection, 0);
 			j++;
 		}
 		redirection = redirection->next;
 	}
 }
 
-int	ft_exec_redir(t_backpack *backpack, t_redir *redirection)
+int	ft_exec_redir(t_bp *bp, t_redir *redirection)
 {
-	ft_exec_hdoc(backpack, redirection);
+	ft_exec_hdoc(bp, redirection);
 	while (redirection)
 	{
 		if (ft_strcmp(redirection->op, "<") == 0)

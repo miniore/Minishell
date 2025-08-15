@@ -6,30 +6,30 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/15 18:43:36 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/15 19:35:43 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	executor(t_backpack *backpack, char **envp, t_env *path)
+void	executor(t_bp *bp, char **envp, t_env *path)
 {
-	if (!backpack->commands_lst[backpack->n].command)
+	if (!bp->commands_lst[bp->n].command)
 		return ;
-	if (ft_strcmp(backpack->commands_lst[backpack->n].command, "pwd") == 0)
-		pwd(backpack);
-	else if (ft_strcmp(backpack->commands_lst[backpack->n].command, "echo") == 0)
-		ft_echo(backpack->commands_lst[backpack->n].arguments);
-	else if (ft_strcmp(backpack->commands_lst[backpack->n].command, "cd") == 0)
-		cd(backpack);
-	else if (ft_strcmp(backpack->commands_lst[backpack->n].command, "exit") == 0)
-		ft_exit(backpack);
-	else if (ft_strcmp(backpack->commands_lst[backpack->n].command, "env") == 0)
-		ft_env(backpack, 1);
-	else if (ft_strcmp(backpack->commands_lst[backpack->n].command, "export") == 0)
-		ft_export(backpack);
-	else if (ft_strcmp(backpack->commands_lst[backpack->n].command, "unset") == 0)
-		ft_unset(backpack);
+	if (ft_strcmp(bp->commands_lst[bp->n].command, "pwd") == 0)
+		pwd(bp);
+	else if (ft_strcmp(bp->commands_lst[bp->n].command, "echo") == 0)
+		ft_echo(bp->commands_lst[bp->n].arguments);
+	else if (ft_strcmp(bp->commands_lst[bp->n].command, "cd") == 0)
+		cd(bp);
+	else if (ft_strcmp(bp->commands_lst[bp->n].command, "exit") == 0)
+		ft_exit(bp);
+	else if (ft_strcmp(bp->commands_lst[bp->n].command, "env") == 0)
+		ft_env(bp, 1);
+	else if (ft_strcmp(bp->commands_lst[bp->n].command, "export") == 0)
+		ft_export(bp);
+	else if (ft_strcmp(bp->commands_lst[bp->n].command, "unset") == 0)
+		ft_unset(bp);
 	else
-		process_tok(backpack, path, envp);
+		process_tok(bp, path, envp);
 }

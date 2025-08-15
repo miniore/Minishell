@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:39:38 by porellan          #+#    #+#             */
-/*   Updated: 2025/08/15 18:35:18 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/15 19:51:31 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,21 +95,21 @@ static int	ft_quotes_syntax(char *input)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_syntax_parse(t_backpack *backpack, char *input)
+int	ft_syntax_parse(t_bp *bp, char *input)
 {
 	if (ft_quotes_syntax(input))
 	{
-		ft_put_pererr(backpack, "Minichelita: quotes syntax error\n", 258);
+		ft_put_pererr(bp, "Minichelita: quotes syntax error\n", 258);
 		return (EXIT_FAILURE);
 	}
 	if (ft_pipe_syntax(input))
 	{
-		ft_put_pererr(backpack, "Minichelita: syntax error near unexpected token `|'\n", 258);
+		ft_put_pererr(bp, "Minichelita: syntax error near `|'.\n", 258);
 		return (EXIT_FAILURE);
 	}
 	if (ft_redir_syntax(input))
 	{
-		ft_put_pererr(backpack, "Minichelita: syntax error near redirection token.\n", 258);
+		ft_put_pererr(bp, "Minichelita: syntax error near redirection.\n", 258);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

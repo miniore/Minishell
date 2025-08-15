@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:28:47 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/15 18:14:30 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/15 19:34:04 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,44 +22,44 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	return (joined);
 }
 
-void	ft_save_tok(t_backpack *backpack)
+void	ft_save_tok(t_bp *bp)
 {
 	t_list	*temp;
 	char	*result;
 
-	if (backpack->red_flag && backpack->token)
-		ft_save_redir(backpack);
-	else if (!backpack->red_flag && backpack->token)
+	if (bp->red_flag && bp->token)
+		ft_save_redir(bp);
+	else if (!bp->red_flag && bp->token)
 	{
-		result = ft_strdup(backpack->token);
-		if (backpack->cmd_flag == 0)
+		result = ft_strdup(bp->token);
+		if (bp->cmd_flag == 0)
 		{
-			backpack->commands_lst[backpack->n].command = result;
-			backpack->cmd_flag = 1;
+			bp->commands_lst[bp->n].command = result;
+			bp->cmd_flag = 1;
 		}
 		else
 		{
 			temp = ft_lstnew(result);
-			ft_lstadd_back(&backpack->commands_lst[backpack->n].arguments, temp);
+			ft_lstadd_back(&bp->commands_lst[bp->n].arguments, temp);
 		}
-		free(backpack->token);
-		backpack->token = NULL;
+		free(bp->token);
+		bp->token = NULL;
 	}
 }
 
-void	ft_extract_content(t_backpack *backpack, char *command)
+void	ft_extract_content(t_bp *bp, char *command)
 {
-	if (!ft_is_quotes(command[backpack->len]))
+	if (!ft_is_quotes(command[bp->len]))
 	{
-		backpack->len++;
-		while (ft_is_quotes(command[backpack->len]) && command[backpack->len] != '\0')
-			backpack->len++;
+		bp->len++;
+		while (ft_is_quotes(command[bp->len]) && command[bp->len] != '\0')
+			bp->len++;
 	}
-	else if (!ft_is_dquotes(command[backpack->len]))
+	else if (!ft_is_dquotes(command[bp->len]))
 	{
-		backpack->len++;
-		while (ft_is_dquotes(command[backpack->len]) && command[backpack->len] != '\0')
-			backpack->len++;
+		bp->len++;
+		while (ft_is_dquotes(command[bp->len]) && command[bp->len] != '\0')
+			bp->len++;
 	}
 }
 

@@ -6,40 +6,40 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 20:46:18 by porellan          #+#    #+#             */
-/*   Updated: 2025/08/15 18:40:57 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/15 19:35:31 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_cmd_free(t_backpack *backpack)
+void	ft_cmd_free(t_bp *bp)
 {
-	if (!backpack)
+	if (!bp)
 		return ;
-	if (backpack->commands_lst)
-		free_command_list(backpack->commands_lst, backpack->commands_nb);
+	if (bp->commands_lst)
+		free_command_list(bp->commands_lst, bp->commands_nb);
 }
 
-void	ft_exit_free(t_backpack *backpack)
+void	ft_exit_free(t_bp *bp)
 {
 	int	es;
 
-	if (!backpack)
+	if (!bp)
 		return ;
-	if (backpack->commands_lst)
-		free_command_list(backpack->commands_lst, backpack->commands_nb);
-	ft_free_env(backpack->env);
-	es = backpack->exit_status;
-	free(backpack);
+	if (bp->commands_lst)
+		free_command_list(bp->commands_lst, bp->commands_nb);
+	ft_free_env(bp->env);
+	es = bp->exit_status;
+	free(bp);
 	exit(es);
 }
 
-void	ft_final_free(t_backpack *backpack)
+void	ft_final_free(t_bp *bp)
 {
-	if (!backpack)
+	if (!bp)
 		return ;
-	if (backpack->commands_lst)
-		free_command_list(backpack->commands_lst, backpack->commands_nb);
-	ft_free_env(backpack->env);
-	free(backpack);
+	if (bp->commands_lst)
+		free_command_list(bp->commands_lst, bp->commands_nb);
+	ft_free_env(bp->env);
+	free(bp);
 }
