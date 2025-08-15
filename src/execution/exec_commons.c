@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commons.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:25:06 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/14 20:12:18 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/15 17:17:00 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void run_cmd(t_backpack *backpack, char **cmd, t_env *env, char **envp)
 {
     char    *path;
     
-    if (access (cmd[0], F_OK) == 0)
+    if (access(cmd[0], F_OK) == 0)
     {
         if (execve(cmd[0], cmd, envp) == -1)
         {
@@ -95,7 +95,6 @@ void    process_tok(t_backpack *backpack, t_env *env, char **envp)
     cmd = (char **) ft_calloc(i + 2, sizeof (char **));
     if (!cmd)
         return(ft_put_pererr(backpack, "Minichelita: malloc error", 1));
-    //printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, "ERROR");
     cmd[0] = backpack->commands_lst[backpack->n].command;
     act = backpack->commands_lst[backpack->n].arguments;
     i = 1;

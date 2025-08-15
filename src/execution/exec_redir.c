@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 21:05:27 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/14 20:56:47 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/15 17:29:49 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ static int	ft_redir_in(t_redir *redirection)
     return (EXIT_SUCCESS);
 }
 
-static void	ft_redir_heredoc(t_redir *redirection, int exec)
+static void	ft_redir_heredoc(t_backpack *backpack, t_redir *redirection, int exec)
 {
     int pipe_fd[2];
     int dup_fd;
     char buffer[102400];
 
 	if (pipe(pipe_fd) == -1)
-        exit_error();  //cambiarrrrr!!!!!
+        ft_put_syserr_exit(backpack, "Minishell");
     rl_clear_history();
     dup_fd = dup(STDIN_FILENO);
     while(g_exit_status != 130)
@@ -71,7 +71,7 @@ static void	ft_redir_heredoc(t_redir *redirection, int exec)
     close(dup_fd);
 }
 
-static void ft_exec_hdoc(t_redir *redirection)
+static void ft_exec_hdoc(t_backpack *backpack, t_redir *redirection)
 {
     t_redir *iter;
     int i;
@@ -91,9 +91,9 @@ static void ft_exec_hdoc(t_redir *redirection)
         if(ft_strcmp(redirection->op, "<<")  == 0)
         {
             if (j == i)
-                ft_redir_heredoc(redirection, 1);
+                ft_redir_heredoc(backpack, redirection, 1);
             else
-                ft_redir_heredoc(redirection, 0);
+                ft_redir_heredoc(backpack, redirection, 0);
             j++;
         }
         redirection = redirection->next;  
@@ -101,9 +101,9 @@ static void ft_exec_hdoc(t_redir *redirection)
 }
 
 
-int    ft_exec_redir(t_redir *redirection)
+int    ft_exec_redir(t_backpack *backpack, t_redir *redirection)
 {
-    ft_exec_hdoc(redirection);
+    ft_exec_hdoc(backpack, redirection);
     while(redirection)
     {
         if(ft_strcmp(redirection->op, "<")  == 0)

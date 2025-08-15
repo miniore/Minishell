@@ -16,12 +16,6 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path);
 void exec_pipes(t_backpack *backpack, char **envp, t_env *path);
 int is_buidins(t_backpack *backpack);
 
-void	exit_error(void)   //borraaaaar!!
-{
-	perror("Minichelita");
-	exit(EXIT_FAILURE);
-}
-
 int exec_loop(t_backpack *backpack, char **envp)
 {
     t_env *path;
@@ -44,8 +38,8 @@ int ft_pipe_father(t_backpack *backpack, char **envp, t_env *path, int prev_fd)
     int status;
 
     if (backpack->n < (int)backpack->commands_nb - 1)
-            if (pipe(pipe_fd) == -1)
-                ft_put_syserr_exit(backpack, "Minichelita");
+        if (pipe(pipe_fd) == -1)
+            ft_put_syserr_exit(backpack, "Minichelita");
     signal(SIGINT, SIG_IGN);
     pid = fork();
     if (pid == -1)

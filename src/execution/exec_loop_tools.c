@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_loop_tools.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 21:11:56 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/15 12:17:50 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/15 17:21:41 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@ void ft_cmond_singel(t_backpack *backpack, char **envp, t_env *path)
         process_tok(backpack, path, envp);
     else
     {
-        if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
+        if (ft_exec_redir(backpack, backpack->commands_lst[backpack->n].redirection) != 0)
         {
             ft_put_syserr(backpack, "Minichelita");
             ft_exit_free(backpack);
-            exit(backpack->exit_status);
         }
         else
             process_tok(backpack, path, envp);
@@ -45,12 +44,11 @@ void ft_bin_singel(t_backpack *backpack, char **envp, t_env *path)
         if (p_id == 0)
         {
             signal(SIGINT, handle_ctrl_c);
-            if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
-            ft_put_syserr(backpack, "Minichelita");
+            if (ft_exec_redir(backpack, backpack->commands_lst[backpack->n].redirection) != 0)
+                ft_put_syserr(backpack, "Minichelita");
             else
                 executor(backpack, envp, path);
             ft_exit_free(backpack);
-            exit(backpack->exit_status);
         }
         waitpid(p_id, &status, 0);
     }
@@ -73,7 +71,7 @@ static void ft_com_last_hdocs(t_backpack *backpack, int prev_fd)
 static void ft_pipe_redir(t_backpack *backpack, int prev_fd, int *pipe_fd)
 {
     ft_com_last_hdocs(backpack, prev_fd);
-    if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
+    if (ft_exec_redir(backpack, backpack->commands_lst[backpack->n].redirection) != 0)
     {
         ft_put_syserr(backpack, "Minichelita");
         if (backpack->n < (int)backpack->commands_nb - 1)
@@ -83,7 +81,6 @@ static void ft_pipe_redir(t_backpack *backpack, int prev_fd, int *pipe_fd)
             close(pipe_fd[1]);
         }
         ft_exit_free(backpack);
-        exit(backpack->exit_status);
     }
     if (ft_n_redout(backpack->commands_lst[backpack->n].redirection) == 0)
     {
@@ -119,5 +116,4 @@ void ft_pipe_son(t_backpack *backpack, int prev_fd, int *pipe_fd, char **envp, t
         ft_pipe_redir(backpack, prev_fd, pipe_fd);
     executor(backpack, envp, path);
     ft_exit_free(backpack);
-    exit(0);
 }

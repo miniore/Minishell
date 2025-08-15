@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/15 15:11:33 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/15 17:02:39 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,16 @@ int		ft_is_quotes(char c);
 int		ft_is_dquotes(char c);
 
 void	free_array(char **array);
-void free_command_list(tok_lst *commands_lst, size_t size);
+void    free_command_list(tok_lst *commands_lst, size_t size);
 char    *ft_strjoin_free(char *s1, char *s2);
+
 void    ft_put_pererr(t_backpack *backpack, char *err, int n);
 void    ft_put_syserr(t_backpack *backpack, char *err);
 void    ft_put_syserr_exit(t_backpack *backpack, char *err);
+
+void	ft_cmd_free(t_backpack *backpack);
+void	ft_exit_free(t_backpack *backpack);
+void	ft_final_free(t_backpack *backpack);
 
 //Build_ins
 void executor(t_backpack *backpack, char **envp, t_env *path);
@@ -126,11 +131,9 @@ int ft_env(t_backpack *backpack, int option);
 //void run_cmd(char **cmd, t_env *env, char **envp);
 int exec_loop(t_backpack *backpack, char **envp);
 void    process_tok(t_backpack *backpack, t_env *env, char **envp);
-int    ft_exec_redir(t_redir *redirection);
+int    ft_exec_redir(t_backpack *backpack, t_redir *redirection);
 void	exit_error(void);
 
-void	ft_cmd_free(t_backpack *backpack);
-void	ft_exit_free(t_backpack *backpack);
 void ft_cmond_singel(t_backpack *backpack, char **envp, t_env *path);
 void ft_bin_singel(t_backpack *backpack, char **envp, t_env *path);
 //void ft_pipe_redir(t_backpack *backpack, int prev_fd, int *pipe_fd);

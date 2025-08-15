@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/15 16:13:54 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/15 17:00:42 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int  ft_input_loop(t_backpack *backpack, char *input)
         g_exit_status = 131;
         backpack->commands_nb = 0;
         printf("Nos vamos. Saliendo.\n");
-        ft_exit_free(backpack);
+        ft_final_free(backpack);
         exit(g_exit_status);
     }
     g_exit_status = 0;
@@ -89,7 +89,7 @@ int main(int argc, char **argv, char **envp)
         ft_cmd_free(backpack);
         free(input);
     }
-    ft_exit_free(backpack);
     rl_clear_history();
+    ft_final_free(backpack);
     return(EXIT_SUCCESS);
 }
