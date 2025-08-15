@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:28:47 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/13 18:22:49 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/15 15:08:13 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,16 @@ size_t	ft_ignore_qargs(char *command, size_t len)
         len++;
     }
     return(len);
+}
+
+char *ft_get_var_value(t_env *env, char *var_name)
+{
+    t_env   *node;
+    char    *value;
+    
+    node = search_node(&env, var_name);
+    if(!node)
+        return(NULL);
+    value = ft_strdup(node->content);
+    return(value);
 }

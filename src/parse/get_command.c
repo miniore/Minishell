@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:49:11 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/13 20:25:41 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/15 15:32:48 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,9 +142,9 @@ int ft_get_command(t_backpack *backpack, char *input)
     char **commands;
 
     backpack->err_flag = 0;
+    backpack->n = 0;
     if(ft_syntax_parse(backpack, input))
         return(EXIT_FAILURE);
-    backpack->n = 0;
     backpack->commands_nb = ft_count_commands(input);
     commands = (char **)ft_calloc(backpack->commands_nb + 1, sizeof(char *));
     if (!commands)

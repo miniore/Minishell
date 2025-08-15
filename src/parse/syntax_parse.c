@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:39:38 by porellan          #+#    #+#             */
-/*   Updated: 2025/08/13 20:31:31 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/15 14:51:25 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,22 @@ static int ft_flag_check(char *input, int i, int flag)
 {
     while(input[i] != '\0')
     {
-        if(!ft_is_quotes(input[i]))
+        if(input[i] != '\0' && !ft_is_quotes(input[i]))
         {
             flag = 1;
             i++;
-            while(ft_is_quotes(input[i]) && input[i] != '\0')
+            while(input[i] != '\0' && ft_is_quotes(input[i]))
                 i++;
             if(!ft_is_quotes(input[i]))
                 flag = 0;
         }
-        if(!ft_is_dquotes(input[i]))
+        if(input[i] != '\0' && !ft_is_dquotes(input[i]))
         {
             flag = 1;
             i++;
-            while(ft_is_dquotes(input[i]) && input[i] != '\0')
+            while(input[i] != '\0' && ft_is_dquotes(input[i]))
                 i++;
-            if(!ft_is_dquotes(input[i]))
+            if(input[i] != '\0' && !ft_is_dquotes(input[i]))
                 flag = 0;
         }
         if(flag == 1)
