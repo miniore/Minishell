@@ -37,108 +37,44 @@ int exec_loop(t_backpack *backpack, char **envp)
     return(1);
 }
 
-void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
+int ft_pipe_father(t_backpack *backpack, char **envp, t_env *path, int prev_fd)
 {
     int pipe_fd[2];
-    int prev_fd = -1;
     pid_t pid;
     int status;
-    t_redir *redirection;
 
+    if (backpack->n < (int)backpack->commands_nb - 1)
+            if (pipe(pipe_fd) == -1)
+                ft_put_syserr_exit(backpack, "Minichelita");
+    signal(SIGINT, SIG_IGN);
+    pid = fork();
+    if (pid == -1)
+        ft_put_syserr_exit(backpack, "Minichelita");
+    else if (pid == 0)
+        ft_pipe_son(backpack, prev_fd, pipe_fd, envp, path);
+    else
+    {
+        waitpid(pid, &status, 0);
+        if (prev_fd != -1)
+            close(prev_fd);
+        if (backpack->n < (int)backpack->commands_nb - 1)
+        {
+            close(pipe_fd[1]);
+            prev_fd = pipe_fd[0];
+        }
+    }
+    return(prev_fd);
+}
+
+void exec_pipes(t_backpack *backpack, char **envp, t_env *path)
+{
+    int prev_fd;
+
+    prev_fd = -1;
     backpack->n = 0;
     while (backpack->n < (int)backpack->commands_nb)
     {
-        if (backpack->n < (int)backpack->commands_nb - 1)
-        {
-            if (pipe(pipe_fd) == -1)
-                ft_put_syserr_exit(backpack, "Minichelita");
-        }
-        signal(SIGQUIT, SIG_DFL);
-        signal(SIGINT, SIG_IGN);
-        pid = fork();
-        if (pid == -1)
-            ft_put_syserr_exit(backpack, "Minichelita");
-        else if (pid == 0)
-        {
-            signal(SIGINT, handle_ctrl_c);
-            if(!backpack->commands_lst[backpack->n].redirection)
-            {
-                if (prev_fd != -1)
-                {
-                    dup2(prev_fd, STDIN_FILENO);
-                    close(prev_fd);
-                }
-                if (backpack->n < (int)backpack->commands_nb - 1)
-                {
-                    close(pipe_fd[0]);
-                    dup2(pipe_fd[1], STDOUT_FILENO);
-                    close(pipe_fd[1]);
-                }
-            }
-            else
-			{
-                redirection = backpack->commands_lst[backpack->n].redirection;
-                if(ft_n_hdocs(redirection) == 0)
-                {
-                    if (prev_fd != -1)
-                    {
-                        dup2(prev_fd, STDIN_FILENO);
-                        close(prev_fd);
-                    }
-                }
-                else
-                    close(prev_fd);
-                if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
-                {
-                    ft_put_syserr(backpack, "Minichelita");
-                    if (backpack->n < (int)backpack->commands_nb - 1)
-                    {
-                        close(pipe_fd[0]);
-                        dup2(pipe_fd[1], STDOUT_FILENO);
-                        close(pipe_fd[1]);
-                    }
-                    ft_exit_free(backpack);
-                    exit(backpack->exit_status);
-                }
-                if (ft_n_redout(redirection) == 0)
-                {
-                    close(pipe_fd[0]);
-                    dup2(pipe_fd[1], STDOUT_FILENO);
-                    close(pipe_fd[1]);
-                }
-                else
-                {
-                    close(pipe_fd[0]);
-                    close(pipe_fd[1]);
-                }
-                // if ((ft_strcmp(redirection->op, "<")  == 0 || ft_strcmp(redirection->op, "<<")  == 0) &&
-                //         backpack->n < (int)backpack->commands_nb - 1)
-                // {
-                //     close(pipe_fd[0]);
-                //     dup2(pipe_fd[1], STDOUT_FILENO);
-                //     close(pipe_fd[1]);
-                // }
-                // else
-                // {
-                //     close(pipe_fd[0]);
-                //     close(pipe_fd[1]);
-                // }
-			}
-            executor(backpack, envp, path);
-            ft_exit_free(backpack);
-            exit(0);
-        }
-        else
-        {
-            waitpid(pid, &status, 0);
-            if (prev_fd != -1)
-                close(prev_fd);
-            if (backpack->n < (int)backpack->commands_nb - 1)
-            {
-                close(pipe_fd[1]);
-                prev_fd = pipe_fd[0];
-            }
-        }
+        prev_fd = ft_pipe_father(backpack, envp, path, prev_fd);
         backpack->n++;
     }
 }
@@ -171,28 +107,7 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
     if (backpack->commands_lst[0].command != NULL)
     {
         if (is_buidins(backpack) == 1)
-        {
-            if(!backpack->commands_lst[backpack->n].redirection)
-                executor(backpack, envp, path);
-            else
-            {
-                signal(SIGQUIT, SIG_DFL);
-                signal(SIGINT, SIG_IGN);
-                p_id = fork();//Cuando es un solo comando cambia fd en el proceso padre, la entrada de la shell pasa al archivo
-                if (p_id == 0)
-                {
-                    signal(SIGINT, handle_ctrl_c);
-                    //ft_exec_redir(backpack->commands_lst[backpack->n].redirection);
-                    if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
-                        ft_put_syserr(backpack, "Minichelita");
-                    else
-                        executor(backpack, envp, path);
-                    ft_exit_free(backpack);
-                    exit(backpack->exit_status);
-                }
-                waitpid(p_id, &status, 0);
-            }
-        }
+            ft_bin_singel(backpack, envp, path);
         else
         {
             signal(SIGQUIT, SIG_DFL);
@@ -202,29 +117,10 @@ void exec_singels(t_backpack *backpack, char **envp, t_env *path)
 		        ft_put_syserr_exit(backpack, "Minichelita");
             else if (p_id == 0)
             {
-                signal(SIGINT, handle_ctrl_c);
-                if(!backpack->commands_lst[backpack->n].redirection)
-                    process_tok(backpack, path, envp);
-                else
-                {
-                    if (ft_exec_redir(backpack->commands_lst[backpack->n].redirection) != 0)
-                    {
-                        ft_put_syserr(backpack, "Minichelita");
-                        ft_exit_free(backpack);
-                        exit(backpack->exit_status);
-                    }
-                    else
-                    {
-                        //printf("||((%s En_Linea %d))||=> %s\n", __FILE__,__LINE__, backpack->commands_lst[backpack->n].redirection->op);
-                        process_tok(backpack, path, envp);
-                    }
-                }
+                ft_cmond_singel(backpack, envp, path);
             }
             waitpid(p_id, &status, 0);
             backpack->exit_status = errno;
         }
     }
-    //printf("%i\n", g_exit_status);
-    // if (g_exit_status == SIGINT || g_exit_status == SIGQUIT)
-	//     write(1, "\n", 1);
 }

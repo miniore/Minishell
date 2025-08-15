@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commons.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:25:06 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/13 19:12:02 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/14 20:12:18 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,17 @@ char *get_cmd(char *cmd, t_env *env)
     return (NULL);
 }
 
+static void ft_no_path(t_backpack *backpack, char  *path, char **cmd, t_env *env)
+{
+    if (!path)
+    {
+        free_split(cmd);
+        free(path);
+        ft_free_env(env);
+        ft_put_syserr_exit(backpack, "Minichelita");
+    }
+}
+
 static void run_cmd(t_backpack *backpack, char **cmd, t_env *env, char **envp)
 {
     char    *path;
@@ -63,20 +74,13 @@ static void run_cmd(t_backpack *backpack, char **cmd, t_env *env, char **envp)
         }
     }
     path = get_cmd(cmd[0], env);
-    if (!path)
-    {
-        free_split(cmd);
-        free(path);
-        //ft_put_pererr(backpack, "Minichelita: command not found\n", 127);
-        ft_put_syserr_exit(backpack, "Minichelita");
-        //exit(127);
-    }
+    ft_no_path(backpack, path, cmd, env);
     if (execve(path, cmd, envp) == -1)
     {
         free_split(cmd);
         free (path);
         ft_free_env(env);
-        ft_put_syserr_exit(backpack, "Minichelita"); //el mensaje seria execve para perror??
+        ft_put_syserr_exit(backpack, "Minichelita");
     }
     free(path);
 }
