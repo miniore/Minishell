@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commons.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:25:06 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/15 20:04:51 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/19 14:48:53 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ void	free_split(char **str)
 
 	i = 0;
 	while (str[i])
+	{
 		free(str[i++]);
+	}
 	free(str);
 }
 
@@ -56,8 +58,8 @@ static void	ft_no_path(t_bp *bp, char *path, char **cmd, t_env *env)
 	{
 		free_split(cmd);
 		free(path);
-		ft_free_env(env);
 		ft_put_syserr_exit(bp, "Minichelita");
+		ft_free_env(env);
 	}
 }
 
@@ -74,12 +76,13 @@ static void	run_cmd(t_bp *bp, char **cmd, t_env *env, char **envp)
 		}
 	}
 	path = get_cmd(cmd[0], env);
+	printf("\n%s\n", path);
 	ft_no_path(bp, path, cmd, env);
 	if (execve(path, cmd, envp) == -1)
 	{
 		free_split(cmd);
 		free (path);
-		ft_free_env(env);
+		//ft_free_env(env);
 		ft_put_syserr_exit(bp, "Minichelita");
 	}
 	free(path);

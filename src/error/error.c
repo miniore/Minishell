@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 21:02:07 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/15 20:05:15 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/19 12:52:35 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 void	ft_put_syserr_exit(t_bp *bp, char *err)
 {
+	int	temp;
+
 	perror(err);
 	bp->exit_status = errno;
-	bp->commands_nb = 0;
+	temp = bp->exit_status;
 	bp->err_flag = 1;
-	exit(bp->exit_status);
+	ft_final_free(bp);
+	exit(temp);
 }
 
 void	ft_put_syserr(t_bp *bp, char *err)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/15 20:36:42 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/18 18:07:42 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int		ft_is_quotes(char c);
 int		ft_is_dquotes(char c);
 
 void	free_array(char **array);
-void	free_command_list(tok_lst *commands_lst, size_t size);
+void	free_command_list(t_tok_lst *commands_lst, size_t size);
 char	*ft_strjoin_free(char *s1, char *s2);
 
 void	ft_put_pererr(t_bp *bp, char *err, int n);
@@ -141,8 +141,8 @@ void	exit_error(void);
 
 void	ft_cmond_singel(t_bp *bp, char **envp, t_env *path);
 void	ft_bin_singel(t_bp *bp, char **envp, t_env *path);
-void	ft_pipe_son(t_bp *bp, int prev_fd, int *pipe_fd, char **envp);
-int		ft_pipe_father(t_bp *bp, char **envp, t_env *path, int prev_fd);
+void	ft_pipe_son(t_bp *bp, int prev_fd, int pipe_fd[2], char **envp);
+int		ft_pipe_father(t_bp *bp, char **envp, int prev_fd);
 
 //SIGNALS
 void	handle_ctrl_c(int sig);

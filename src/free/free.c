@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:12:31 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/15 18:42:03 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/19 14:43:35 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	free_array(char **array)
 void	free_redirections(t_redir *redir)
 {
 	t_redir	*tmp;
-
 	while (redir)
 	{
 		tmp = redir->next;
@@ -52,7 +51,7 @@ void	free_arguments(t_list *args)
 	}
 }
 
-void	free_command_list(tok_lst *commands_lst, size_t size)
+void	free_command_list(t_tok_lst *commands_lst, size_t size)
 {
 	size_t	i;
 
