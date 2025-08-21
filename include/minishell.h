@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/21 21:41:22 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/21 21:46:04 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ struct s_env
 struct s_bp
 {
 	t_env		*env;
-	t_tok_l	*commands_lst;
+	t_tok_l		*commands_lst;
 	t_redir		*new_redir;
 	t_redir		*tmp;
 	size_t		commands_nb;

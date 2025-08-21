@@ -40,7 +40,7 @@ CC = cc
 FLAGS = -Wall -Wextra -Werror
 READ_FLAGS = -lreadline -lhistory
 INCLUDE_FLAGS = -I Libft/ -I Libft/Printf/ -I include/
-LINK_FLAGS = -L Libft -L Libft/Printf/ -lft -lftprintf
+LINK_FLAGS = -L Libft -L Libft/Printf/ -lft
 
 all: $(NAME)
 		@echo "make    ✅"
