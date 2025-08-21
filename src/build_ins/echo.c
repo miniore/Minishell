@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:22:22 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/15 20:18:11 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:20:23 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,17 @@ static int	ft_check_flag(char *flag)
 
 static void	ft_echo_print(t_list *temp, bool opt)
 {
-	while (temp->next)
-	{
-		printf("%s ", (char *)temp->content);
-		temp = temp->next;
-	}
-	printf("%s", (char *)temp->content);
-	if (!opt)
+	if (temp)
+	{	
+		while (temp->next)
+		{
+			printf("%s ", (char *)temp->content);
+			temp = temp->next;
+		}
+		printf("%s", (char *)temp->content);
+		if (!opt)
 		printf("\n");
+	}
 }
 
 void	ft_echo(t_list *arg)

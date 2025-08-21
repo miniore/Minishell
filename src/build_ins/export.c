@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:04:42 by porellan          #+#    #+#             */
-/*   Updated: 2025/08/15 20:19:04 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:21:18 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,11 @@ static void	ft_save_var(t_bp *bp, t_list *actual, char *var)
 
 static void	ft_check_error(t_bp *bp, char *var)
 {
-	if ((!ft_isalpha(var[0]) && var[0] != '_') || ft_valid_char(var))
-		free(var);
+	if (var)
+	{
+		if ((!ft_isalpha(var[0]) && var[0] != '_') || ft_valid_char(var))
+			free(var);
+	}
 	ft_put_pererr(bp, "Minichelita: export: not a valid identifier.\n", 258);
 }
 
