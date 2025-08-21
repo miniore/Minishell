@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 void	exec_singels(t_bp *bp, char **envp, t_env *path);
-void	exec_pipes(t_bp *bp, char **envp, t_env *path);
+void	exec_pipes(t_bp *bp, char **envp);
 int		is_buidins(t_bp *bp);
 
 int	exec_loop(t_bp *bp, char **envp)
@@ -25,13 +25,13 @@ int	exec_loop(t_bp *bp, char **envp)
 	if (bp->commands_nb == 1)
 		exec_singels(bp, envp, path);
 	else
-		exec_pipes(bp, envp, path);
+		exec_pipes(bp, envp);
 	if (!bp->err_flag)
 		bp->exit_status = 0;
 	return (1);
 }
 
-int	ft_pipe_father(t_bp *bp, char **envp, t_env *path, int prev_fd)
+int	ft_pipe_father(t_bp *bp, char **envp, int prev_fd)
 {
 	int		pipe_fd[2];
 	pid_t	pid;
@@ -45,7 +45,7 @@ int	ft_pipe_father(t_bp *bp, char **envp, t_env *path, int prev_fd)
 	if (pid == -1)
 		ft_put_syserr_exit(bp, "Minichelita");
 	else if (pid == 0)
-		ft_pipe_son(bp, prev_fd, pipe_fd, envp, path);
+		ft_pipe_son(bp, prev_fd, pipe_fd, envp);
 	else
 	{
 		waitpid(pid, &status, 0);
@@ -60,7 +60,7 @@ int	ft_pipe_father(t_bp *bp, char **envp, t_env *path, int prev_fd)
 	return (prev_fd);
 }
 
-void	exec_pipes(t_bp *bp, char **envp, t_env *path)
+void	exec_pipes(t_bp *bp, char **envp)
 {
 	int	prev_fd;
 
@@ -68,7 +68,7 @@ void	exec_pipes(t_bp *bp, char **envp, t_env *path)
 	bp->n = 0;
 	while (bp->n < (int)bp->commands_nb)
 	{
-		prev_fd = ft_pipe_father(bp, envp, path, prev_fd);
+		prev_fd = ft_pipe_father(bp, envp, prev_fd);
 		bp->n++;
 	}
 }
@@ -110,11 +110,11 @@ void	exec_singels(t_bp *bp, char **envp, t_env *path)
 			if (p_id == -1)
 				ft_put_syserr_exit(bp, "Minichelita");
 			else if (p_id == 0)
-			{
 				ft_cmond_singel(bp, envp, path);
-			}
 			waitpid(p_id, &status, 0);
-			bp->exit_status = errno;
+			if (status)
+				bp->err_flag = 1;
+			bp->exit_status = get_exit_status(status);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:22:22 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/15 20:18:11 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/21 21:35:39 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,39 +30,43 @@ static int	ft_check_flag(char *flag)
 
 static void	ft_echo_print(t_list *temp, bool opt)
 {
-	while (temp->next)
+	if (temp)
 	{
-		printf("%s ", (char *)temp->content);
-		temp = temp->next;
+		while (temp->next)
+		{
+			printf("%s ", (char *)temp->content);
+			temp = temp->next;
+		}
+		printf("%s", (char *)temp->content);
+		if (!opt)
+			printf("\n");
 	}
-	printf("%s", (char *)temp->content);
-	if (!opt)
-		printf("\n");
 }
 
 void	ft_echo(t_list *arg)
 {
 	t_list	*temp;
 	bool	opt;
-	int		flag;
 
 	temp = arg;
 	opt = false;
-	flag = 0;
 	if (!arg)
 		printf("\n");
 	else
 	{
-		while (temp->next && ((char *)temp->content)[0] == '-' && !flag)
+		while (temp)
 		{
-			if (!ft_check_flag((char *)temp->content))
+			if (((char *)temp->content)[0] == '-')
 			{
-				opt = true;
-				temp = temp->next;
+				if (!ft_check_flag((char *)temp->content))
+					opt = true;
+				else
+					break ;
 			}
 			else
 				break ;
+			temp = temp->next;
 		}
+		ft_echo_print(temp, opt);
 	}
-	ft_echo_print(temp, opt);
 }

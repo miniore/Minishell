@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/15 20:36:42 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/21 21:41:22 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 extern volatile sig_atomic_t	g_exit_status;
 
 typedef struct s_redir			t_redir;
-typedef struct s_tok			t_tok_lst;
+typedef struct s_tok			t_tok_l;
 typedef struct s_env			t_env;
 typedef struct s_bp				t_bp;
 
@@ -62,7 +62,7 @@ struct s_env
 struct s_bp
 {
 	t_env		*env;
-	t_tok_lst	*commands_lst;
+	t_tok_l	*commands_lst;
 	t_redir		*new_redir;
 	t_redir		*tmp;
 	size_t		commands_nb;
@@ -100,7 +100,7 @@ int		ft_is_quotes(char c);
 int		ft_is_dquotes(char c);
 
 void	free_array(char **array);
-void	free_command_list(tok_lst *commands_lst, size_t size);
+void	free_command_list(t_tok_l *commands_lst, size_t size);
 char	*ft_strjoin_free(char *s1, char *s2);
 
 void	ft_put_pererr(t_bp *bp, char *err, int n);
@@ -137,12 +137,13 @@ int		ft_env(t_bp *bp, int option);
 int		exec_loop(t_bp *bp, char **envp);
 void	process_tok(t_bp *bp, t_env *env, char **envp);
 int		ft_exec_redir(t_bp *bp, t_redir *redirection);
+int		get_exit_status(int status);
 void	exit_error(void);
 
 void	ft_cmond_singel(t_bp *bp, char **envp, t_env *path);
 void	ft_bin_singel(t_bp *bp, char **envp, t_env *path);
-void	ft_pipe_son(t_bp *bp, int prev_fd, int *pipe_fd, char **envp);
-int		ft_pipe_father(t_bp *bp, char **envp, t_env *path, int prev_fd);
+void	ft_pipe_son(t_bp *bp, int prev_fd, int pipe_fd[2], char **envp);
+int		ft_pipe_father(t_bp *bp, char **envp, int prev_fd);
 
 //SIGNALS
 void	handle_ctrl_c(int sig);

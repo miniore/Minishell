@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_loop_tools.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 21:11:56 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/15 20:03:00 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:57:35 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	ft_com_last_hdocs(t_bp *bp, int prev_fd)
 		close(prev_fd);
 }
 
-static void	ft_pipe_redir(t_bp *bp, int prev_fd, int *pipe_fd)
+static void	ft_pipe_redir(t_bp *bp, int prev_fd, int pipe_fd[2])
 {
 	ft_com_last_hdocs(bp, prev_fd);
 	if (ft_exec_redir(bp, bp->commands_lst[bp->n].redirection) != 0)
@@ -88,14 +88,14 @@ static void	ft_pipe_redir(t_bp *bp, int prev_fd, int *pipe_fd)
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
 	}
-	else
+	else if (bp->n < (int)bp->commands_nb - 1)
 	{
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 	}
 }
 
-void	ft_pipe_son(t_bp *bp, int prev_fd, int *pipe_fd, char **envp)
+void	ft_pipe_son(t_bp *bp, int prev_fd, int pipe_fd[2], char **envp)
 {
 	t_env	*path;
 

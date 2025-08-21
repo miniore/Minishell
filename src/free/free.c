@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:12:31 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/15 18:42:03 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/21 21:42:41 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	free_arguments(t_list *args)
 	}
 }
 
-void	free_command_list(tok_lst *commands_lst, size_t size)
+void	free_command_list(t_tok_l *commands_lst, size_t size)
 {
 	size_t	i;
 

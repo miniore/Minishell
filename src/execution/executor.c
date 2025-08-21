@@ -6,11 +6,19 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:43:18 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/15 19:35:43 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/21 21:19:02 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	get_exit_status(int status)
+{
+	if ((status & 0x7f) == 0)
+		return (status >> 8);
+	else
+		return (128 + (status & 0x7f));
+}
 
 void	executor(t_bp *bp, char **envp, t_env *path)
 {
