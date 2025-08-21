@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commons.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:25:06 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/19 14:48:53 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/21 13:16:30 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,13 @@ char	*get_cmd(char *cmd, t_env *env)
 
 static void	ft_no_path(t_bp *bp, char *path, char **cmd, t_env *env)
 {
+	(void)env;
 	if (!path)
 	{
 		free_split(cmd);
-		free(path);
+		//free(path);
+		//ft_free_env(env);
 		ft_put_syserr_exit(bp, "Minichelita");
-		ft_free_env(env);
 	}
 }
 
@@ -82,7 +83,7 @@ static void	run_cmd(t_bp *bp, char **cmd, t_env *env, char **envp)
 	{
 		free_split(cmd);
 		free (path);
-		//ft_free_env(env);
+		ft_free_env(env);
 		ft_put_syserr_exit(bp, "Minichelita");
 	}
 	free(path);
@@ -98,12 +99,12 @@ void	process_tok(t_bp *bp, t_env *env, char **envp)
 	cmd = (char **) ft_calloc(i + 2, sizeof (char **));
 	if (!cmd)
 		return (ft_put_pererr(bp, "Minichelita: malloc error", 1));
-	cmd[0] = bp->commands_lst[bp->n].command;
+	cmd[0] = ft_strdup(bp->commands_lst[bp->n].command);
 	act = bp->commands_lst[bp->n].arguments;
 	i = 1;
 	while (act)
 	{
-		cmd[i] = (char *) act->content;
+		cmd[i] = ft_strdup(act->content);
 		i++;
 		act = act->next;
 	}
