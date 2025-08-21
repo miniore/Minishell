@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 21:11:56 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/18 19:16:33 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:57:35 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	ft_pipe_redir(t_bp *bp, int prev_fd, int pipe_fd[2])
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
 	}
-	else
+	else if (bp->n < (int)bp->commands_nb - 1)
 	{
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);

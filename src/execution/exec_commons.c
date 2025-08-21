@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commons.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:25:06 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/21 13:16:30 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:25:22 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ static void	run_cmd(t_bp *bp, char **cmd, t_env *env, char **envp)
 		}
 	}
 	path = get_cmd(cmd[0], env);
-	printf("\n%s\n", path);
 	ft_no_path(bp, path, cmd, env);
 	if (execve(path, cmd, envp) == -1)
 	{

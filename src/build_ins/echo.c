@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:22:22 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/21 15:20:23 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/21 16:55:14 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,24 @@ void	ft_echo(t_list *arg)
 {
 	t_list	*temp;
 	bool	opt;
-	int		flag;
 
 	temp = arg;
 	opt = false;
-	flag = 0;
 	if (!arg)
 		printf("\n");
 	else
 	{
-		while (temp->next && ((char *)temp->content)[0] == '-' && !flag)
+		while (temp)
 		{
-			if (!ft_check_flag((char *)temp->content))
+			if (((char *)temp->content)[0] == '-')
 			{
-				opt = true;
-				temp = temp->next;
+				if (!ft_check_flag((char *)temp->content))
+					opt = true;	
 			}
 			else
 				break ;
+			temp = temp->next;
 		}
+		ft_echo_print(temp, opt);
 	}
-	ft_echo_print(temp, opt);
 }
