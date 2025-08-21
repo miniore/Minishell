@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commons.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:25:06 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/21 15:25:22 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/21 21:36:46 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ static void	ft_no_path(t_bp *bp, char *path, char **cmd, t_env *env)
 	if (!path)
 	{
 		free_split(cmd);
-		//free(path);
-		//ft_free_env(env);
 		ft_put_syserr_exit(bp, "Minichelita");
 	}
 }

@@ -110,11 +110,11 @@ void	exec_singels(t_bp *bp, char **envp, t_env *path)
 			if (p_id == -1)
 				ft_put_syserr_exit(bp, "Minichelita");
 			else if (p_id == 0)
-			{
 				ft_cmond_singel(bp, envp, path);
-			}
 			waitpid(p_id, &status, 0);
-			bp->exit_status = errno;
+			if (status)
+				bp->err_flag = 1;
+			bp->exit_status = get_exit_status(status);
 		}
 	}
 }

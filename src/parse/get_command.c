@@ -3,67 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:49:11 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/15 21:18:32 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/21 21:39:57 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void print_commands_list(t_bp *bp)
-{
-    printf("\n=========== 🧠 LISTA DE COMANDOS ===========\n");
-
-    for (size_t i = 0; i < bp->commands_nb; i++)
-    {
-        t_tok_lst *cmd = &bp->commands_lst[i];
-        printf("\n🔹 **Comando %zu**\n", i + 1);
-        printf("   🟢 Comando: %s\n", cmd->command ? cmd->command : "null");
-
-        // Imprimir argumentos como lista
-        printf("   🟠 Argumentos:\n");
-        t_list *arg_node = cmd->arguments;
-        int arg_index = 1;
-        if (!arg_node)
-        {
-            printf("      - (Ninguno)\n");
-        }
-        else
-        {
-            while (arg_node)
-            {
-                printf("      %d. %s\n", arg_index++, (char *)arg_node->content);
-                arg_node = arg_node->next;
-            }
-        }
-
-        // Imprimir redirecciones como lista (nuevo modelo con t_redir)
-        printf("   🔴 Redirecciones:\n");
-        t_redir *redir_node = cmd->redirection;
-        int redir_index = 1;
-        if (!redir_node)
-        {
-            printf("      - (Ninguna)\n");
-        }
-        else
-        {
-            while (redir_node)
-            {
-                printf("      %d. Operador: %s, Target: %s\n", redir_index++,
-                       redir_node->op ? redir_node->op : "(null)",
-                       redir_node->del ? redir_node->del : "(null)");
-                redir_node = redir_node->next;
-            }
-        }
-
-        printf("---------------------------------------------\n");
-    }
-
-    printf("Total de comandos: %zu\n", bp->commands_nb);
-    printf("=============================================\n");
-}
 
 static void	ft_tokenize(t_bp *bp, char *command)
 {
@@ -107,7 +54,6 @@ static void	ft_extract_commands(t_bp *bp, char *input, char **commands)
 		j++;
 		bp->n++;
 	}
-	print_commands_list(bp);
 }
 
 static size_t	ft_count_commands(char *input)
@@ -151,7 +97,7 @@ int	ft_get_command(t_bp *bp, char *input)
 		ft_put_pererr(bp, "Minichelita: malloc error.\n", 1);
 		return (EXIT_FAILURE);
 	}
-	bp->commands_lst = (t_tok_lst *)ft_calloc(bp->commands_nb, sizeof(t_tok_lst));
+	bp->commands_lst = (t_tok_l *)ft_calloc(bp->commands_nb, sizeof(t_tok_l));
 	if (!bp->commands_lst)
 	{
 		ft_put_pererr(bp, "Minichelita: malloc error.\n", 1);

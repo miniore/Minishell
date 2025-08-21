@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:22:22 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/21 16:55:14 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/21 21:35:39 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	ft_check_flag(char *flag)
 static void	ft_echo_print(t_list *temp, bool opt)
 {
 	if (temp)
-	{	
+	{
 		while (temp->next)
 		{
 			printf("%s ", (char *)temp->content);
@@ -39,7 +39,7 @@ static void	ft_echo_print(t_list *temp, bool opt)
 		}
 		printf("%s", (char *)temp->content);
 		if (!opt)
-		printf("\n");
+			printf("\n");
 	}
 }
 
@@ -59,7 +59,9 @@ void	ft_echo(t_list *arg)
 			if (((char *)temp->content)[0] == '-')
 			{
 				if (!ft_check_flag((char *)temp->content))
-					opt = true;	
+					opt = true;
+				else
+					break ;
 			}
 			else
 				break ;
