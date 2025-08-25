@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/21 21:46:04 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/25 14:39:45 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int		ft_env(t_bp *bp, int option);
 int		exec_loop(t_bp *bp, char **envp);
 void	process_tok(t_bp *bp, t_env *env, char **envp);
 int		ft_exec_redir(t_bp *bp, t_redir *redirection);
-int		get_exit_status(int status);
+int		ft_get_exit_status(int status);
 void	exit_error(void);
 
 void	ft_cmond_singel(t_bp *bp, char **envp, t_env *path);

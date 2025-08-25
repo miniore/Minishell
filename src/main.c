@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/15 19:39:05 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/25 14:40:37 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	main(int argc, char **argv, char **envp)
 	fill_env(&bp->env, envp);
 	while (1)
 	{
-		signal(SIGQUIT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, handle_ctrl_c);
 		input = readline("Minichelita> ");
 		if (ft_input_loop(bp, input))

@@ -35,22 +35,21 @@ int	ft_pipe_father(t_bp *bp, char **envp, int prev_fd)
 {
 	int		pipe_fd[2];
 	pid_t	pid;
-	int		status;
-
+	
 	if (bp->n < (int)bp->commands_nb - 1)
-		if (pipe(pipe_fd) == -1)
-			ft_put_syserr_exit(bp, "Minichelita");
+	if (pipe(pipe_fd) == -1)
+	ft_put_syserr_exit(bp, "Minichelita");
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == -1)
-		ft_put_syserr_exit(bp, "Minichelita");
+	ft_put_syserr_exit(bp, "Minichelita");
 	else if (pid == 0)
-		ft_pipe_son(bp, prev_fd, pipe_fd, envp);
+	ft_pipe_son(bp, prev_fd, pipe_fd, envp);
 	else
 	{
-		waitpid(pid, &status, 0);
+		//waitpid(pid, &status, 0);
 		if (prev_fd != -1)
-			close(prev_fd);
+		close(prev_fd);
 		if (bp->n < (int)bp->commands_nb - 1)
 		{
 			close(pipe_fd[1]);
@@ -63,6 +62,7 @@ int	ft_pipe_father(t_bp *bp, char **envp, int prev_fd)
 void	exec_pipes(t_bp *bp, char **envp)
 {
 	int	prev_fd;
+	int		status;
 
 	prev_fd = -1;
 	bp->n = 0;
@@ -70,6 +70,11 @@ void	exec_pipes(t_bp *bp, char **envp)
 	{
 		prev_fd = ft_pipe_father(bp, envp, prev_fd);
 		bp->n++;
+	}
+	while (waitpid(-1, &status, 0) != -1 && errno != ECHILD)
+	{
+		if (WIFEXITED(status))
+			bp->exit_status = WEXITSTATUS(status);
 	}
 }
 
@@ -104,17 +109,19 @@ void	exec_singels(t_bp *bp, char **envp, t_env *path)
 			ft_bin_singel(bp, envp, path);
 		else
 		{
-			signal(SIGQUIT, SIG_DFL);
 			signal(SIGINT, SIG_IGN);
 			p_id = fork();
 			if (p_id == -1)
 				ft_put_syserr_exit(bp, "Minichelita");
 			else if (p_id == 0)
+			{
+				signal(SIGQUIT, SIG_DFL);
 				ft_cmond_singel(bp, envp, path);
+			}
 			waitpid(p_id, &status, 0);
 			if (status)
 				bp->err_flag = 1;
-			bp->exit_status = get_exit_status(status);
+			bp->exit_status = ft_get_exit_status(status);
 		}
 	}
 }

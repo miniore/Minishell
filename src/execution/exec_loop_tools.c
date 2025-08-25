@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_loop_tools.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 21:11:56 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/21 15:57:35 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/25 14:41:01 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ void	ft_bin_singel(t_bp *bp, char **envp, t_env *path)
 		executor(bp, envp, path);
 	else
 	{
-		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_IGN);
 		p_id = fork();
 		if (p_id == 0)
 		{
+			signal(SIGQUIT, SIG_DFL);
 			signal(SIGINT, handle_ctrl_c);
 			if (ft_exec_redir(bp, bp->commands_lst[bp->n].redirection) != 0)
 				ft_put_syserr(bp, "Minichelita");
