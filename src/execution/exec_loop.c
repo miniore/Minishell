@@ -23,7 +23,12 @@ int	exec_loop(t_bp *bp, char **envp)
 	path = search_node(&bp->env, "PATH");
 	bp->n = 0;
 	if (bp->commands_nb == 1)
-		exec_singels(bp, envp, path);
+	{
+		if (!bp->commands_lst[bp->n].command)
+			ft_single_hdoc(bp);
+		else
+			exec_singels(bp, envp, path);
+	}
 	else
 		exec_pipes(bp, envp);
 	if (!bp->err_flag)
@@ -35,21 +40,20 @@ int	ft_pipe_father(t_bp *bp, char **envp, int prev_fd)
 {
 	int		pipe_fd[2];
 	pid_t	pid;
-	
+
 	if (bp->n < (int)bp->commands_nb - 1)
-	if (pipe(pipe_fd) == -1)
-	ft_put_syserr_exit(bp, "Minichelita");
+		if (pipe(pipe_fd) == -1)
+			ft_put_syserr_exit(bp, "Minichelita");
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == -1)
-	ft_put_syserr_exit(bp, "Minichelita");
+		ft_put_syserr_exit(bp, "Minichelita");
 	else if (pid == 0)
-	ft_pipe_son(bp, prev_fd, pipe_fd, envp);
+		ft_pipe_son(bp, prev_fd, pipe_fd, envp);
 	else
 	{
-		//waitpid(pid, &status, 0);
 		if (prev_fd != -1)
-		close(prev_fd);
+			close(prev_fd);
 		if (bp->n < (int)bp->commands_nb - 1)
 		{
 			close(pipe_fd[1]);
@@ -61,7 +65,7 @@ int	ft_pipe_father(t_bp *bp, char **envp, int prev_fd)
 
 void	exec_pipes(t_bp *bp, char **envp)
 {
-	int	prev_fd;
+	int		prev_fd;
 	int		status;
 
 	prev_fd = -1;

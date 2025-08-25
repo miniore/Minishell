@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/25 14:39:45 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/25 19:08:34 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,11 +148,13 @@ int		ft_pipe_father(t_bp *bp, char **envp, int prev_fd);
 //SIGNALS
 void	handle_ctrl_c(int sig);
 void	hdoc_ctrl_c(int sig);
+void	hdoc_ctrl_c_single(int sig);
 
 //redirtools
 int		ft_n_hdocs(t_redir *redirection);
 int		ft_n_redout(t_redir *redirection);
 int		fr_input_handler(t_redir *redirection, int pipe_fd);
 int		ft_lst_rdo(t_redir *redirection);
+void	ft_single_hdoc(t_bp *bp);
 
 #endif
