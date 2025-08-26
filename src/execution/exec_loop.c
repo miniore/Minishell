@@ -70,9 +70,11 @@ void	exec_pipes(t_bp *bp, char **envp)
 
 	prev_fd = -1;
 	bp->n = 0;
-	while (bp->n < (int)bp->commands_nb)
+	while (bp->n < (int)bp->commands_nb && g_exit_status != 130)
 	{
 		prev_fd = ft_pipe_father(bp, envp, prev_fd);
+		if(bp->commands_lst[bp->n].redirection)
+			waitpid(-1, &status, 0);
 		bp->n++;
 	}
 	while (waitpid(-1, &status, 0) != -1 && errno != ECHILD)
