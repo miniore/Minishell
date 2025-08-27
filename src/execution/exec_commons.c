@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commons.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:25:06 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/21 21:36:46 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/27 18:56:12 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ static void	ft_no_path(t_bp *bp, char *path, char **cmd, t_env *env)
 	if (!path)
 	{
 		free_split(cmd);
-		ft_put_syserr_exit(bp, "Minichelita");
+		ft_put_pererr(bp, "Minichelita: command not found.\n", 127);
+		ft_exit_free(bp);
 	}
 }
 
@@ -66,6 +67,8 @@ static void	run_cmd(t_bp *bp, char **cmd, t_env *env, char **envp)
 {
 	char	*path;
 
+	if(g_exit_status == 130)
+		ft_exit_free(bp);
 	if (access(cmd[0], F_OK) == 0)
 	{
 		if (execve(cmd[0], cmd, envp) == -1)

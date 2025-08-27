@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_loop_tools.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 21:11:56 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/25 14:41:01 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/27 19:23:58 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "minishell.h"
 
@@ -82,7 +84,8 @@ static void	ft_pipe_redir(t_bp *bp, int prev_fd, int pipe_fd[2])
 		}
 		ft_exit_free(bp);
 	}
-	if (ft_n_redout(bp->commands_lst[bp->n].redirection) == 0)
+	if (ft_n_redout(bp->commands_lst[bp->n].redirection) == 0
+		&& bp->n < (int)bp->commands_nb - 1)
 	{
 		close(pipe_fd[0]);
 		dup2(pipe_fd[1], STDOUT_FILENO);
