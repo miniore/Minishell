@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:39:38 by porellan          #+#    #+#             */
-/*   Updated: 2025/08/15 19:51:31 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/28 13:15:17 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	ft_pipe_checker(char *input, size_t len)
 			len++;
 		else if (input[len] == '|' && input[len + 1] == '|')
 			return (EXIT_FAILURE);
-		while (!ft_is_space(input[len]))
+		while (!ft_is_spotab(input[len]))
 			len++;
 		if (input[len] == '|' || input[len] == '\0')
 			return (EXIT_FAILURE);
@@ -45,7 +45,7 @@ static int	ft_pipe_syntax(char *input)
 	size_t	len;
 
 	len = 0;
-	while (!ft_is_space(input[len]))
+	while (!ft_is_spotab(input[len]))
 		len++;
 	if (input[len] == '|')
 		return (EXIT_FAILURE);
@@ -99,17 +99,17 @@ int	ft_syntax_parse(t_bp *bp, char *input)
 {
 	if (ft_quotes_syntax(input))
 	{
-		ft_put_pererr(bp, "Minichelita: quotes syntax error\n", 258);
+		ft_put_pererr(bp, "Minichelita: quotes syntax error\n", 2);
 		return (EXIT_FAILURE);
 	}
 	if (ft_pipe_syntax(input))
 	{
-		ft_put_pererr(bp, "Minichelita: syntax error near `|'.\n", 258);
+		ft_put_pererr(bp, "Minichelita: syntax error near `|'.\n", 2);
 		return (EXIT_FAILURE);
 	}
 	if (ft_redir_syntax(input))
 	{
-		ft_put_pererr(bp, "Minichelita: syntax error near redirection.\n", 258);
+		ft_put_pererr(bp, "Minichelita: syntax error near redirection.\n", 2);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

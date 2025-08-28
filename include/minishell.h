@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:35:21 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/25 19:08:34 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/28 13:14:31 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ size_t	ft_ignore_qargs(char *command, size_t len);
 char	*ft_get_var_value(t_env *env, char *var_name);
 
 int		ft_is_redirct(char c);
-int		ft_is_space(char c);
+int		ft_is_spotab(char c);
 int		ft_is_quotes(char c);
 int		ft_is_dquotes(char c);
 

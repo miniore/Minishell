@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/25 14:40:37 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/28 14:00:45 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	ft_void_input(char *input)
 	if (*input == '\0')
 		return (EXIT_FAILURE);
 	i = 0;
-	while (input[i] == 32)
+	while (ft_is_spotab(input[i]))
 		i++;
 	if (input[i] == '\0')
 		return (EXIT_FAILURE);
@@ -42,8 +42,6 @@ static int	ft_input_loop(t_bp *bp, char *input)
 		bp->exit_status = g_exit_status;
 	if (!input)
 	{
-		g_exit_status = 131;
-		bp->commands_nb = 0;
 		printf("Nos vamos. Saliendo.\n");
 		ft_final_free(bp);
 		exit(g_exit_status);
@@ -57,7 +55,7 @@ static int	ft_input_loop(t_bp *bp, char *input)
 	add_history(input);
 	if (ft_get_command(bp, input))
 	{
-		if (bp->exit_status != 258)
+		if (bp->exit_status != 2)
 			ft_cmd_free(bp);
 		free(input);
 		return (EXIT_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:12:52 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/15 19:32:46 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/28 13:14:01 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static void	ft_get_token(t_bp *bp, char *command)
 		ft_quotes_tok(bp, command);
 	if (!ft_is_dquotes(command[bp->len]))
 		ft_dquotes_tok(bp, command);
-	while (command[bp->len] && ft_is_space(command[bp->len])
+	while (command[bp->len] && ft_is_spotab(command[bp->len])
 		&& ft_is_dquotes(command[bp->len]) && ft_is_quotes(command[bp->len]))
 	{
 		if (!ft_is_redirct(command[bp->len]))
@@ -108,12 +108,12 @@ void	ft_extract_tokens(t_bp *bp, char *command)
 		bp->token = NULL;
 		bp->str_2_join = NULL;
 		bp->aux_str = NULL;
-		while (!ft_is_space(command[bp->len]))
+		while (!ft_is_spotab(command[bp->len]))
 			bp->len++;
 		if (command[bp->len] == '\0')
 			return ;
 		bp->i = (int)bp->len;
-		while (ft_is_space(command[bp->len]) && command[bp->len] != '\0')
+		while (ft_is_spotab(command[bp->len]) && command[bp->len] != '\0')
 			ft_get_token(bp, command);
 		ft_save_tok(bp);
 	}

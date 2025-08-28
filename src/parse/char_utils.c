@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:29:37 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/15 18:00:27 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/28 13:13:01 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@ int	ft_is_redirct(char c)
 	return (EXIT_FAILURE);
 }
 
-int	ft_is_space(char c)
+int	ft_is_spotab(char c)
 {
 	if (c == 32)
+		return (EXIT_SUCCESS);
+	if (c == 9)
 		return (EXIT_SUCCESS);
 	return (EXIT_FAILURE);
 }

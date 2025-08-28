@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+static size_t	ft_len_tool(char *input, size_t l)
+{
+	if(input[l + 1])
+		l++;
+	while (input[l] && !ft_is_spotab(input[l]))
+		l++;
+	return (l);
+}
+
 int	ft_redir_syntax(char *input)
 {
 	size_t	l;
@@ -31,9 +40,7 @@ int	ft_redir_syntax(char *input)
 			if ((!ft_is_redirct(input[l]) && !ft_is_redirct(input[l + 1]))
 				|| (!ft_is_redirct(input[l]) && (input[l - 1] != input[l])))
 				return (EXIT_FAILURE);
-			l++;
-			while (input[l] && !ft_is_space(input[l]))
-				l++;
+			l = ft_len_tool(input, l);
 			if (!input[l] || !ft_is_redirct(input[l]) || input[l] == '|')
 				return (EXIT_FAILURE);
 		}
