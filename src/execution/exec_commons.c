@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:25:06 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/27 18:56:12 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/08/28 17:16:14 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	run_cmd(t_bp *bp, char **cmd, t_env *env, char **envp)
 {
 	char	*path;
 
-	if(g_exit_status == 130)
+	if (g_exit_status == 130)
 		ft_exit_free(bp);
 	if (access(cmd[0], F_OK) == 0)
 	{

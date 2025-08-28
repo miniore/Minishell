@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/28 14:00:45 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/28 17:08:26 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	ft_void_input(char *input)
 	if (*input == '\0')
 		return (EXIT_FAILURE);
 	i = 0;
-	while (ft_is_spotab(input[i]))
+	while (!ft_is_spotab(input[i]))
 		i++;
 	if (input[i] == '\0')
 		return (EXIT_FAILURE);

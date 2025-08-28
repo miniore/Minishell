@@ -14,7 +14,7 @@
 
 static size_t	ft_len_tool(char *input, size_t l)
 {
-	if(input[l + 1])
+	if (input[l + 1])
 		l++;
 	while (input[l] && !ft_is_spotab(input[l]))
 		l++;
