@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir_tools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 20:37:39 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/26 19:51:27 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:28:38 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	fr_input_handler(t_redir *redirection, int pipe_fd)
+int	fr_input_handler(t_bp *bp, t_redir *redirection, int pipe_fd)
 {
 	char	*input;
 
@@ -22,10 +22,10 @@ int	fr_input_handler(t_redir *redirection, int pipe_fd)
 	{
 		if (!input && g_exit_status != 130)
 			ft_putstr_fd("warning: here-document delimited by EOF\n", 2);
-		//ft_putnbr_fd((int)g_exit_status, 2);
 		free(input);
 		return (EXIT_FAILURE);
 	}
+	input = ft_exp_var(bp, input);
 	if (ft_strcmp(input, redirection->del) == 0)
 	{
 		free(input);

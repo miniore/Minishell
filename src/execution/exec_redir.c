@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 21:05:27 by miniore           #+#    #+#             */
-/*   Updated: 2025/08/15 19:35:59 by porellan         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:21:14 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	ft_redir_heredoc(t_bp *bp, t_redir *redirection, int exec)
 	dup_fd = dup(STDIN_FILENO);
 	while (g_exit_status != 130)
 	{
-		if (fr_input_handler(redirection, pipe_fd[1]) != 0)
+		if (fr_input_handler(bp, redirection, pipe_fd[1]) != 0)
 			break ;
 	}
 	if (g_exit_status == 130 && exec == 1)
