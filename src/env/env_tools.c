@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:01:59 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/15 20:09:31 by porellan         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:11:42 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,19 @@ void	erase_node(t_env **env, t_env *node)
 
 	prev = node->prev;
 	next = node->next;
-	if (!next)
+	if (!prev && !next)
+		*env = NULL;
+	else if (!prev)
+	{
+		*env = next;
+		next->prev = NULL;
+	}
+	else if (!next)
 		prev->next = NULL;
 	else
 	{
-		if (!prev)
-			*env = next;
-		else
-		{
-			prev->next = next;
-			next->prev = prev;
-		}
+		prev->next = next;
+		next->prev = prev;
 	}
 	free(node->var);
 	free(node->content);

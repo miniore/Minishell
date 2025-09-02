@@ -6,7 +6,7 @@
 /*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:40:48 by miniore           #+#    #+#             */
-/*   Updated: 2025/09/02 12:33:01 by porellan         ###   ########.fr       */
+/*   Updated: 2025/09/02 19:48:02 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static int	ft_input_loop(t_bp *bp, char *input)
 		bp->exit_status = g_exit_status;
 	if (!input)
 	{
+		bp->commands_nb = 0;
 		printf("Nos vamos. Saliendo.\n");
 		ft_final_free(bp);
 		exit(g_exit_status);
