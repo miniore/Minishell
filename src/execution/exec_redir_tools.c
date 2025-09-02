@@ -3,19 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir_tools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 20:37:39 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/28 16:28:38 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:47:57 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static char	*ft_exp_input(t_bp *bp, char *input)
+{
+	char	*dup;
+
+	dup = ft_strdup(input);
+	free(input);
+	input = ft_exp_var(bp, dup);
+	free(dup);
+	return (input);
+}
+
 int	fr_input_handler(t_bp *bp, t_redir *redirection, int pipe_fd)
 {
 	char	*input;
 
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, hdoc_ctrl_c);
 	input = readline(">");
 	if (!input)
@@ -25,7 +37,7 @@ int	fr_input_handler(t_bp *bp, t_redir *redirection, int pipe_fd)
 		free(input);
 		return (EXIT_FAILURE);
 	}
-	input = ft_exp_var(bp, input);
+	input = ft_exp_input(bp, input);
 	if (ft_strcmp(input, redirection->del) == 0)
 	{
 		free(input);

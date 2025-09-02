@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_loop_tools.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: porellan <porellan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 21:11:56 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/08/28 17:15:56 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:42:51 by porellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	ft_pipe_son(t_bp *bp, int prev_fd, int pipe_fd[2], char **envp)
 	t_env	*path;
 
 	path = search_node(&bp->env, "PATH");
+	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, handle_ctrl_c);
 	if (!bp->commands_lst[bp->n].redirection)
 	{
